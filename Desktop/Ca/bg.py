@@ -24,13 +24,13 @@ class bg:
 		y = pygame.mouse.get_pos()[1]
 		tmpx = self.x 
 		tmpy = self.y
-		if x >= 1000:
+		if x >= self.Game.width * 4 // 5:
 			tmpx -= self.v
-		if x <= 100:
+		if x <= self.Game.width // 5:
 			tmpx += self.v
-		if y >= 600:
+		if y >= self.Game.height * 4 // 5:
 			tmpy -= self.v
-		if y <= 100:
+		if y <= self.Game.height // 5:
 			tmpy += self.v
 		# print(tmpx, tmpy)
 		tmpx = min(tmpx, 0)
