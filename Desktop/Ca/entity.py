@@ -21,6 +21,7 @@ class fish:
 
 	health = 0
 	maxhealth = 0
+	health_len = 100
 
 
 	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0): #khai báo
@@ -37,15 +38,23 @@ class fish:
 		self.health = self.maxhealth
 		self.vx = randint(self.minv, self.maxv)
 		self.vy = randint(self.minv, self.maxv)
-
-
-
+		
+		self.health_len = self.w // maxhealth
+		
 	def draw(self): #vẽ
 		if self.name == "":
 			return
 		self.Game.screen.blit(self.image, self.pos)
 		self.hitbox = hitbox(self.pos[0], self.pos[1], self.w, self.h)
 		self.hitbox.draw(self.Game.screen)
+
+		y = self.pos[1] - 10
+		x = self.pos[0]
+		mw = self.health_len * self.maxhealth
+		h = 10
+		nw = self.health_len * self.health
+		pygame.draw.rect(self.Game.screen, BLACK, (x, y, mw, h))
+		pygame.draw.rect(self.Game.screen, GREEN, (x + 1, y + 1, nw, h))
 
 	def update(self, bg): #update bot
 		self.bg = bg

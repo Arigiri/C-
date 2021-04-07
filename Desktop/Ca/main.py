@@ -9,8 +9,8 @@ from random import *
 
 Game = game()#1366, 768)
 
-Fish1 = mc((50, 100), "ca2", Game, bg)
-Fish2 = fish((60, 100), "ca3", Game, bg)
+Fish1 = mc((50, 100), "ca2", Game, bg, 100)
+Fish2 = fish((60, 100), "ca3", Game, bg, 100)
 bg = bg(-10, -10, Game)
 
 MAX_SPEED = 1000
@@ -37,10 +37,13 @@ while(1):
 
 	bg.draw(Game.screen)
 	if Fish1.hit(Fish2):
-		Fish2.kill()
-		x = randint(1, Game.width - Fish2.w)
-		y = randint(1, Game.height - Fish2.h)
-		Fish2 = fish((x, y), "ca3", Game)
+		Fish2.health -= 1
+		print(Fish2.health)
+		if Fish2.health == 0:
+			Fish2.kill()
+			x = randint(1, Game.width - Fish2.w)
+			y = randint(1, Game.height - Fish2.h)
+			Fish2 = fish((x, y), "ca3", Game, bg, 100)
 
 	Fish1.update()
 	Fish2.run()

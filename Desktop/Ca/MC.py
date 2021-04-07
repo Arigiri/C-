@@ -25,7 +25,7 @@ class mc:
 	hitbox = hitbox()
 	health = 0
 	maxhealth = 0
-
+	
 
 	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0): #khai báo
 		self.pos = pos
@@ -41,8 +41,17 @@ class mc:
 		self.vy = randint(self.minv, self.maxv)
 		self.maxhealth = maxhealth
 		self.health = self.maxhealth
-		print(self.vx, self.vy)
 
+	def health_bar(self):
+		 x = self.Game.width * 50 // 100
+		 y = 50
+
+		 mw = self.Game.width - 60  - x
+		 health_len = mw/100
+		 nw = self.health * health_len
+		 pygame.draw.rect(self.Game.screen, BLACK, (x, y, mw, y))
+		 pygame.draw.rect(self.Game.screen, GREEN, (x, y, nw, y))
+		 
 
 	def draw(self): #vẽ
 		if self.name == "":
@@ -50,6 +59,7 @@ class mc:
 		self.Game.screen.blit(self.image, self.pos)
 		self.hitbox = hitbox(self.pos[0], self.pos[1], self.w, self.h)
 		self.hitbox.draw(self.Game.screen)
+		self.health_bar()
 
 
 	def update(self): #update nhân vật chính
