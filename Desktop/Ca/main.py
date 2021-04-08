@@ -41,14 +41,16 @@ while(1):
 	for Fish2 in Fish:
 		if Fish1.hit(Fish2):
 			Fish2.health -= 1
+			exit()
 			if Fish2.health == 0:
 				Fish2.kill()
-	# for Fish2 in Fish:
-	# 	for Bullet in Fish1.bullet:
-	# 		if Fish2.hit(Bullet):
-	# 			Fish2.health -= 1
-	# 			if Fish2.health == 0:
-	# 				Fish2.kill()
+	for Fish2 in Fish:
+		for Bullet in Fish1.bullet:
+			if Bullet.name != "" and Fish2.hit(Bullet):
+				Bullet.kill()
+				Fish2.health -= 1
+				if Fish2.health == 0:
+					Fish2.kill()
 
 	Fish1.update(bg)
 	for Fish2 in Fish:
@@ -56,11 +58,14 @@ while(1):
 		Fish2.update(bg, Fish1)
 
 
-	Fish1.draw()
+	
+	
+	for bullet in Fish1.bullet:
+		if bullet.name != "":
+			bullet.hitbox.draw(Game.screen)
 	for Fish2 in Fish:
 		Fish2.draw()
-	for bullet in Fish1.bullet:
-		bullet.hitbox.draw(Game.screen)
+	Fish1.draw()
 	# Fish1.hitbox.draw(Game.screen)
 	# Fish2.hitbox.draw(Game.screen)
 	pygame.display.update()	

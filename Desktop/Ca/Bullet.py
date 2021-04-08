@@ -30,7 +30,8 @@ class bullet:
 		self.h = self.image.get_height()
 		self.bgx = self.bg.x
 		self.bgy = self.bg.y
-		self.hitbox = hitbox(self.pos[0], self.pos[1], self.w, self.h)
+		self.hitbox = hitbox(self.pos[0], self.pos[1], self.w, self.h,"BULLET")
+
 	def draw(self):
 		self.Game.screen.blit(self.image, self.pos)
 
@@ -38,6 +39,7 @@ class bullet:
 		x = self.rpos[0] + bg.x - self.bgx
 		y = self.rpos[1] + bg.y - self.bgy
 		self.pos = (x, y)
+		self.hitbox = hitbox(self.pos[0], self.pos[1], self.w, self.h, "BULLET")
 		if self.rpos[0] < 0 or self.rpos[0] + self.w > self.Game.width or self.rpos[1] < 0 or self.rpos[1] + self.h > self.Game.height:
 			self.kill()
 

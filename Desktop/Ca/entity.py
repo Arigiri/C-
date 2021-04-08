@@ -49,7 +49,7 @@ class fish:
 		if self.name == "":
 			return
 		self.Game.screen.blit(self.image, self.pos)
-		self.hitbox = hitbox(self.pos[0], self.pos[1], self.w, self.h)
+		self.hitbox = hitbox(self.pos[0], self.pos[1], self.w, self.h, "FISH")
 		self.hitbox.draw(self.Game.screen)
 
 		y = self.pos[1] - 10
@@ -66,11 +66,14 @@ class fish:
 		
 	def reborn(self):
 		self.name = "ca3.png"
-		x = randint(self.w, self.Game.width - self.w)
-		y = randint(self.h, self.Game.height - self.h)
-		self.pos = (x, y)
+		x = 100#randint(self.w, self.Game.width - self.w)
+		y = 100#randint(self.h, self.Game.height - self.h)
+		# self.pos = (x, y)
+		self.rpos = (x, y)
 		self.image = pygame.image.load(self.name)
 		self.health = self.maxhealth
+		self.vx = randint(self.minv, self.maxv)
+		self.vy = randint(self.minv, self.maxv)
 	def dead(self, fish):
 		if self.pos[1] >= self.bg.h or self.pos[0] >= self.bg.w:
 			self.kill()

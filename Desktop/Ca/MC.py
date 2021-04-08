@@ -41,7 +41,7 @@ class mc:
 		self.w = self.image.get_width()
 		self.h = self.image.get_height()
 		self.bg = bg
-		self.hitbox = hitbox(self.pos[0], self.pos[1], self.w, self.h)
+		self.hitbox = hitbox(self.pos[0], self.pos[1], self.w, self.h, "FISH")
 		self.vx = randint(self.minv, self.maxv)
 		self.vy = randint(self.minv, self.maxv)
 		self.maxhealth = maxhealth
@@ -51,7 +51,7 @@ class mc:
 		pygame.mouse.set_pos(self.mousepos)
 		
 	def health_bar(self):
-		x = self.Game.width * 50 // 100
+		x = self.Game.width * 70 // 100
 		y = 50
 		self.health = max(self.health, 0)
 
@@ -68,7 +68,7 @@ class mc:
 		if self.name == "":
 			return
 		self.Game.screen.blit(self.image, self.pos)
-		self.hitbox = hitbox(self.pos[0], self.pos[1], self.w, self.h)
+		self.hitbox = hitbox(self.pos[0], self.pos[1], self.w, self.h, "FISH")
 		self.hitbox.draw(self.Game.screen)
 		self.health_bar()
 		for Bullet in self.bullet:
