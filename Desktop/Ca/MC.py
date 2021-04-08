@@ -52,10 +52,10 @@ class mc:
 		
 	def health_bar(self):
 		x = self.Game.width * 70 // 100
-		y = 50
+		y = 25
 		self.health = max(self.health, 0)
 
-		mw = self.Game.width - 60  - x
+		mw = self.Game.width - 30  - x
 		health_len = mw/100
 		nw = self.health * health_len
 		pygame.draw.rect(self.Game.screen, BLACK, (x, y, mw, y))
