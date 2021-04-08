@@ -3,6 +3,8 @@ from hitbox import *
 from color import *
 from bg import *
 from random import *
+from MC import *
+
 import pygame
 
 class fish:
@@ -16,7 +18,7 @@ class fish:
 	vx = 0 #vận tốc x
 	vy = 0 # vận tốc y
 	maxv = 10 #vận tốc max
-	minv = 3 #vận tốc min
+	minv = 0 #vận tốc min
 	hitbox = hitbox()
 
 	health = 0
@@ -38,6 +40,8 @@ class fish:
 		self.health = self.maxhealth
 		self.vx = randint(self.minv, self.maxv)
 		self.vy = randint(self.minv, self.maxv)
+		if self.vy <= 3:
+			self.vy = 0
 		
 		self.health_len = self.w // maxhealth
 		
@@ -56,11 +60,34 @@ class fish:
 		pygame.draw.rect(self.Game.screen, BLACK, (x, y, mw, h))
 		pygame.draw.rect(self.Game.screen, GREEN, (x + 1, y + 1, nw, h))
 
-	def update(self, bg): #update bot
+	def kill(self): #xóa
+		self.name = ""
+		self.reborn()
+		
+	def reborn(self):
+		self.name = "ca3.png"
+		x = randint(self.w, self.Game.width - self.w)
+		y = randint(self.h, self.Game.height - self.h)
+		self.pos = (x, y)
+		self.image = pygame.image.load(self.name)
+		self.health = self.maxhealth
+	def dead(self, fish):
+		if self.pos[1] >= self.bg.h or self.pos[0] >= self.bg.w:
+			self.kill()
+			return
+		x = self.pos[0] - fish.pos[0]
+		y = self.pos[1] - fish.pos[1]
+		x *= x
+		y *= y
+		if (x + y)  ** (1/2) >= self.Game.height * 2:
+			self.kill()
+
+	def update(self, bg, mc): #update bot
 		self.bg = bg
 		x = self.rpos[0] + bg.x
 		y = self.rpos[1] + bg.y
 		self.pos = (x, y)
+		self.dead(mc)
 	def run(self):
 		self.rpos = (self.rpos[0] + self.vx, self.rpos[1] + self.vy)
 
@@ -76,8 +103,6 @@ class fish:
 				return 1
 		return False
 
-	def kill(self): #xóa
-		self.name = ""
-
+	
 
 

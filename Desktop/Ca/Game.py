@@ -8,4 +8,4 @@ class game:
 		pygame.init()
 		self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 		self.width, self.height = pygame.display.get_surface().get_size()
-		# pygame.mouse.set_visible(False)
+		pygame.mouse.set_visible(False)

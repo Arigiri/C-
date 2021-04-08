@@ -3,6 +3,8 @@ from hitbox import *
 from color import *
 from bg import *
 from random import *
+from Bullet import *
+from time import *
 import pygame
 
 ### MAIN CHARACTER ###
@@ -25,8 +27,11 @@ class mc:
 	hitbox = hitbox()
 	health = 0
 	maxhealth = 0
-	
-
+	bullet = [bullet()]
+	direction = "LEFT"
+	O = (0,0)
+	mousepos = 0
+	speed = 5
 	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0): #khai báo
 		self.pos = pos
 		self.rpos = pos
@@ -41,16 +46,22 @@ class mc:
 		self.vy = randint(self.minv, self.maxv)
 		self.maxhealth = maxhealth
 		self.health = self.maxhealth
-
+		self.mousepos = pos
+		self.mousepos = (self.Game.width/2, self.Game.height/2)
+		pygame.mouse.set_pos(self.mousepos)
+		
 	def health_bar(self):
-		 x = self.Game.width * 50 // 100
-		 y = 50
+		x = self.Game.width * 50 // 100
+		y = 50
+		self.health = max(self.health, 0)
 
-		 mw = self.Game.width - 60  - x
-		 health_len = mw/100
-		 nw = self.health * health_len
-		 pygame.draw.rect(self.Game.screen, BLACK, (x, y, mw, y))
-		 pygame.draw.rect(self.Game.screen, GREEN, (x, y, nw, y))
+		mw = self.Game.width - 60  - x
+		health_len = mw/100
+		nw = self.health * health_len
+		pygame.draw.rect(self.Game.screen, BLACK, (x, y, mw, y))
+		if self.health == 0:
+			return 
+		pygame.draw.rect(self.Game.screen, GREEN, (x + mw - nw, y, nw, y))
 		 
 
 	def draw(self): #vẽ
@@ -60,23 +71,44 @@ class mc:
 		self.hitbox = hitbox(self.pos[0], self.pos[1], self.w, self.h)
 		self.hitbox.draw(self.Game.screen)
 		self.health_bar()
+		for Bullet in self.bullet:
+			if Bullet.name != "":
+				Bullet.draw()
 
 
-	def update(self): #update nhân vật chính
-		pos = pygame.mouse.get_pos()
-		x = pos[0]; x = min(pos[0], self.Game.width - self.w)
-		y = pos[1]; y = min(pos[1], self.Game.height - self.h)
+	def update(self, bg): #update nhân vật chính
+		mousepos = pygame.mouse.get_pos()
+		self.vx = -(self.mousepos[0] - mousepos[0]) * self.speed
+		self.vy = -(self.mousepos[1] - mousepos[1]) * self.speed
+		if self.mousepos[0] > mousepos[0]:
+			self.direction = "LEFT"
+		elif self.mousepos[0] < mousepos[0]:
+			self.direction = "RIGHT"	
+		
+		x = self.pos[0] + self.vx; x = max(x, 0); x = min(x, self.Game.width - self.w)
+		y = self.pos[1] + self.vy; y = max(y, 0); y = min(y, self.Game.height - self.h)
 		self.pos = (x,y)
+		# print(self.pos)
+
 		self.hitbox = hitbox()
 		self.hitbox = hitbox(self.pos[0], self.pos[1], self.pos[0] + self.h, self.pos[1] + self.w)
-
 		self.delay += 1
+
+		if self.direction == "LEFT":
+			name = "ca"
+		else:
+			name = "cas"
 		if self.delay == 5:
-			self.name = "ca" + str(self.img % 2 + 1) + ".png"
+			self.name = name + str(self.img % 2 + 1) + ".png"
 			self.image = pygame.image.load(self.name)
 			self.delay %= 5
 			self.img += 1
-
+		pygame.mouse.set_pos((self.Game.width/2, self.Game.height/2))
+		for Bullet in self.bullet:
+			if Bullet.name != "":
+				Bullet.update(bg)
+				Bullet.run()
+		sleep(0.01)
 
 	def hit(self, fishB): #va vào cá B
 		pointA = [(self.hitbox.lx, self.hitbox.ly), (self.hitbox.rx, self.hitbox.ry), (self.hitbox.lx, self.hitbox.ry), (self.hitbox.rx, self.hitbox.ly)]
@@ -94,5 +126,8 @@ class mc:
 	def kill(self): #xóa
 		self.name = ""
 
-
-
+	def Fire(self, bg):
+		if self.direction == "LEFT":
+			self.bullet.append(bullet((self.pos[0] - self.bullet[0].w , self.pos[1] + self.h/2), self.Game, bg, "dan.png", self.direction))
+		else:
+			self.bullet.append(bullet((self.pos[0]  + self.w, self.pos[1] + self.h/2), self.Game, bg, "dan.png", self.direction))
