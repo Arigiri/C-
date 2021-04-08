@@ -41,7 +41,6 @@ while(1):
 	for Fish2 in Fish:
 		if Fish1.hit(Fish2):
 			Fish2.health -= 1
-			exit()
 			if Fish2.health == 0:
 				Fish2.kill()
 	for Fish2 in Fish:
