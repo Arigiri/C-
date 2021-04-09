@@ -24,8 +24,8 @@ Fish = [fish((randint(0, Game.width * 6 // 8), randint(0, Game.height * 6 // 8))
 for fish in Fish:
 	mobs.add(fish)
 Main_Fish.add(Fish1)
-bg = bg(-10, -10, Game)
-fps = 60
+bg = bg(-500, -500, Game)
+fps = 120
 MAX_SPEED = 1000
 yet = False
 Time = pygame.time.Clock()

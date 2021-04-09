@@ -32,6 +32,7 @@ class mc(pygame.sprite.Sprite):
 	O = (0,0)
 	mousepos = 0
 	speed = 5
+	move = 1
 	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0): #khai báo
 		pygame.sprite.Sprite.__init__(self)
 		self.pos = pos
@@ -77,9 +78,36 @@ class mc(pygame.sprite.Sprite):
 	# 	for Bullet in self.bullet:
 	# 		if Bullet.name != "":
 	# 			Bullet.draw()
+	def undo(self, bg):
+		self.bg = bg
+		if self.bg.x >= 0:
+			cl = 0
+		else:
+			cl = self.Game.width/8
+		if self.bg.x + self.Game.width >= self.bg.w:
+			cr = self.Game.width - self.w
+		else:
+			cr = self.Game.width - self.w - self.Game.width/8
+		if self.bg.y >= 0:
+			cu = 0
+		else:
+			cu = self.Game.height/8
+		if self.bg.y + self.Game.height >= self.bg.h:
+			cd = self.Game.height - self.h
+		else:
+			cd = self.Game.height - self.h - self.Game.height/8
+		
+			
 
+		x = self.pos[0] - self.vx; x = max(x, cl); x = min(x, cr)
+		y = self.pos[1] - self.vy; y = max(y, cu); y = min(y, cd)
+		self.pos = (x,y)
 
 	def update(self, bg): #update nhân vật chính
+		if self.move == 0:
+			self.move = 1
+			pygame.mouse.set_pos((self.Game.width/2, self.Game.height/2))
+			return
 		mousepos = pygame.mouse.get_pos()
 		self.vx = -(self.mousepos[0] - mousepos[0]) * self.speed
 		self.vy = -(self.mousepos[1] - mousepos[1]) * self.speed
@@ -87,9 +115,27 @@ class mc(pygame.sprite.Sprite):
 			self.direction = "LEFT"
 		elif self.mousepos[0] < mousepos[0]:
 			self.direction = "RIGHT"	
-		
-		x = self.pos[0] + self.vx; x = max(x, 0); x = min(x, self.Game.width - self.w)
-		y = self.pos[1] + self.vy; y = max(y, 0); y = min(y, self.Game.height - self.h)
+		self.bg = bg
+		if self.bg.x >= 0:
+			cl = 0
+		else:
+			cl = self.Game.width/8
+		if self.bg.x + self.Game.width >= self.bg.w:
+			cr = self.Game.width - self.w
+		else:
+			cr = self.Game.width - self.w - self.Game.width/8
+		if self.bg.y >= 0:
+			cu = 0
+		else:
+			cu = self.Game.height/8
+		if self.bg.y + self.Game.height >= self.bg.h:
+			cd = self.Game.height - self.h
+		else:
+			cd = self.Game.height - self.h - self.Game.height/8
+
+
+		x = self.pos[0] + self.vx; x = max(x, cl); x = min(x, cr)
+		y = self.pos[1] + self.vy; y = max(y, cu); y = min(y, cd)
 		self.pos = (x,y)
 		# print(self.pos)
 

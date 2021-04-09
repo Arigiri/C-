@@ -22,28 +22,34 @@ class bg:
 		y = mc.pos[1]
 		tmpx = self.x 
 		tmpy = self.y
-		ratio = 4/5
-		rate = 5
+		ratio = 7/8
+		rate = 8
 		# print(mc.pos)
 		# print(self.Game.height * ratio)
 		# print(self.Game.height // rate)
-		if x >= self.Game.width - mc.w and mc.vx != 0:
+		if x >= self.Game.width * ratio - mc.w and mc.vx != 0:
 			tmpx -= self.v
-		if x <= mc.w and mc.vx != 0:
+		if x <= self.Game.width // rate and mc.vx != 0:
 			tmpx += self.v
-		if y >= self.Game.height - mc.h and mc.vy != 0:
+		if y >= self.Game.height * ratio - mc.h and mc.vy != 0:
 			tmpy -= self.v
-		if y <= mc.h and mc.vy != 0:
+		if y <= self.Game.height// rate and mc.vy != 0:
 			tmpy += self.v
 		# print(tmpx, tmpy)
 		tmpx = min(tmpx, 0)
 		tmpy = min(tmpy, 0)
 		if not(tmpx > 0 or tmpy > 0 or -tmpx + self.Game.width > self.w):
 			# print(self.x, tmpx)
-			self.x = tmpx
+			if self.x != tmpx:
+				# mc.move = 0
+				# mc.undo(self)
+				self.x = tmpx
 		if not(-tmpy + self.Game.height > self.h):
 			# print(self.y, tmpy)
-			self.y = tmpy
+			if self.y != tmpy:
+				# mc.move = 0
+				# mc.undo(self)
+				self.y = tmpy
 			
 	def __str__(self):
 		return "{0},{1}".format(self.x, self.y)
