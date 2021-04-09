@@ -3,9 +3,10 @@ from color import *
 class hitbox:
 	lx = 0; ly = 0; rx = 0; ry = 0; w = 0; h = 0
 	rect = 0
-	more = 30
+	more = 0
 	def __init__(self, x = 0, y = 0, w = 0, h = 0, type = ""):
 		if type == "FISH":
+			self.more = w/8
 			self.lx = x + self.more - self.more/2
 			self.ly = y + self.more
 			self.w = w - 2 * self.more
