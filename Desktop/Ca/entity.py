@@ -4,6 +4,7 @@ from color import *
 from bg import *
 from random import *
 from MC import *
+from Bullet import *
 
 import pygame
 
@@ -25,6 +26,8 @@ class fish:
 	maxhealth = 0
 	health_len = 100
 
+	bullet = [bullet()]
+	direction = "LEFT"
 
 	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0): #khai báo
 		self.pos = pos
@@ -105,6 +108,12 @@ class fish:
 			if self.hitbox.inside(i):
 				return 1
 		return False
+
+	def Fire(self, bg):
+		if self.direction == "LEFT":
+			self.bullet.append(bullet((self.pos[0] - self.bullet[0].w , self.pos[1] + self.h/2), self.Game, bg, "dan.png", self.direction))
+		else:
+			self.bullet.append(bullet((self.pos[0]  + self.w, self.pos[1] + self.h/2), self.Game, bg, "dan.png", self.direction))
 
 	
 

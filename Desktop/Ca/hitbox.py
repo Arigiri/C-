@@ -2,7 +2,7 @@ import pygame
 from color import *
 class hitbox:
 	lx = 0; ly = 0; rx = 0; ry = 0; w = 0; h = 0
-
+	rect = 0
 	more = 30
 	def __init__(self, x = 0, y = 0, w = 0, h = 0, type = ""):
 		if type == "FISH":
@@ -19,6 +19,7 @@ class hitbox:
 			self.h = h
 			self.rx = self.lx + self.w
 			self.ry = self.ly + self.h	
+		self
 	def inside(self, pos):
 		return self.lx <= pos[0] and self.rx >= pos[0] and self.ly <= pos[1] and self.ry >= pos[1]
 	def __str__(self):
