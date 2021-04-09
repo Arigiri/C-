@@ -79,7 +79,7 @@ while(1):
 	mobs.update(bg, Fish1)
 
 	#mc update
-	Fish1.update(bg)
+	Main_Fish.update(bg)
 
 	Bullet_list.update(bg)
 
