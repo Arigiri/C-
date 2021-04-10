@@ -78,30 +78,7 @@ class mc(pygame.sprite.Sprite):
 	# 	for Bullet in self.bullet:
 	# 		if Bullet.name != "":
 	# 			Bullet.draw()
-	def undo(self, bg):
-		self.bg = bg
-		if self.bg.x >= 0:
-			cl = 0
-		else:
-			cl = self.Game.width/8
-		if self.bg.x + self.Game.width >= self.bg.w:
-			cr = self.Game.width - self.w
-		else:
-			cr = self.Game.width - self.w - self.Game.width/8
-		if self.bg.y >= 0:
-			cu = 0
-		else:
-			cu = self.Game.height/8
-		if self.bg.y + self.Game.height >= self.bg.h:
-			cd = self.Game.height - self.h
-		else:
-			cd = self.Game.height - self.h - self.Game.height/8
-		
-			
 
-		x = self.pos[0] - self.vx; x = max(x, cl); x = min(x, cr)
-		y = self.pos[1] - self.vy; y = max(y, cu); y = min(y, cd)
-		self.pos = (x,y)
 
 	def update(self, bg): #update nhân vật chính
 		if self.move == 0:
@@ -119,19 +96,20 @@ class mc(pygame.sprite.Sprite):
 		if self.bg.x >= 0:
 			cl = 0
 		else:
-			cl = self.Game.width/8
-		if self.bg.x + self.Game.width >= self.bg.w:
+			cl = self.w
+		if -self.bg.x + self.Game.width + self.w >= self.bg.w:
 			cr = self.Game.width - self.w
 		else:
-			cr = self.Game.width - self.w - self.Game.width/8
+			cr = self.Game.width - 2 * self.w
 		if self.bg.y >= 0:
 			cu = 0
 		else:
 			cu = self.Game.height/8
-		if self.bg.y + self.Game.height >= self.bg.h:
+		if -self.bg.y + self.Game.height + self.h >= self.bg.h:
 			cd = self.Game.height - self.h
 		else:
-			cd = self.Game.height - self.h - self.Game.height/8
+
+			cd = self.Game.height - 2 * self.h
 
 
 		x = self.pos[0] + self.vx; x = max(x, cl); x = min(x, cr)

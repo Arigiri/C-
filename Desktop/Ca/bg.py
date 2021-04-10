@@ -27,13 +27,13 @@ class bg:
 		# print(mc.pos)
 		# print(self.Game.height * ratio)
 		# print(self.Game.height // rate)
-		if x >= self.Game.width * ratio - mc.w and mc.vx != 0:
+		if x >= self.Game.width - 2 * mc.w and mc.vx != 0:
 			tmpx -= self.v
-		if x <= self.Game.width // rate and mc.vx != 0:
+		if x <= 2 * mc.w and mc.vx != 0:
 			tmpx += self.v
-		if y >= self.Game.height * ratio - mc.h and mc.vy != 0:
+		if y >= self.Game.height - 2 * mc.h and mc.vy != 0:
 			tmpy -= self.v
-		if y <= self.Game.height// rate and mc.vy != 0:
+		if y <= 2 * mc.h and mc.vy != 0:
 			tmpy += self.v
 		# print(tmpx, tmpy)
 		tmpx = min(tmpx, 0)
