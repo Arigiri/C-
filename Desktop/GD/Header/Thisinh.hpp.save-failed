@@ -1,5 +1,0 @@
-class thisinh
-{
-public:
-    string name;
-};
