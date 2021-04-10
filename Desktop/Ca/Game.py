@@ -4,6 +4,7 @@ class game:
 	screen = 0
 	width = 0
 	height = 0
+	
 	def __init__(self):
 		pygame.init()
 		self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)

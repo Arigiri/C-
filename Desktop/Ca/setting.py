@@ -1,0 +1,6 @@
+
+BULLET_DAMAGE = 5
+number_of_fish = 3
+HEALTH_HEIGHT = 25
+fps = 120
+MAIN_SPEED = 0.75
