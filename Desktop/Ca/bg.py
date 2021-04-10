@@ -1,3 +1,4 @@
+  
 import pygame
 from MC import *
 class bg:
@@ -29,11 +30,11 @@ class bg:
 		# print(self.Game.height // rate)
 		if x >= self.Game.width - 2 * mc.w and mc.vx != 0:
 			tmpx -= self.v
-		if x <= 2 * mc.w and mc.vx != 0:
+		if x <=  mc.w and mc.vx != 0:
 			tmpx += self.v
 		if y >= self.Game.height - 2 * mc.h and mc.vy != 0:
 			tmpy -= self.v
-		if y <= 2 * mc.h and mc.vy != 0:
+		if y <= mc.h and mc.vy != 0:
 			tmpy += self.v
 		# print(tmpx, tmpy)
 		tmpx = min(tmpx, 0)
@@ -54,6 +55,3 @@ class bg:
 	def __str__(self):
 		return "{0},{1}".format(self.x, self.y)
 			
-
-
-
