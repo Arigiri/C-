@@ -21,7 +21,7 @@ Bullet_Mobs = pygame.sprite.Group()
 Main_Fish = pygame.sprite.GroupSingle()
 
 
-Fish1 = mc(st, "ca2", Game, bg, 100)
+Fish1 = mc(st, "ca2", Game, bg, MC_HEALTH + 1)
 Fish = [mob1((randint(0, Game.width * 6 // 8), randint(0, Game.height * 6 // 8)), "ca3", Game, bg, 100)  for i in range(number_of_fish)]
 
 for fish in Fish:
@@ -37,13 +37,13 @@ Time = pygame.time.Clock()
 def health_bar(fish):
 	x = fish.Game.width * 70 // 100
 	y = HEALTH_HEIGHT
-	COLOR = (111, 116, 111)
-
-
+	COLOR1 = (111, 116, 111)
+	COLOR2 = (58, 58, 58)
+	COLOR3 = (34,255,4)
 	w1 = image1.get_width()
 	w2 = image2.get_width()
 	w3 = image3.get_width()
-	w4 = image4.get_width()
+	w4 = image6.get_width()
 	h = image3.get_height()
 	fish.health = max(fish.health, 0)
 
@@ -51,19 +51,20 @@ def health_bar(fish):
 	health_len = mw/100
 	nw = fish.health * health_len
 	#health bg
-	Game.screen.blit(image1, (x + w2, y))
-	Game.screen.blit(image1, (x + w2 + w1, y))
-	Game.screen.blit(image1, (x + w2 + w1 + w2, y))
+	# Game.screen.blit(image1, (x + w2, y))
+	# Game.screen.blit(image1, (x + w2 + w1, y))
+	# Game.screen.blit(image1, (x + w2 + w1 + w2, y))
+	pygame.draw.rect(Game.screen, COLOR2, (x + w2, y, Game.width - 30 - x - w2 + 10, image2.get_height()))
 	Game.screen.blit(image2, (x, y))
 	#curr_health
 	
-	Game.screen.blit(image6, (x + 15, y + 10))
-
+	Game.screen.blit(image6, (x + 15, y + 6))
+	pygame.draw.rect(Game.screen, COLOR1, (x  + w4, y + 10, Game.width - 30 - x - w2 + 26, image4.get_height()))
 	if(fish.health == fish.maxhealth):Game.screen.blit(image4, (x + 15, y + 10))
-	Game.screen.blit(image3, (x + w4 + 15, y + 10))
-	Game.screen.blit(image3, (x + w4 + w1 + 15, y + 10))
-	pygame.draw.rect(Game.screen, COLOR, (x + w4 + 15, y + 10, mw - nw, h))
-
+	if(fish.health > 7):pygame.draw.rect(Game.screen, COLOR3, (Game.width - nw+ 10, y + 10, nw - 30, image4.get_height() - 1))
+	# Game.screen.blit(image3, (x + w4 + 15, y + 10))
+	# Game.screen.blit(image3, (x + w4 + w1 + 15, y + 10))
+	
 
 
 while(1):
@@ -102,7 +103,7 @@ while(1):
 	#mc update
 	Main_Fish.update(bg)
 	Bullet_Main.update(bg, "MAIN")
-	
+	# Fish1.health -= 1
 
 	#draw
 	bg.draw(Game.screen)
@@ -115,7 +116,7 @@ while(1):
 	for fish in mobs:
 		fish.draw_health()
 	health_bar(Fish1)	
-	
+
 	#update display
 	pygame.display.flip()
 	pygame.display.update()	

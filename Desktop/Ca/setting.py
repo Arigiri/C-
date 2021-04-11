@@ -5,9 +5,9 @@ number_of_fish = 5
 HEALTH_HEIGHT = 25
 fps = 120
 MAIN_SPEED = 0.75
-BG_SPEED = 25
+BG_SPEED = 20
 BULLET_SPEED = 50
-
+MC_HEALTH = 100
 image1 = pygame.image.load("HP1.png")
 image2 = pygame.image.load("HP2.png")
 image3 = pygame.image.load("HP3.png")
