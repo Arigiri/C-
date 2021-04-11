@@ -16,11 +16,12 @@ class mob1(fish):
 		# self.fish = fish(pos, name, Game, bg, maxhealth)
 
 	def Fire(self, mc, bg):
-		# self.delay += 1
-		# if self.delay == 600:
-		# 	self.delay = 0
-		# else:
-		# 	return bullet()
+		self.delay += 1
+		if self.delay >= 60:
+			self.delay = 0
+		else:
+			return bullet()
+
 		x = mc.pos[0] + mc.w/2
 		y = mc.pos[1] + mc.h/2
 		if self.direction == "LEFT":

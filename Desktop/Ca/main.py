@@ -79,8 +79,6 @@ while(1):
 			exit()
 		if event.type == KEYDOWN and event.key == K_SPACE:
 			Bullet_Main.add(Fish1.Fire(bg))
-			for fish in Fish:
-				Bullet_Mobs.add(fish.Fire(Fish1, bg))
 	
 
 	#update
@@ -94,11 +92,22 @@ while(1):
 			hit.kill()
 			hit.reborn()
 		mobs.add(hit)
-
+	hits = pygame.sprite.groupcollide(Main_Fish, Bullet_Mobs, True, True, pygame.sprite.collide_mask)
+	for hit in hits:
+		hit.health -= BULLET_DAMAGE
+		if hit.health == 0:
+			hit.kill()
+			hit.reborn()
+		Main_Fish.add(hit)
 
 	#update mobs
 	mobs.update(bg, Fish1)
+	for fish in Fish:
+		bullet = fish.Fire(Fish1, bg)
+		if bullet.name != "":
+			Bullet_Mobs.add(bullet)
 	Bullet_Mobs.update(bg,"MOBS")
+
 
 	#mc update
 	Main_Fish.update(bg)
