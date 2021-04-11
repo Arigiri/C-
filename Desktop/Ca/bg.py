@@ -1,13 +1,14 @@
   
 import pygame
 from MC import *
+from setting import *
 class bg:
 	x = 0; y = 0; w = 0; h = 0
 	Game = 0
 	name = "bg.jpg"
 	image = 0
 	image = pygame.image.load(name)
-	v = 50
+	
 	def __init__(self, x, y, Game):
 		self.x = x
 		self.y = y
@@ -29,13 +30,13 @@ class bg:
 		# print(self.Game.height * ratio)
 		# print(self.Game.height // rate)
 		if x >= self.Game.width - 2 * mc.w and mc.vx != 0:
-			tmpx -= self.v
+			tmpx -= BG_SPEED
 		if x <=  mc.w and mc.vx != 0:
-			tmpx += self.v
+			tmpx += BG_SPEED
 		if y >= self.Game.height - 2 * mc.h and mc.vy != 0:
-			tmpy -= self.v
+			tmpy -= BG_SPEED
 		if y <= mc.h and mc.vy != 0:
-			tmpy += self.v
+			tmpy += BG_SPEED
 		# print(tmpx, tmpy)
 		tmpx = min(tmpx, 0)
 		tmpy = min(tmpy, 0)

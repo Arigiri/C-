@@ -115,11 +115,12 @@ class mc(pygame.sprite.Sprite):
 		self.name = ""
 
 	def Fire(self, bg):
-		Bullet = 0
 		if self.direction == "LEFT":
-			Bullet = bullet((self.pos[0] - self.bullet[0].w , self.pos[1] + self.h/2), self.Game, bg, "dan.png", self.direction)
-			self.bullet.append(Bullet)
+			Bullet = bullet((self.pos[0] - self.bullet[0].w , self.pos[1] + self.h/2), self.Game, bg, "dan.png")
+			Bullet.vx = -BULLET_SPEED
+			Bullet.vy = 0
 		else:
-			Bullet = bullet((self.pos[0]  + self.w, self.pos[1] + self.h/2), self.Game, bg, "dan.png", self.direction)
-			self.bullet.append(Bullet)
+			Bullet = bullet((self.pos[0]  + self.w, self.pos[1] + self.h/2), self.Game, bg, "dan.png")
+			Bullet.vx = BULLET_SPEED
+			Bullet.vy = 0
 		return Bullet

@@ -4,9 +4,10 @@ from bg import *
 from random import *
 from MC import *
 from Bullet import *
+from setting import *
 
 import pygame
-vec = pygame.math.Vector2 
+
 class fish(pygame.sprite.Sprite):
 
 	name = "" # tên ảnh
@@ -18,8 +19,8 @@ class fish(pygame.sprite.Sprite):
 	bg = 0 #background
 	vx = 0 #vận tốc x
 	vy = 0 # vận tốc y
-	maxv = 10 #vận tốc max
-	minv = -10 #vận tốc min
+	maxv = 5 #vận tốc max
+	minv = -5 #vận tốc min
 
 	health = 0
 	maxhealth = 0
@@ -86,13 +87,13 @@ class fish(pygame.sprite.Sprite):
 		if self.pos[1] - self.bg.y <= 0 or self.pos[0] - bg.x <= 0:
 			self.vx = randint(1, self.maxv)
 			self.vy = randint(1, self.maxv)
-		x = self.pos[0] - fish.pos[0]
-		y = self.pos[1] - fish.pos[1]
-		x *= x
-		y *= y
-		if (x + y)  ** (1/2) >= self.Game.height * 2:
-			self.kill()
-			self.reborn()
+		# x = self.pos[0] - fish.pos[0]
+		# y = self.pos[1] - fish.pos[1]
+		# x *= x
+		# y *= y
+		# if (x + y)  ** (1/2) >= self.Game.height * 2:
+		# 	self.kill()
+		# 	self.reborn()
 
 	def update(self, bg, mc): #update bot
 		self.bg = bg
@@ -121,12 +122,6 @@ class fish(pygame.sprite.Sprite):
 
 	def run(self):
 		self.rpos = (self.rpos[0] + self.vx, self.rpos[1] + self.vy)
-
-	def Fire(self, bg):
-		if self.direction == "LEFT":
-			self.bullet.append(bullet((self.pos[0] - self.bullet[0].w , self.pos[1] + self.h/2), self.Game, bg, "dan.png", self.direction))
-		else:
-			self.bullet.append(bullet((self.pos[0]  + self.w, self.pos[1] + self.h/2), self.Game, bg, "dan.png", self.direction))
 
 	
 
