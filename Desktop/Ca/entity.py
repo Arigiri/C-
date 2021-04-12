@@ -87,12 +87,18 @@ class fish(pygame.sprite.Sprite):
 
 
 	def dead(self, fish):
-		if self.pos[1] - self.bg.y + self.h >= self.bg.h or self.pos[0] - self.bg.x + self.w >= self.bg.w:
+		if self.pos[1] - self.bg.y + self.h >= self.bg.h:
 			self.vx = randint(self.minv, self.maxv)
 			self.vy = randint(self.minv, 0)
-		if self.pos[1] - self.bg.y <= 0 or self.pos[0] - bg.x <= 0:
-			self.vx = randint(1, self.maxv)
+		if self.pos[0] - self.bg.x + self.w >= self.bg.w:
+			self.vx = randint(self.minv, -1)
+			self.vy = randint(self.minv, self.maxv)
+		if self.pos[1] - self.bg.y <= 0:
+			self.vx = randint(self.minv, self.maxv)
 			self.vy = randint(1, self.maxv)
+		if self.pos[0] - bg.x <= 0:
+			self.vx = randint(1, self.maxv)
+			self.vy = randint(self.minv, self.maxv)
 		# x = self.pos[0] - fish.pos[0]
 		# y = self.pos[1] - fish.pos[1]
 		# x *= x
@@ -106,7 +112,7 @@ class fish(pygame.sprite.Sprite):
 		if self.name == "":
 			self.kill()
 			return
-		if self.delay == 100 or self.rpos[0] < 0 or self.rpos[1] < 0 or self.rpos[0] + self.w > self.bg.w or self.rpos[1] + self.h > self.bg.w and yet:
+		if (self.delay == 100 or self.rpos[0] < 0 or self.rpos[1] < 0 or self.rpos[0] + self.w > self.bg.w or self.rpos[1] + self.h > self.bg.w) and self.yet:
 			self.vx = randint(self.minv, self.maxv)
 			self.vy = randint(self.minv, self.maxv)
 			self.delay = 0

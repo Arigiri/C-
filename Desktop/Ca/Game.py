@@ -14,12 +14,15 @@ class game:
 		self.width, self.height = pygame.display.get_surface().get_size()
 		self.font = pygame.font.SysFont(None, 72)
 	def setup(self, bg):
-		self.mobs = pygame.sprite.Group()
+		self.mobs_0 = pygame.sprite.Group()
+		self.mobs_1 = pygame.sprite.Group()
 		self.Bullet_Main = pygame.sprite.Group()
 		self.Bullet_Mobs = pygame.sprite.Group()
 		Fish = [mob0((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca3", self, bg, 100)  for i in range(number_of_fish)]
+		Fish0 = mob1((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca11", self, bg, 100)
 		for fish in Fish:
-			self.mobs.add(fish)
+			self.mobs_0.add(fish)
+		self.mobs_1.add(Fish0)
 	def load(self, bg):
 		fade = 100
 		

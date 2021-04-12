@@ -42,7 +42,7 @@ def health_bar(fish):
 		exit()
 
 def end_stage():
-	if len(Game.mobs) == 0:
+	if len(Game.mobs_0) + len(Game.mobs_1)== 0:
 		Game.load(bg)
 		print(1)
 def process():
@@ -65,28 +65,36 @@ def process():
 	bg.update(Fish1)
 
 	#bullet hit fish
-	hits = pygame.sprite.groupcollide(Game.mobs, Game.Bullet_Main, True, True, pygame.sprite.collide_mask)
+	hits = pygame.sprite.groupcollide(Game.mobs_0, Game.Bullet_Main, False, True, pygame.sprite.collide_mask)
 	for hit in hits:
 		hit.health -= MAIN_DAMAGE
-		if hit.health == 0:
+		if hit.health <= 0:
 			hit.name = ""
 			hit.kill()
 			# hit.reborn()
-		else:	
-			Game.mobs.add(hit)
-	hits = pygame.sprite.groupcollide(Main_Fish, Game.Bullet_Mobs, True, True, pygame.sprite.collide_mask)
+	hits = pygame.sprite.groupcollide(Game.mobs_1, Game.Bullet_Main, False, True, pygame.sprite.collide_mask)
+	for hit in hits:
+		hit.health -= MAIN_DAMAGE
+		if hit.health <= 0:
+			hit.name = ""
+			hit.kill()
+	hits = pygame.sprite.groupcollide(Main_Fish, Game.Bullet_Mobs, False, True, pygame.sprite.collide_mask)
 	for hit in hits:
 		hit.health -= BULLET_DAMAGE	
-		Main_Fish.add(hit)
-
-	#update mobs
-	Game.mobs.update(bg, Fish1, Game)
-	for fish in Game.mobs:
+	hits = pygame.sprite.groupcollide(Main_Fish, Game.mobs_1, False, False, pygame.sprite.collide_mask)
+	for hit in hits:
+		hit.health -= SPLASH_DAMAGE
+	#update mobs_0
+	Game.mobs_0.update(bg, Fish1, Game)
+	Game.mobs_1.update(bg, Fish1, Game)
+	#mobs attack
+	for fish in Game.mobs_0:
 		bullet = fish.Fire(Fish1, bg, Game)
 		if bullet.name != "":
 			Game.Bullet_Mobs.add(bullet)
-
-	Game.Bullet_Mobs.update(bg,"MOBS")
+	for fish in Game.mobs_1:
+		fish.Slash(Fish1)
+	Game.Bullet_Mobs.update(bg,"mobs_0")
 	
 
 	#mc update
@@ -96,13 +104,16 @@ def process():
 
 	#draw
 	bg.draw(Game.screen)
-	Game.mobs.draw(Game.screen)
+	Game.mobs_0.draw(Game.screen)
+	Game.mobs_1.draw(Game.screen)
 	Game.Bullet_Main.draw(Game.screen)
 	Game.Bullet_Mobs.draw(Game.screen)
 	Main_Fish.draw(Game.screen)
 
 	#draw health
-	for fish in Game.mobs:
+	for fish in Game.mobs_0:
+		fish.draw_health()
+	for fish in Game.mobs_1:
 		fish.draw_health()
 	health_bar(Fish1)	
 
