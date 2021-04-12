@@ -30,6 +30,7 @@ class menu(start_button):
 					pygame.mouse.set_visible(False)
 					return False
 		image = pygame.image.load("bg2.png")
+		image = pygame.transform.scale(image, (self.game.width, self.game.height))
 		self.game.screen.blit(image, (0, 0))
 		self.draw()
 		pygame.display.flip()
