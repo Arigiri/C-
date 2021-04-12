@@ -97,9 +97,9 @@ class mc(pygame.sprite.Sprite):
 		self.delay += 1
 
 		if self.direction == "LEFT":
-			name = "ca"
+			name = "ca2"
 		else:
-			name = "cas"
+			name = "cas2"
 		if self.delay == 5:
 			self.name = name + str(self.img % 2 + 1) + ".png"
 			self.image = pygame.image.load(self.name)

@@ -30,7 +30,7 @@ class fish(pygame.sprite.Sprite):
 	direction = "LEFT"
 
 	delay = 0
-	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0): #khai báo
+	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0, mob = ""): #khai báo
 		pygame.sprite.Sprite.__init__(self)
 
 		self.pos = pos
@@ -39,7 +39,12 @@ class fish(pygame.sprite.Sprite):
 		self.image = pygame.image.load(self.name)
 		self.Game = Game
 		self.bg = bg
-
+		self.mob = mob
+		self.change = 0
+		self.mouth = 1
+		if self.mob == 3:
+			self.mouth = ""
+		self.yet = 1
 		self.w = self.image.get_width()
 		self.h = self.image.get_height()
 		
@@ -56,6 +61,7 @@ class fish(pygame.sprite.Sprite):
 		self.health_len = self.w / maxhealth
 
 	def draw_health(self):
+		
 		y = self.pos[1] - 10
 		x = self.pos[0]
 
@@ -68,7 +74,7 @@ class fish(pygame.sprite.Sprite):
 		pygame.draw.rect(self.Game.screen, GREEN, (x + 1, y + 1, nw, h))
 	def reborn(self):
 
-		self.name = "ca3.png"
+		self.name = "ca" + str(self.mob) + ".png"
 		x = randint(self.w, self.Game.width - self.w)
 		y = randint(self.h, self.Game.height - self.h)
 
@@ -95,21 +101,28 @@ class fish(pygame.sprite.Sprite):
 		# 	self.kill()
 		# 	self.reborn()
 
-	def update(self, bg, mc): #update bot
+	def update(self, bg, mc, game): #update bot
 		self.bg = bg
-
-		if self.delay == 100 or self.rpos[0] < 0 or self.rpos[1] < 0 or self.rpos[0] + self.w > self.bg.w or self.rpos[1] + self.h > self.bg.w:
+		if self.name == "":
+			self.kill()
+			return
+		if self.delay == 100 or self.rpos[0] < 0 or self.rpos[1] < 0 or self.rpos[0] + self.w > self.bg.w or self.rpos[1] + self.h > self.bg.w and yet:
 			self.vx = randint(self.minv, self.maxv)
 			self.vy = randint(self.minv, self.maxv)
 			self.delay = 0
+		if self.change == 5:
+			self.change = 0
+			if self.mouth == 1:
+				self.mouth = 2
+			elif self.mouth != "": self.mouth = 1
 		if self.vx > 0:
 			self.direction = "RIGHT"
 		else:
 			self.direction = "LEFT"
 		if self.direction == "LEFT":
-			self.name = "ca3.png"
+			self.name = "ca" + str(self.mob) + str(self.mouth) + ".png"
 		else:
-			self.name = "cas3.png"
+			self.name = "cas" + str(self.mob) + str(self.mouth) + ".png"
 		self.delay += 1
 		self.image = pygame.image.load(self.name)
 		x = self.rpos[0] + bg.x

@@ -4,34 +4,13 @@ from bg import *
 from MC import *
 from setting import *
 from Mob1 import *
-
+from Menu import *
 import pygame
 from pygame.locals import *
 from random import *
 import time
 
 
-Game = game()#1366, 768)
-
-st = (Game.width/2, Game.height/2)	
-
-mobs = pygame.sprite.Group()
-Bullet_Main = pygame.sprite.Group()
-Bullet_Mobs = pygame.sprite.Group()
-Main_Fish = pygame.sprite.GroupSingle()
-
-
-Fish1 = mc(st, "ca2", Game, bg, MC_HEALTH + 1)
-Fish = [mob1((randint(0, Game.width * 6 // 8), randint(0, Game.height * 6 // 8)), "ca3", Game, bg, 100)  for i in range(number_of_fish)]
-
-for fish in Fish:
-	mobs.add(fish)
-	
-Main_Fish.add(Fish1)
-bg = bg(-500, -500, Game)
-
-
-Time = pygame.time.Clock()
 
 
 def health_bar(fish):
@@ -51,9 +30,6 @@ def health_bar(fish):
 	health_len = mw/100
 	nw = fish.health * health_len
 	#health bg
-	# Game.screen.blit(image1, (x + w2, y))
-	# Game.screen.blit(image1, (x + w2 + w1, y))
-	# Game.screen.blit(image1, (x + w2 + w1 + w2, y))
 	pygame.draw.rect(Game.screen, COLOR2, (x + w2, y, Game.width - 30 - x - w2 + 10, image2.get_height()))
 	Game.screen.blit(image2, (x, y))
 	#curr_health
@@ -62,15 +38,18 @@ def health_bar(fish):
 	pygame.draw.rect(Game.screen, COLOR1, (x  + w4, y + 10, Game.width - 30 - x - w2 + 26, image4.get_height()))
 	if(fish.health == fish.maxhealth):Game.screen.blit(image4, (x + 15, y + 10))
 	if(fish.health > 7):pygame.draw.rect(Game.screen, COLOR3, (Game.width - nw+ 10, y + 10, nw - 30, image4.get_height() - 1))
-	# Game.screen.blit(image3, (x + w4 + 15, y + 10))
-	# Game.screen.blit(image3, (x + w4 + w1 + 15, y + 10))
-	
+	else:
+		exit()
 
-
-while(1):
-
+def end_stage():
+	if len(Game.mobs) == 0:
+		Game.load(bg)
+		print(1)
+def process():
 	#set fps
 	Time.tick(fps)
+	#stage
+	end_stage() 
 	#process events
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -78,51 +57,52 @@ while(1):
 		elif event.type == KEYDOWN and event.key == K_F4:
 			exit()
 		if event.type == KEYDOWN and event.key == K_SPACE:
-			Bullet_Main.add(Fish1.Fire(bg))
+			Game.Bullet_Main.add(Fish1.Fire(bg))
+			# Game.Bullet_Mobs.add(fish.Fire(Fish1, bg, Game))
 	
 
 	#update
 	bg.update(Fish1)
 
 	#bullet hit fish
-	hits = pygame.sprite.groupcollide(mobs, Bullet_Main, True, True, pygame.sprite.collide_mask)
+	hits = pygame.sprite.groupcollide(Game.mobs, Game.Bullet_Main, True, True, pygame.sprite.collide_mask)
 	for hit in hits:
-		hit.health -= BULLET_DAMAGE
+		hit.health -= MAIN_DAMAGE
 		if hit.health == 0:
+			hit.name = ""
 			hit.kill()
-			hit.reborn()
-		mobs.add(hit)
-	hits = pygame.sprite.groupcollide(Main_Fish, Bullet_Mobs, True, True, pygame.sprite.collide_mask)
+			# hit.reborn()
+		else:	
+			Game.mobs.add(hit)
+	hits = pygame.sprite.groupcollide(Main_Fish, Game.Bullet_Mobs, True, True, pygame.sprite.collide_mask)
 	for hit in hits:
-		hit.health -= BULLET_DAMAGE
-		if hit.health == 0:
-			hit.kill()
-			hit.reborn()
+		hit.health -= BULLET_DAMAGE	
 		Main_Fish.add(hit)
 
 	#update mobs
-	mobs.update(bg, Fish1)
-	for fish in Fish:
-		bullet = fish.Fire(Fish1, bg)
+	Game.mobs.update(bg, Fish1, Game)
+	for fish in Game.mobs:
+		bullet = fish.Fire(Fish1, bg, Game)
 		if bullet.name != "":
-			Bullet_Mobs.add(bullet)
-	Bullet_Mobs.update(bg,"MOBS")
+			Game.Bullet_Mobs.add(bullet)
 
+	Game.Bullet_Mobs.update(bg,"MOBS")
+	
 
 	#mc update
 	Main_Fish.update(bg)
-	Bullet_Main.update(bg, "MAIN")
+	Game.Bullet_Main.update(bg, "MAIN")
 	# Fish1.health -= 1
 
 	#draw
 	bg.draw(Game.screen)
-	mobs.draw(Game.screen)
-	Bullet_Main.draw(Game.screen)
-	Bullet_Mobs.draw(Game.screen)
+	Game.mobs.draw(Game.screen)
+	Game.Bullet_Main.draw(Game.screen)
+	Game.Bullet_Mobs.draw(Game.screen)
 	Main_Fish.draw(Game.screen)
 
 	#draw health
-	for fish in mobs:
+	for fish in Game.mobs:
 		fish.draw_health()
 	health_bar(Fish1)	
 
@@ -130,3 +110,20 @@ while(1):
 	pygame.display.flip()
 	pygame.display.update()	
 
+if __name__ == '__main__':
+	Game = game()
+	bg = bg(-500, -500, Game)
+	Menu = menu(Game)
+	while(Menu.update()):
+		pass
+	Game.load(bg)
+	Game.setup(bg)
+
+	Main_Fish = pygame.sprite.GroupSingle()
+	Fish1 = mc((Game.width/2, Game.height/2), "ca21", Game, bg, MC_HEALTH + 1)
+	Main_Fish.add(Fish1)
+
+
+	Time = pygame.time.Clock()
+	while(1):
+		process()

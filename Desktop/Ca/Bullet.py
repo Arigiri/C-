@@ -14,6 +14,7 @@ class bullet(pygame.sprite.Sprite):
 	bgx = 0
 	bgy = 0
 	v = 50
+	life = 0
 	direction = 0
 	def __init__(self, pos = 0, Game = 0, bg = 0, name = "", vx = 0, vy = 0):
 		pygame.sprite.Sprite.__init__(self)
@@ -24,7 +25,7 @@ class bullet(pygame.sprite.Sprite):
 		self.name = name
 		self.vx = vx
 		self.vy = vy
-
+		self.life = BULLET_LIFE_TIME
 		if(self.name == ""):
 			return
 
@@ -42,6 +43,10 @@ class bullet(pygame.sprite.Sprite):
 	def update(self, bg, type):
 		if self.name == "":
 			return
+		
+		self.life -= 1
+		if self.life == 0:
+			self.kill()
 		if type == "MAIN":
 			x = self.rpos[0] + bg.x - self.bgx
 			y = self.rpos[1] + bg.y - self.bgy
