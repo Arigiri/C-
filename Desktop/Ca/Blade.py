@@ -4,13 +4,12 @@ class Blade(pygame.sprite.Sprite):
 	blade = ""
 	image = ""
 	rect = ""
-	def __init__(self, K = False):
+	def __init__(self):
 		pygame.sprite.Sprite.__init__(self)
-		self.K = K
+		
 	old_time = 0
+	K = True
 	def update(self, mc):
-		if self.K == False:
-			return
 
 		curr_time = pygame.time.get_ticks()
 

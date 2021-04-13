@@ -61,7 +61,7 @@ def process():
 		elif event.type == KEYDOWN and event.key == K_F4:
 			exit()
 		if event.type == MOUSEBUTTONDOWN:
-			Game.Blade_mc.add(Blade(True))
+			Game.Blade_mc.add(Blade())
 		if event.type == KEYDOWN and event.key == K_SPACE:
 			Game.Bullet_Main.add(Fish1.Fire(bg))
 		if event.type == KEYDOWN and event.key == K_ESCAPE:
