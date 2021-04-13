@@ -3,11 +3,12 @@ from entity import *
 from bg import *
 from MC import *
 from setting import *
-from Mob1 import *
+from Mob4 import *
 from Menu import *
 import pygame
 from pygame.locals import *
 from random import *
+from Blade import *
 import time
 
 
@@ -42,28 +43,38 @@ def health_bar(fish):
 		exit()
 
 def end_stage():
-	if len(Game.mobs_0) + len(Game.mobs_1)== 0:
+	if len(Game.mobs)== 0:
 		Game.load(bg)
 		print(1)
+
 def process():
+	global Blade_mc
 	#set fps
 	Time.tick(fps)
 	#stage
 	end_stage() 
 	#process events
+	# Blade = blade()
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			exit()
 		elif event.type == KEYDOWN and event.key == K_F4:
 			exit()
+		if event.type == MOUSEBUTTONDOWN:
+			Game.Blade_mc.add(Blade(True))
 		if event.type == KEYDOWN and event.key == K_SPACE:
 			Game.Bullet_Main.add(Fish1.Fire(bg))
-			# Game.Bullet_Mobs.add(fish.Fire(Fish1, bg, Game))
-	
-
+		if event.type == KEYDOWN and event.key == K_ESCAPE:
+			if Game.Pause == False:
+				Game.Pause = True
+			else:
+				Game.Pause = False
+	if Game.Pause == True:
+		pygame.mouse.set_pos(Game.width/2, Game.height/2)
+		return
 	#update
 	bg.update(Fish1)
-
+	
 	#bullet hit fish
 	hits = pygame.sprite.groupcollide(Game.mobs_0, Game.Bullet_Main, False, True, pygame.sprite.collide_mask)
 	for hit in hits:
@@ -72,7 +83,7 @@ def process():
 			hit.name = ""
 			hit.kill()
 			# hit.reborn()
-	hits = pygame.sprite.groupcollide(Game.mobs_1, Game.Bullet_Main, False, True, pygame.sprite.collide_mask)
+	hits = pygame.sprite.groupcollide(Game.mobs_4, Game.Bullet_Main, False, True, pygame.sprite.collide_mask)
 	for hit in hits:
 		hit.health -= MAIN_DAMAGE
 		if hit.health <= 0:
@@ -81,39 +92,61 @@ def process():
 	hits = pygame.sprite.groupcollide(Main_Fish, Game.Bullet_Mobs, False, True, pygame.sprite.collide_mask)
 	for hit in hits:
 		hit.health -= BULLET_DAMAGE	
+	hits = pygame.sprite.groupcollide(Main_Fish, Game.mobs_4, False, False, pygame.sprite.collide_mask)
+	for hit in hits:
+		hit.health -= SPLASH_DAMAGE
 	hits = pygame.sprite.groupcollide(Main_Fish, Game.mobs_1, False, False, pygame.sprite.collide_mask)
 	for hit in hits:
 		hit.health -= SPLASH_DAMAGE
+	hits = pygame.sprite.groupcollide(Game.mobs_1,Game.Bullet_Main, False, True, pygame.sprite.collide_mask)
+	for hit in hits:
+		if not hit.shield:
+			hit.health -= MAIN_DAMAGE
+			if hit.health == 0:
+				hit.kill()
+		
+	hits = pygame.sprite.groupcollide(Game.mobs_1,Game.Blade_mc, False, True, pygame.sprite.collide_mask)
+	# for hit in hits:
+	# 	if hit.shield:
+	# 		hit.health -= BLADE_DAMAGE
+	# 		if hit.health == 0:
+	# 			hit.kill()
+	
 	#update mobs_0
-	Game.mobs_0.update(bg, Fish1, Game)
-	Game.mobs_1.update(bg, Fish1, Game)
+	Game.mobs.update(bg, Fish1, Game) 
 	#mobs attack
 	for fish in Game.mobs_0:
 		bullet = fish.Fire(Fish1, bg, Game)
 		if bullet.name != "":
 			Game.Bullet_Mobs.add(bullet)
-	for fish in Game.mobs_1:
+	for fish in Game.mobs_4:
 		fish.Slash(Fish1)
+	for fish in Game.mobs_1:
+		fish.Roar()
+	for fish in Main_Fish:
+		Game.Blade_mc.update(fish)
+	for blade in Game.Blade_mc:
+		if blade.K == False:
+			blade.kill()
 	Game.Bullet_Mobs.update(bg,"mobs_0")
 	
 
 	#mc update
 	Main_Fish.update(bg)
 	Game.Bullet_Main.update(bg, "MAIN")
-	# Fish1.health -= 1
 
 	#draw
 	bg.draw(Game.screen)
-	Game.mobs_0.draw(Game.screen)
-	Game.mobs_1.draw(Game.screen)
+	Game.mobs.draw(Game.screen)
 	Game.Bullet_Main.draw(Game.screen)
 	Game.Bullet_Mobs.draw(Game.screen)
 	Main_Fish.draw(Game.screen)
-
+	for blade in Game.Blade_mc:
+		if blade.image != "":
+			Game.Blade_mc.draw(Game.screen)
+	for fish in Main_Fish: fish.draw_blade(Game)
 	#draw health
-	for fish in Game.mobs_0:
-		fish.draw_health()
-	for fish in Game.mobs_1:
+	for fish in Game.mobs:
 		fish.draw_health()
 	health_bar(Fish1)	
 
@@ -129,7 +162,6 @@ if __name__ == '__main__':
 		pass
 	Game.load(bg)
 	Game.setup(bg)
-
 	Main_Fish = pygame.sprite.GroupSingle()
 	Fish1 = mc((Game.width/2, Game.height/2), "ca21", Game, bg, MC_HEALTH + 1)
 	Main_Fish.add(Fish1)

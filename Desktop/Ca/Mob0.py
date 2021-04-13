@@ -1,5 +1,5 @@
 #normal mod
-from Mob1 import *
+from Mob4 import *
 from entity import *
 class mob0(fish):
 	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0):
@@ -23,7 +23,13 @@ class mob0(fish):
 		
 		vx = x - x1
 		vy = y - y1
-	
+		p1 = mc.rect.center
+		p2 = self.rect.center
+		p = (p1[0] - p2[0], p1[1] - p1[1])
+		dist = (p[1] * p[1] + p[0] * p[0]) ** (1/2)
+		if dist <= BULLET_SPEED * 10:
+			vx *= 3
+			vy *= 3
 		pygame.display.update()
 		Bullet = bullet((x1, y1), self.Game, bg, "dan.png", vx//BULLET_SPEED, vy//BULLET_SPEED)
 		return Bullet

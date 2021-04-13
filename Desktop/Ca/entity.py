@@ -106,17 +106,24 @@ class fish(pygame.sprite.Sprite):
 		# if (x + y)  ** (1/2) >= self.Game.height * 2:
 		# 	self.kill()
 		# 	self.reborn()
-
+	def name_detect(self):
+		if self.direction == "LEFT":
+			self.name = "ca" + str(self.mob) + str(self.mouth) + ".png"
+		else:
+			self.name = "cas" + str(self.mob) + str(self.mouth) + ".png"
 	def update(self, bg, mc, game): #update bot
 		self.bg = bg
 		if self.name == "":
 			self.kill()
 			return
 		if (self.delay == 100 or self.rpos[0] < 0 or self.rpos[1] < 0 or self.rpos[0] + self.w > self.bg.w or self.rpos[1] + self.h > self.bg.w) and self.yet:
-			self.vx = randint(self.minv, self.maxv)
-			self.vy = randint(self.minv, self.maxv)
+			self.vx = randint(self.minv, self.maxv) 
+			self.vy = randint(self.minv, self.maxv) 
+			if self.mob == 1:
+				self.vx *= 3
+				self.vy *= 3
 			self.delay = 0
-		if self.change == 5:
+		if self.change == 5 and self.mob != 4 and self.mob != 1:
 			self.change = 0
 			if self.mouth == 1:
 				self.mouth = 2
@@ -125,11 +132,11 @@ class fish(pygame.sprite.Sprite):
 			self.direction = "RIGHT"
 		else:
 			self.direction = "LEFT"
-		if self.direction == "LEFT":
-			self.name = "ca" + str(self.mob) + str(self.mouth) + ".png"
-		else:
-			self.name = "cas" + str(self.mob) + str(self.mouth) + ".png"
+		
+		self.name_detect()
+		
 		self.delay += 1
+
 		self.image = pygame.image.load(self.name)
 		x = self.rpos[0] + bg.x
 		y = self.rpos[1] + bg.y

@@ -26,7 +26,6 @@ class menu(start_button):
 				exit()
 			if event.type == MOUSEBUTTONDOWN:
 				if self.get_hit():
-					print(1)
 					pygame.mouse.set_visible(False)
 					return False
 		image = pygame.image.load("bg2.png")

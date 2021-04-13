@@ -55,7 +55,15 @@ class mc(pygame.sprite.Sprite):
 		
 
 		 
-
+	# blade = ""
+	old_time = 0
+	image1 = ""
+	def draw_blade(self, game):
+		if self.image1 != "":
+			if self.direction == "RIGHT":
+				game.screen.blit(self.image1, (self.pos[0] + self.w, self.pos[1] + self.h//3))
+			else:
+				game.screen.blit(self.image1, (self.pos[0] - self.w, self.pos[1] + self.h//3))
 
 	def update(self, bg): #update nhân vật chính
 		if self.move == 0:
