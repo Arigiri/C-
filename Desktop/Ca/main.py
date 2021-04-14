@@ -61,7 +61,7 @@ def process():
 		elif event.type == KEYDOWN and event.key == K_F4:
 			exit()
 		if event.type == MOUSEBUTTONDOWN:
-			Game.Blade_mc.add(Blade())
+			Game.Blade_mc.add(Blade(Fish1))
 		if event.type == KEYDOWN and event.key == K_SPACE:
 			Game.Bullet_Main.add(Fish1.Fire(bg))
 		if event.type == KEYDOWN and event.key == K_ESCAPE:
@@ -76,36 +76,31 @@ def process():
 	bg.update(Fish1)
 	
 	#bullet hit fish
-	hits = pygame.sprite.groupcollide(Game.mobs_0, Game.Bullet_Main, False, True, pygame.sprite.collide_mask)
-	for hit in hits:
-		hit.health -= MAIN_DAMAGE
-		if hit.health <= 0:
-			hit.name = ""
-			hit.kill()
-			# hit.reborn()
-	hits = pygame.sprite.groupcollide(Game.mobs_4, Game.Bullet_Main, False, True, pygame.sprite.collide_mask)
-	for hit in hits:
-		hit.health -= MAIN_DAMAGE
-		if hit.health <= 0:
-			hit.name = ""
-			hit.kill()
-	hits = pygame.sprite.groupcollide(Main_Fish, Game.Bullet_Mobs, False, True, pygame.sprite.collide_mask)
-	for hit in hits:
-		hit.health -= BULLET_DAMAGE	
-	hits = pygame.sprite.groupcollide(Main_Fish, Game.mobs_4, False, False, pygame.sprite.collide_mask)
-	for hit in hits:
-		hit.health -= SPLASH_DAMAGE
-	hits = pygame.sprite.groupcollide(Main_Fish, Game.mobs_1, False, False, pygame.sprite.collide_mask)
-	for hit in hits:
-		hit.health -= SPLASH_DAMAGE
-	hits = pygame.sprite.groupcollide(Game.mobs_1,Game.Bullet_Main, False, True, pygame.sprite.collide_mask)
+	hits = pygame.sprite.groupcollide(Game.mobs, Game.Bullet_Main, False, True, pygame.sprite.collide_mask)
 	for hit in hits:
 		if not hit.shield:
 			hit.health -= MAIN_DAMAGE
-			if hit.health == 0:
+			if hit.health <= 0:
+				hit.name = ""
 				hit.kill()
-		
-	hits = pygame.sprite.groupcollide(Game.mobs_1,Game.Blade_mc, False, True, pygame.sprite.collide_mask)
+	hits = pygame.sprite.groupcollide(Main_Fish, Game.Bullet_Mobs, False, True, pygame.sprite.collide_mask)
+	for hit in hits:
+		if hit.immune:
+			continue
+		hit.health -= BULLET_DAMAGE	
+	hits = pygame.sprite.groupcollide(Main_Fish, Game.mobs, False, False, pygame.sprite.collide_mask)
+	for hit in hits:
+		hit.health -= SPLASH_DAMAGE
+	if len(Game.Blade_mc) >= 1:
+		hits = pygame.sprite.groupcollide(Game.mobs, Game.Blade_mc, False, False, pygame.sprite.collide_mask)
+		for hit in hits:
+			if hit.shield:
+				hit.health -= BLADE_DAMAGE//3
+			else:
+				hit.health -= BLADE_DAMAGE
+			if hit.health == 0:
+					hit.kill()
+
 	# for hit in hits:
 	# 	if hit.shield:
 	# 		hit.health -= BLADE_DAMAGE
@@ -123,10 +118,8 @@ def process():
 		fish.Slash(Fish1)
 	for fish in Game.mobs_1:
 		fish.Roar()
-	for fish in Main_Fish:
-		Game.Blade_mc.update(fish)
 	for blade in Game.Blade_mc:
-		if blade.K == False:
+		if blade.update():
 			blade.kill()
 	Game.Bullet_Mobs.update(bg,"mobs_0")
 	
@@ -168,5 +161,10 @@ if __name__ == '__main__':
 
 
 	Time = pygame.time.Clock()
+	curr_time = pygame.time.get_ticks()
 	while(1):
+		tme = pygame.time.get_ticks()
+		if tme - curr_time >= MC_IMMUNE_TIME * 100:
+			for fish in Main_Fish:
+				fish.immune = False
 		process()

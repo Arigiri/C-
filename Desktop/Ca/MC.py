@@ -24,7 +24,7 @@ class mc(pygame.sprite.Sprite):
 	vy = 0 # vận tốc y
 	maxv = 10 #vận tốc max
 	minv = 3 #vận tốc min
-
+	immune = True
 	health = 0
 	maxhealth = 0
 	bullet = [bullet()]

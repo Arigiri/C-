@@ -9,7 +9,7 @@ class mob1(fish):
 	old_time = 0
 	count_down = 1
 	mouth = 2
-	shield = False
+
 	def name_detect(self):
 		if self.direction == "LEFT":
 			self.name = "ca" + str(self.mob) + str(self.mouth) + ".png"
