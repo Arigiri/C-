@@ -61,7 +61,7 @@ def process():
 		elif event.type == KEYDOWN and event.key == K_F4:
 			exit()
 		if event.type == MOUSEBUTTONDOWN:
-			Game.Blade_mc.add(Blade(Fish1))
+			Game.Blade_mc.add(Blade(Fish1)) 
 		if event.type == KEYDOWN and event.key == K_SPACE:
 			Game.Bullet_Main.add(Fish1.Fire(bg))
 		if event.type == KEYDOWN and event.key == K_ESCAPE:
@@ -98,7 +98,7 @@ def process():
 				hit.health -= BLADE_DAMAGE//3
 			else:
 				hit.health -= BLADE_DAMAGE
-			if hit.health == 0:
+			if hit.health <= 0:
 					hit.kill()
 
 	# for hit in hits:
@@ -111,6 +111,10 @@ def process():
 	Game.mobs.update(bg, Fish1, Game) 
 	#mobs attack
 	for fish in Game.mobs_0:
+		bullet = fish.Fire(Fish1, bg, Game)
+		if bullet.name != "":
+			Game.Bullet_Mobs.add(bullet)
+	for fish in Game.mobs_2:
 		bullet = fish.Fire(Fish1, bg, Game)
 		if bullet.name != "":
 			Game.Bullet_Mobs.add(bullet)

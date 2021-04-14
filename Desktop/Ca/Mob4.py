@@ -42,6 +42,13 @@ class mob4(fish):
 		y1 = self.pos[1] + self.h/2
 		vx = x - x1
 		vy = y - y1
+		p1 = fish.rect.center
+		p2 = self.rect.center
+		p = (p1[0] - p2[0], p1[1] - p1[1])
+		dist = (p[1] * p[1] + p[0] * p[0]) ** (1/2)
+		if dist <= BULLET_SPEED * 100:
+			vx *= 3
+			vy *= 3
 		self.vx = vx//MOBS_SPEED
 		self.vy = vy//MOBS_SPEED
 		self.old_time = curr_time

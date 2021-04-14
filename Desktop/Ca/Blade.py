@@ -12,7 +12,7 @@ class Blade(pygame.sprite.Sprite):
 		if mc.direction == "LEFT":
 			self.pos = (mc.pos[0] - mc.w/2, mc.pos[1] )#- mc.h//3)
 		else:
-			self.pos = (mc.pos[0] + mc.w/2, mc.pos[1] )#- mc.h//3)
+			self.pos = (mc.pos[0] + mc.w/1.33, mc.pos[1] )#- mc.h//3)
 		if mc.direction == "RIGHT" and self.blade != "":
 			blade = self.blade + "1"
 		elif self.blade != "":

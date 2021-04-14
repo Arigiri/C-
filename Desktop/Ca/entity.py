@@ -116,7 +116,8 @@ class fish(pygame.sprite.Sprite):
 		if self.name == "":
 			self.kill()
 			return
-		if (self.delay == 100 or self.rpos[0] < 0 or self.rpos[1] < 0 or self.rpos[0] + self.w > self.bg.w or self.rpos[1] + self.h > self.bg.w) and self.yet:
+
+		if (self.delay == 100 or self.rpos[0] <= 0 or self.rpos[1] <= 0 or self.rpos[0] + self.w >= self.bg.w or self.rpos[1] + self.h >= self.bg.w) and self.yet:
 			self.vx = randint(self.minv, self.maxv) 
 			self.vy = randint(self.minv, self.maxv) 
 			if self.mob == 1:
@@ -137,9 +138,11 @@ class fish(pygame.sprite.Sprite):
 		
 		self.delay += 1
 
-		self.image = pygame.image.load(self.name)
+		self.image = pygame.image.load(self.name).convert_alpha()
 		x = self.rpos[0] + bg.x
 		y = self.rpos[1] + bg.y
+		x = min(x, bg.w - self.w)
+		y = min(y, bg.h - self.h)
 		self.pos = (x, y)
 		self.rect.center = (self.w/2 + self.pos[0], self.h/2 + self.pos[1])
 		self.mask = pygame.mask.from_surface(self.image)

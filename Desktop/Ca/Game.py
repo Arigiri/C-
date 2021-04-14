@@ -3,6 +3,7 @@ from setting import *
 from Mob4 import *
 from Mob0 import *
 from Mob1 import *
+from Mob2 import *
 from entity import *
 from Blade import *
 class game:
@@ -21,12 +22,14 @@ class game:
 		self.mobs_0 = pygame.sprite.Group()
 		self.mobs_4 = pygame.sprite.Group()
 		self.mobs_1 = pygame.sprite.Group()
+		self.mobs_2 = pygame.sprite.Group()
 		self.Bullet_Main = pygame.sprite.Group()
 		self.Bullet_Mobs = pygame.sprite.Group()
 		self.Blade_mc = pygame.sprite.Group()
 		Fish = [mob0((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca3", self, bg, 100)  for i in range(number_of_mob_0)]
 		Fish0 = [mob4((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca41", self, bg, 100) for i in range(number_of_mob_4)]
 		Fish1 = [mob1((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca12", self, bg, 100) for i in range(number_of_mob_1)]
+		Fish2 = [mob2((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca12", self, bg, 100) for i in range(number_of_mob_2)]
 		for fish in Fish:
 			self.mobs_0.add(fish)
 			self.mobs.add(fish)
@@ -35,6 +38,9 @@ class game:
 			self.mobs.add(fish)
 		for fish in Fish1:
 			self.mobs_1.add(fish)
+			self.mobs.add(fish)
+		for fish in Fish2:
+			self.mobs_2.add(fish)
 			self.mobs.add(fish)
 	def load(self, bg):
 		fade = 100
