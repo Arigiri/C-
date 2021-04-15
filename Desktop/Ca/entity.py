@@ -39,7 +39,7 @@ class fish(pygame.sprite.Sprite):
 		self.image = pygame.image.load(self.name)
 		w = self.image.get_width()
 		h = self.image.get_height()
-		self.image = pygame.transform.scale(self.image, (w * 50 //100, h *50//100))
+		self.image = pygame.transform.scale(self.image, (w * RATIO //100, h *RATIO//100))
 		self.Game = Game
 		self.bg = bg
 		self.mob = mob
@@ -144,7 +144,7 @@ class fish(pygame.sprite.Sprite):
 		self.image = pygame.image.load(self.name).convert_alpha()
 		w = self.image.get_width()
 		h = self.image.get_height()
-		self.image = pygame.transform.scale(self.image, (w * 50 //100, h *50//100))
+		self.image = pygame.transform.scale(self.image, (w * RATIO //100, h *RATIO//100))
 
 		x = self.rpos[0] + bg.x
 		y = self.rpos[1] + bg.y

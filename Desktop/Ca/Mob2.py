@@ -17,7 +17,7 @@ class mob2(fish):
 		image = pygame.image.load("big_bullet.png")
 		w = image.get_width()
 		h = image.get_height()
-		pygame.transform.scale(image, (w * 50//100, h *50//100))
+		pygame.transform.scale(image, (w * RATIO//100, h *RATIO//100))
 		w = image.get_width()
 		h = image.get_height()
 		self.bg = bg
