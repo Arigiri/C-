@@ -39,6 +39,9 @@ class mc(pygame.sprite.Sprite):
 		self.rpos = pos
 		self.name = name + ".png"
 		self.image = pygame.image.load(self.name)
+		w = self.image.get_width()
+		h = self.image.get_height()
+		self.image = pygame.transform.scale(self.image, (w * 50 //100, h *50//100))
 		self.Game = Game
 		self.w = self.image.get_width()
 		self.h = self.image.get_height()
@@ -89,7 +92,7 @@ class mc(pygame.sprite.Sprite):
 		if self.bg.y >= 0:
 			cu = 0
 		else:
-			cu = self.Game.height/8
+			cu = self.h
 		if -self.bg.y + self.Game.height + self.h >= self.bg.h:
 			cd = self.Game.height - self.h
 		else:
@@ -111,6 +114,9 @@ class mc(pygame.sprite.Sprite):
 		if self.delay == 5:
 			self.name = name + str(self.img % 2 + 1) + ".png"
 			self.image = pygame.image.load(self.name)
+			w = self.image.get_width()
+			h = self.image.get_height()
+			self.image = pygame.transform.scale(self.image, (w * 50 //100, h *50//100))
 			self.delay %= 5
 			self.img += 1
 		pygame.mouse.set_pos((self.Game.width/2, self.Game.height/2))

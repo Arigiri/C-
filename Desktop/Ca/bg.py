@@ -26,9 +26,6 @@ class bg:
 		tmpy = self.y
 		ratio = 7/8
 		rate = 8
-		# print(mc.pos)
-		# print(self.Game.height * ratio)
-		# print(self.Game.height // rate)
 		if x >= self.Game.width - 2 * mc.w and mc.vx != 0:
 			tmpx -= BG_SPEED
 		if x <=  mc.w and mc.vx != 0:
@@ -37,20 +34,13 @@ class bg:
 			tmpy -= BG_SPEED
 		if y <= mc.h and mc.vy != 0:
 			tmpy += BG_SPEED
-		# print(tmpx, tmpy)
 		tmpx = min(tmpx, 0)
 		tmpy = min(tmpy, 0)
 		if not(tmpx > 0 or tmpy > 0 or -tmpx + self.Game.width > self.w):
-			# print(self.x, tmpx)
 			if self.x != tmpx:
-				# mc.move = 0
-				# mc.undo(self)
 				self.x = tmpx
 		if not(-tmpy + self.Game.height > self.h):
-			# print(self.y, tmpy)
 			if self.y != tmpy:
-				# mc.move = 0
-				# mc.undo(self)
 				self.y = tmpy
 			
 	def __str__(self):

@@ -1,5 +1,6 @@
 import pygame
 from setting import *
+from setting_menu import *
 from Mob4 import *
 from Mob0 import *
 from Mob1 import *
@@ -12,12 +13,18 @@ class game:
 	height = 0
 	stage = 1
 	Pause = False
+
 	def __init__(self):
 		pygame.init()
 		self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 		self.width, self.height = pygame.display.get_surface().get_size()
 		self.font = pygame.font.SysFont(None, 72)
+		self.menu = setting_menu(self)
+
+		self.Buttons = pygame.sprite.Group()
+		self.Buttons.add(self.menu.button)
 	def setup(self, bg):
+		#sprite group
 		self.mobs = pygame.sprite.Group()
 		self.mobs_0 = pygame.sprite.Group()
 		self.mobs_4 = pygame.sprite.Group()
@@ -26,6 +33,7 @@ class game:
 		self.Bullet_Main = pygame.sprite.Group()
 		self.Bullet_Mobs = pygame.sprite.Group()
 		self.Blade_mc = pygame.sprite.Group()
+		#mobs spawn
 		Fish = [mob0((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca3", self, bg, 100)  for i in range(number_of_mob_0)]
 		Fish0 = [mob4((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca41", self, bg, 100) for i in range(number_of_mob_4)]
 		Fish1 = [mob1((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca12", self, bg, 100) for i in range(number_of_mob_1)]

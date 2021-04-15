@@ -48,7 +48,6 @@ def end_stage():
 		print(1)
 
 def process():
-	global Blade_mc
 	#set fps
 	Time.tick(fps)
 	#stage
@@ -64,13 +63,16 @@ def process():
 			Game.Blade_mc.add(Blade(Fish1)) 
 		if event.type == KEYDOWN and event.key == K_SPACE:
 			Game.Bullet_Main.add(Fish1.Fire(bg))
-		if event.type == KEYDOWN and event.key == K_ESCAPE:
+		if (event.type == KEYDOWN and event.key == K_ESCAPE) or (event.type == MOUSEBUTTONDOWN and Game.menu.button.get_clicked()) :
 			if Game.Pause == False:
 				Game.Pause = True
 			else:
 				Game.Pause = False
+
 	if Game.Pause == True:
 		pygame.mouse.set_pos(Game.width/2, Game.height/2)
+		Game.menu.draw(Game.screen)
+		pygame.display.flip()
 		return
 	#update
 	bg.update(Fish1)
@@ -137,6 +139,7 @@ def process():
 	Game.mobs.draw(Game.screen)
 	Game.Bullet_Main.draw(Game.screen)
 	Game.Bullet_Mobs.draw(Game.screen)
+	Game.Buttons.draw(Game.screen)
 	Main_Fish.draw(Game.screen)
 	for blade in Game.Blade_mc:
 		if blade.image != "":

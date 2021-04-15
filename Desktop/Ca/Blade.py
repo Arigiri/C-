@@ -17,8 +17,10 @@ class Blade(pygame.sprite.Sprite):
 			blade = self.blade + "1"
 		elif self.blade != "":
 			blade = self.blade + "2"
-
 		self.image = pygame.image.load(blade + ".png").convert_alpha()
+		w = self.image.get_width()
+		h = self.image.get_height()
+		self.image = pygame.transform.scale(self.image, (w * 50 //100, h *50//100))
 		self.w = self.image.get_width()
 		self.h = self.image.get_height()
 		self.rect = self.image.get_rect()

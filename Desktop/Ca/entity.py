@@ -37,6 +37,9 @@ class fish(pygame.sprite.Sprite):
 		self.rpos = pos
 		self.name = name + ".png"
 		self.image = pygame.image.load(self.name)
+		w = self.image.get_width()
+		h = self.image.get_height()
+		self.image = pygame.transform.scale(self.image, (w * 50 //100, h *50//100))
 		self.Game = Game
 		self.bg = bg
 		self.mob = mob
@@ -139,10 +142,15 @@ class fish(pygame.sprite.Sprite):
 		self.delay += 1
 
 		self.image = pygame.image.load(self.name).convert_alpha()
+		w = self.image.get_width()
+		h = self.image.get_height()
+		self.image = pygame.transform.scale(self.image, (w * 50 //100, h *50//100))
+
 		x = self.rpos[0] + bg.x
 		y = self.rpos[1] + bg.y
 		x = min(x, bg.w - self.w)
 		y = min(y, bg.h - self.h)
+
 		self.pos = (x, y)
 		self.rect.center = (self.w/2 + self.pos[0], self.h/2 + self.pos[1])
 		self.mask = pygame.mask.from_surface(self.image)

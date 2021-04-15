@@ -17,6 +17,9 @@ class mob2(fish):
 		image = pygame.image.load("big_bullet.png")
 		w = image.get_width()
 		h = image.get_height()
+		pygame.transform.scale(image, (w * 50//100, h *50//100))
+		w = image.get_width()
+		h = image.get_height()
 		self.bg = bg
 		if self.direction == "LEFT":
 			x1 = self.pos[0] - w/2

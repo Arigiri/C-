@@ -25,6 +25,7 @@ SPLASH_TIME = 15 #0.x second
 BIG_BULLET_SPEED = 65
 BIG_BULLET_WAIT = 100
 ROAR_TIME = 50
+RATIO = 50//100
 image1 = pygame.image.load("HP1.png")
 image2 = pygame.image.load("HP2.png")
 image3 = pygame.image.load("HP3.png")
