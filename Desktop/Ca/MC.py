@@ -134,24 +134,22 @@ class mc(pygame.sprite.Sprite):
 	old_dash = 0
 	def Dash(self):
 		curr_time = pygame.time.get_ticks()
-		print(self.direction1)
+		
 		if curr_time - self.old_dash>= DASH_TIME * 100 and self.old_dash != 0:
 			self.old_dash = 0
 			self.dash = False
-		else:
-			if self.old_dash == 0:
+			return
+		if self.old_dash == 0:
 				self.old_dash = curr_time
+		if self.vx == 0 and self.vy == 0:
 			if self.direction == "LEFT":
-				self.vx -= DASH_SPEED
-			else:
-				self.vx +=  DASH_SPEED
-
-			if self.direction1 == "UP":
-				if self.vy != 0:
-					self.vy -= DASH_SPEED
-			elif self.direction1 == "DOWN":
-				if self.vy != 0:
-					self.vy += DASH_SPEED
+				self.vx = -DASH_SPEED
+			elif self.direction == "RIGHT":
+				self.vx =  DASH_SPEED
+		else:
+			self.vx *= DASH_RATIO
+			self.vy *= DASH_RATIO
+			# self.dash = False
 
 		
 	def Fire(self, bg):

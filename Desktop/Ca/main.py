@@ -98,7 +98,7 @@ def process():
 		hit.health -= SPLASH_DAMAGE
 	if len(Game.Blade_mc) >= 1:
 		hits = pygame.sprite.groupcollide(Game.mobs, Game.Blade_mc, False, False, pygame.sprite.collide_mask)
-		for hit in hits:
+		for hit in hits:  
 			if hit.shield:
 				hit.health -= BLADE_DAMAGE//3
 			else:
