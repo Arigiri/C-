@@ -5,7 +5,7 @@ from random import *
 from Bullet import *
 from time import *
 from setting import *
-import pygame
+import pygame	
 
 ### MAIN CHARACTER ###
 
@@ -120,13 +120,6 @@ class mc(pygame.sprite.Sprite):
 			self.delay %= 5
 			self.img += 1
 		pygame.mouse.set_pos((self.Game.width/2, self.Game.height/2))
-
-
-
-
-
-	def kill(self): #xóa
-		self.name = ""
 
 	def Fire(self, bg):
 		if self.direction == "LEFT":

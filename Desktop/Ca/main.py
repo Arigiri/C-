@@ -44,7 +44,7 @@ def health_bar(fish):
 
 def end_stage():
 	if len(Game.mobs)== 0:
-		Game.load(bg)
+		Game.load(bg, Fish1)
 		print(1)
 
 def process():
@@ -53,7 +53,6 @@ def process():
 	#stage
 	end_stage() 
 	#process events
-	# Blade = blade()
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			exit()
@@ -103,12 +102,6 @@ def process():
 			if hit.health <= 0:
 					hit.kill()
 
-	# for hit in hits:
-	# 	if hit.shield:
-	# 		hit.health -= BLADE_DAMAGE
-	# 		if hit.health == 0:
-	# 			hit.kill()
-	
 	#update mobs_0
 	Game.mobs.update(bg, Fish1, Game) 
 	#mobs attack
@@ -160,10 +153,12 @@ if __name__ == '__main__':
 	Menu = menu(Game)
 	while(Menu.update()):
 		pass
-	Game.load(bg)
-	Game.setup(bg)
-	Main_Fish = pygame.sprite.GroupSingle()
+	
 	Fish1 = mc((Game.width/2, Game.height/2), "ca21", Game, bg, MC_HEALTH + 1)
+	Game.load(bg, Fish1)
+	Game.setup(bg, Fish1)
+	Main_Fish = pygame.sprite.GroupSingle()
+	
 	Main_Fish.add(Fish1)
 
 

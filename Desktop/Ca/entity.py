@@ -36,6 +36,8 @@ class fish(pygame.sprite.Sprite):
 		self.pos = pos
 		self.rpos = pos
 		self.name = name + ".png"
+		if name == "":
+			return
 		self.image = pygame.image.load(self.name)
 		w = self.image.get_width()
 		h = self.image.get_height()
@@ -155,10 +157,18 @@ class fish(pygame.sprite.Sprite):
 		self.rect.center = (self.w/2 + self.pos[0], self.h/2 + self.pos[1])
 		self.mask = pygame.mask.from_surface(self.image)
 		self.dead(mc)
-		self.run()
+		self.run(bg)
 
-	def run(self):
+	def run(self, bg):
 		self.rpos = (self.rpos[0] + self.vx, self.rpos[1] + self.vy)
+		x = self.rpos[0]
+		y = self.rpos[1]
+		x = max(x, 0)
+		y = max(y, 0)
+		x = min(x, bg.w - self.w)
+		y = min(y, bg.h - self.h)
+		self.rpos = (x, y)
+
 
 	
 

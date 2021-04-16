@@ -23,7 +23,16 @@ class game:
 
 		self.Buttons = pygame.sprite.Group()
 		self.Buttons.add(self.menu.button)
-	def setup(self, bg):
+	def spawn(self, bg, mc, fish):
+		x = randint(0, bg.w * 6 // 8)
+		y = randint(0, bg.h * 6 // 8)
+		while (x >= mc.pos[0] - fish.w and x <= mc.pos[0] + mc.w - fish.w and y >= mc.pos[1] - fish.h and y <= mc.pos[1] + mc.h - fish.h):
+			x = randint(0, bg.w * 6 // 8)
+			y = randint(0, bg.h * 6 // 8)
+
+		return (x, y)
+
+	def setup(self, bg, mc):
 		#sprite group
 		self.mobs = pygame.sprite.Group()
 		self.mobs_0 = pygame.sprite.Group()
@@ -34,15 +43,28 @@ class game:
 		self.Bullet_Mobs = pygame.sprite.Group()
 		self.Blade_mc = pygame.sprite.Group()
 		#mobs spawn
-		Fish = [mob0((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca3", self, bg, 100)  for i in range(number_of_mob_0)]
-		Fish0 = [mob4((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca41", self, bg, 100) for i in range(number_of_mob_4)]
-		Fish1 = [mob1((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca12", self, bg, 100) for i in range(number_of_mob_1)]
-		Fish2 = [mob2((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca12", self, bg, 100) for i in range(number_of_mob_2)]
-		for fish in Fish:
-			self.mobs_0.add(fish)
-			self.mobs.add(fish)
+		tmp = mob0()
+		Fish0 = []
+		for i in range(number_of_mob_0):
+			Fish0.append(mob0(self.spawn(bg, mc, tmp), "ca3", self, bg, 100))
+		tmp = mob1()
+		Fish1 = []
+		for i in range(number_of_mob_1):
+			Fish1.append(mob1(self.spawn(bg, mc, tmp), "ca12", self, bg, 100))
+		tmp = mob2()
+		Fish2 = []
+		for i in range(number_of_mob_2):
+			Fish2.append(mob2(self.spawn(bg, mc, tmp), "ca12", self, bg, 100))
+		tmp = mob4()
+		Fish4 = []
+		for i in range(number_of_mob_4):
+			Fish4.append(mob4(self.spawn(bg, mc, tmp), "ca41", self, bg, 100))
+		# Fish = [mob0((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca3", self, bg, 100)  for i in range(number_of_mob_0)]
+		# Fish0 = [mob4((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca41", self, bg, 100) for i in range(number_of_mob_4)]
+		# Fish1 = [mob1((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca12", self, bg, 100) for i in range(number_of_mob_1)]
+		# Fish2 = [mob2((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca12", self, bg, 100) for i in range(number_of_mob_2)]
 		for fish in Fish0:
-			self.mobs_4.add(fish)
+			self.mobs_0.add(fish)
 			self.mobs.add(fish)
 		for fish in Fish1:
 			self.mobs_1.add(fish)
@@ -50,7 +72,10 @@ class game:
 		for fish in Fish2:
 			self.mobs_2.add(fish)
 			self.mobs.add(fish)
-	def load(self, bg):
+		for fish in Fish4:
+			self.mobs_4.add(fish)
+			self.mobs.add(fish)
+	def load(self, bg, mc):
 		fade = 100
 		
 		f = open("stage" + str(self.stage) + ".txt", "r")
@@ -61,15 +86,15 @@ class game:
 		f.close()
 		global number_of_mob_0
 		number_of_mob_0 = int(kt[0])
-		self.setup(bg)
+		self.setup(bg, mc)
 		# x = self.width/2
 		# y = self.height/2
-		while(tme):
-			bg.draw(self.screen)
-			tme -= 1
-			img = self.font.render('Stage ' + str(self.stage), True, (255, 255, fade))
-			self.screen.blit(img, (self.width/2 - img.get_width()/2, self.height/2 - img.get_height()/2))
-			fade -= 1
-			pygame.display.update()
-			sleep(0.0005)
+		# while(tme):
+		# 	bg.draw(self.screen)
+		# 	tme -= 1
+		# 	img = self.font.render('Stage ' + str(self.stage), True, (255, 255, fade))
+		# 	self.screen.blit(img, (self.width/2 - img.get_width()/2, self.height/2 - img.get_height()/2))
+		# 	fade -= 1
+		# 	pygame.display.update()
+		# 	sleep(0.0005)
 		self.stage += 1

@@ -22,7 +22,7 @@ class mob2(fish):
 		h = image.get_height()
 		self.bg = bg
 		if self.direction == "LEFT":
-			x1 = self.pos[0] - w/2
+			x1 = self.pos[0] - self.w
 		else:
 			x1  = self.pos[0]
 		y1 = self.pos[1] + self.h/2
