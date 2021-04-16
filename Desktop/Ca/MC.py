@@ -29,7 +29,7 @@ class mc(pygame.sprite.Sprite):
 	maxhealth = 0
 	bullet = [bullet()]
 	direction = "LEFT"
-
+	dash = False
 	mousepos = 0
 	
 	move = 1
@@ -76,6 +76,8 @@ class mc(pygame.sprite.Sprite):
 		mousepos = pygame.mouse.get_pos()
 		self.vx = -(self.mousepos[0] - mousepos[0]) * MAIN_SPEED
 		self.vy = -(self.mousepos[1] - mousepos[1]) * MAIN_SPEED
+		if self.dash:
+			self.Dash()
 		if self.mousepos[0] > mousepos[0]:
 			self.direction = "LEFT"
 		elif self.mousepos[0] < mousepos[0]:
@@ -121,6 +123,15 @@ class mc(pygame.sprite.Sprite):
 			self.img += 1
 		pygame.mouse.set_pos((self.Game.width/2, self.Game.height/2))
 
+	old_dash = 0
+	def Dash(self):
+		curr_time = pygame.time.get_ticks()
+		if -(self.old_dash - curr_time) or self.old_dash == 0>= DASH_TIME:
+			self.vx *= DASH_SPEED
+			self.vy *= DASH_SPEED
+			old_dash = curr_time
+			# print(1)
+		self.dash = False
 	def Fire(self, bg):
 		if self.direction == "LEFT":
 			Bullet = bullet((self.pos[0] - self.bullet[0].w , self.pos[1] + self.h/2), self.Game, bg, "dan.png")

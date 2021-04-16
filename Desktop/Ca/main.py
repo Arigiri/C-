@@ -59,7 +59,11 @@ def process():
 		elif event.type == KEYDOWN and event.key == K_F4:
 			exit()
 		if event.type == MOUSEBUTTONDOWN:
-			Game.Blade_mc.add(Blade(Fish1)) 
+			if event.button == 1:
+				Game.Blade_mc.add(Blade(Fish1)) 
+			else:
+				for fish in Main_Fish:
+					fish.dash = True
 
 		if event.type == KEYDOWN and event.key == K_SPACE:
 			Game.Bullet_Main.add(Fish1.Fire(bg))
@@ -68,10 +72,6 @@ def process():
 				Game.Pause = True
 			else:
 				Game.Pause = False
-	if pygame.mouse.get_pressed()[0]==True:
-		for blade in Game.Blade_mc:
-			if blade.update(Fish1):
-				blade.kill()
 	if Game.Pause == True:
 		pygame.mouse.set_pos(Game.width/2, Game.height/2)
 		Game.menu.draw(Game.screen)
