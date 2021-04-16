@@ -60,6 +60,7 @@ def process():
 			exit()
 		if event.type == MOUSEBUTTONDOWN:
 			Game.Blade_mc.add(Blade(Fish1)) 
+
 		if event.type == KEYDOWN and event.key == K_SPACE:
 			Game.Bullet_Main.add(Fish1.Fire(bg))
 		if (event.type == KEYDOWN and event.key == K_ESCAPE) or (event.type == MOUSEBUTTONDOWN and Game.menu.button.get_clicked()) :
@@ -67,7 +68,10 @@ def process():
 				Game.Pause = True
 			else:
 				Game.Pause = False
-
+	if pygame.mouse.get_pressed()[0]==True:
+		for blade in Game.Blade_mc:
+			if blade.update(Fish1):
+				blade.kill()
 	if Game.Pause == True:
 		pygame.mouse.set_pos(Game.width/2, Game.height/2)
 		Game.menu.draw(Game.screen)
@@ -118,7 +122,7 @@ def process():
 	for fish in Game.mobs_1:
 		fish.Roar()
 	for blade in Game.Blade_mc:
-		if blade.update():
+		if blade.update(Fish1):
 			blade.kill()
 	Game.Bullet_Mobs.update(bg,"mobs_0")
 	
