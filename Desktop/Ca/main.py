@@ -81,14 +81,14 @@ def process():
 	bg.update(Fish1)
 	
 	#bullet hit fish
-	hits = pygame.sprite.groupcollide(Game.mobs, Game.Bullet_Main, False, True, pygame.sprite.collide_mask)
+	hits = pygame.sprite.groupcollide(Game.mobs, Game.Bullet_Main, False, True, pygame.sprite.collide_rect)
 	for hit in hits:
 		if not hit.shield:
 			hit.health -= MAIN_DAMAGE
 			if hit.health <= 0:
 				hit.name = ""
 				hit.kill()
-	hits = pygame.sprite.groupcollide(Main_Fish, Game.Bullet_Mobs, False, True, pygame.sprite.collide_mask)
+	hits = pygame.sprite.groupcollide(Main_Fish, Game.Bullet_Mobs, False, True, pygame.sprite.collide_rect)
 	for hit in hits:
 		if hit.immune:
 			continue
