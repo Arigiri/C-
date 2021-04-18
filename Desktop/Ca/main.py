@@ -29,7 +29,7 @@ def health_bar(fish):
 
 	mw = fish.Game.width - 30  - x
 	health_len = mw/100
-	nw = fish.health * health_len
+	nw = int(fish.health * health_len) - 10
 	#health bg
 	pygame.draw.rect(Game.screen, COLOR2, (x + w2, y, Game.width - 30 - x - w2 + 10, image2.get_height()))
 	Game.screen.blit(image2, (x, y))
@@ -38,7 +38,14 @@ def health_bar(fish):
 	Game.screen.blit(image6, (x + 15, y + 6))
 	pygame.draw.rect(Game.screen, COLOR1, (x  + w4, y + 10, Game.width - 30 - x - w2 + 26, image4.get_height()))
 	if(fish.health == fish.maxhealth):Game.screen.blit(image4, (x + 15, y + 10))
-	if(fish.health > 7):pygame.draw.rect(Game.screen, COLOR3, (Game.width - nw+ 10, y + 10, nw - 30, image4.get_height() - 1))
+	if fish.health > 0:
+		image = image3.copy()
+		image = pygame.transform.scale(image, (h, nw))
+		image = pygame.transform.rotate(image, 90)
+		k = image.get_width()
+		x = Game.width - nw
+		x = min(x, Game.width - k)
+		Game.screen.blit(image, (x, y + 10))
 	else:
 		exit()
 
@@ -79,9 +86,16 @@ def process():
 		return
 	#update
 	bg.update(Fish1)
-	
+	#check fish in current screen
+	mobs = []
+	gm = pygame.sprite.GroupSingle()
+	gm.add(Game)
+	hits = pygame.sprite.groupcollide(Game.mobs, gm, False, False, pygame.sprite.collide_rect)
+	for hit in hits:
+		mobs.append(hit)
+
 	#bullet hit fish
-	hits = pygame.sprite.groupcollide(Game.mobs, Game.Bullet_Main, False, True, pygame.sprite.collide_rect)
+	hits = pygame.sprite.groupcollide(mobs, Game.Bullet_Main, False, True, pygame.sprite.collide_rect)
 	for hit in hits:
 		if not hit.shield:
 			hit.health -= MAIN_DAMAGE
@@ -93,11 +107,11 @@ def process():
 		if hit.immune:
 			continue
 		hit.health -= BULLET_DAMAGE	
-	hits = pygame.sprite.groupcollide(Main_Fish, Game.mobs, False, False, pygame.sprite.collide_mask)
+	hits = pygame.sprite.groupcollide(Main_Fish, mobs, False, False, pygame.sprite.collide_mask)
 	for hit in hits:
 		hit.health -= SPLASH_DAMAGE
 	if len(Game.Blade_mc) >= 1:
-		hits = pygame.sprite.groupcollide(Game.mobs, Game.Blade_mc, False, False, pygame.sprite.collide_mask)
+		hits = pygame.sprite.groupcollide(mobs, Game.Blade_mc, False, False, pygame.sprite.collide_mask)
 		for hit in hits:  
 			if hit.shield:
 				hit.health -= BLADE_DAMAGE//3

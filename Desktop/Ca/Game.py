@@ -7,7 +7,7 @@ from Mob1 import *
 from Mob2 import *
 from entity import *
 from Blade import *
-class game:
+class game(pygame.sprite.Sprite):
 	screen = 0
 	width = 0
 	height = 0
@@ -15,11 +15,17 @@ class game:
 	Pause = False
 
 	def __init__(self):
+		pygame.sprite.Sprite.__init__(self)
+
 		pygame.init()
 		self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 		self.width, self.height = pygame.display.get_surface().get_size()
 		self.font = pygame.font.SysFont(None, 72)
 		self.menu = setting_menu(self)
+		self.rect = self.screen.get_rect()
+		# self.rect.lefttop = (0, 0)
+		self.rect.center = (self.width/2, self.height/2)
+		# self.rect.rightbottom = (self.width, self.height)
 
 		self.Buttons = pygame.sprite.Group()
 		self.Buttons.add(self.menu.button)
@@ -31,6 +37,7 @@ class game:
 			y = randint(0, bg.h * 6 // 8)
 
 		return (x, y)
+	# def update(self):
 
 	def setup(self, bg, mc):
 		#sprite group
