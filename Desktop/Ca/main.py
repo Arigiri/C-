@@ -48,12 +48,26 @@ def health_bar(fish):
 		Game.screen.blit(image, (x, y + 10))
 	else:
 		exit()
-
+def draw_stamia(fish):
+	rx = fish.pos[0] + fish.w +fish.sw
+	ry = fish.pos[1] + fish.sh
+	h = fish.sh/FULL_STAMIA * fish.stamia
+	lx = rx - fish.sw
+	ly = ry - h
+	pygame.draw.rect(Game.screen, RED,  (lx, ly, fish.sw, h))
+	Game.screen.blit(fish.stamia_image, (fish.pos[0] + fish.w, fish.pos[1]))
 def end_stage():
 	if len(Game.mobs)== 0:
 		Game.load(bg, Fish1)
 		print(1)
-
+def get_mobs_on_screen(Game, bg):
+	mobs = pygame.sprite.Group()
+	posl = (-bg.x, -bg.y)
+	posr = (-bg.x + Game.width, -bg.y + Game.height)
+	for mob in Game.mobs:
+		if (mob.rpos[0] >= posl[0] and mob.rpos[0] <= posr[0] and mob.rpos[1] >= posl[1] and mob.rpos[1] <= posr[1]) or (mob.rpos[0] + mob.w >= posl[0] and mob.rpos[0] + mob.w <= posr[0] and mob.rpos[1] + mob.h >= posl[1] and mob.rpos[1] + mob.h <= posr[1]):
+			mobs.add(mob)
+	return mobs
 def process():
 	#set fps
 	Time.tick(fps)
@@ -67,13 +81,17 @@ def process():
 			exit()
 		if event.type == MOUSEBUTTONDOWN:
 			if event.button == 1:
-				Game.Blade_mc.add(Blade(Fish1)) 
+				blade = Blade(Fish1)
+				if blade.blade != "":
+					Game.Blade_mc.add(blade) 
 			else:
 				for fish in Main_Fish:
 					fish.dash = True
 
 		if event.type == KEYDOWN and event.key == K_SPACE:
-			Game.Bullet_Main.add(Fish1.Fire(bg))
+			bullet = Fish1.Fire(bg)
+			if bullet.name != "":
+				Game.Bullet_Main.add(bullet)
 		if (event.type == KEYDOWN and event.key == K_ESCAPE) or (event.type == MOUSEBUTTONDOWN and Game.menu.button.get_clicked()) :
 			if Game.Pause == False:
 				Game.Pause = True
@@ -86,14 +104,11 @@ def process():
 		return
 	#update
 	bg.update(Fish1)
-	#check fish in current screen
-	mobs = []
-	gm = pygame.sprite.GroupSingle()
-	gm.add(Game)
-	hits = pygame.sprite.groupcollide(Game.mobs, gm, False, False, pygame.sprite.collide_rect)
-	for hit in hits:
-		mobs.append(hit)
 
+	#check fish in current screen
+	mobs = pygame.sprite.Group()
+	mobs = get_mobs_on_screen(Game, bg)
+	# mobs = Game.mobs
 	#bullet hit fish
 	hits = pygame.sprite.groupcollide(mobs, Game.Bullet_Main, False, True, pygame.sprite.collide_rect)
 	for hit in hits:
@@ -160,7 +175,9 @@ def process():
 	for fish in Game.mobs:
 		fish.draw_health()
 	health_bar(Fish1)	
-
+	#draw stamia
+	for fish in Main_Fish:
+		draw_stamia(fish)
 	#update display
 	pygame.display.flip()
 	pygame.display.update()	

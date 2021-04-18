@@ -40,6 +40,11 @@ class mc(pygame.sprite.Sprite):
 		self.rpos = pos
 		self.name = name + ".png"
 		self.image = pygame.image.load(self.name)
+		self.stamia_image = pygame.image.load("stamia.png")
+		sw = self.stamia_image.get_width()
+		sh = self.stamia_image.get_height()
+		
+		self.stamia = FULL_STAMIA
 		w = self.image.get_width()
 		h = self.image.get_height()
 		self.image = pygame.transform.scale(self.image, (w * RATIO //100, h *RATIO//100))
@@ -47,6 +52,11 @@ class mc(pygame.sprite.Sprite):
 		self.w = self.image.get_width()
 		self.h = self.image.get_height()
 		self.bg = bg
+		rate = sw/sh
+		self.stamia_image = pygame.transform.scale(self.stamia_image, (int(rate * self.h), self.h))
+		self.sw = self.stamia_image.get_width()
+		self.sh = self.stamia_image.get_height()
+
 		self.rect = self.image.get_rect()
 		self.rect.center = (self.pos[0] + self.w/2, self.pos[1] + self.h/2)
 
@@ -129,18 +139,23 @@ class mc(pygame.sprite.Sprite):
 			self.image = pygame.transform.scale(self.image, (w * RATIO //100, h *RATIO//100))
 			self.delay %= 5
 			self.img += 1
+		self.stamia += STAMIA_RESTORE
+		self.stamia = min(self.stamia, FULL_STAMIA)
 		pygame.mouse.set_pos((self.Game.width/2, self.Game.height/2))
+
 
 	old_dash = 0
 	def Dash(self):
 		curr_time = pygame.time.get_ticks()
-		
+		if self.stamia < DASH_STAMIA:
+			return
 		if curr_time - self.old_dash>= DASH_TIME * 100 and self.old_dash != 0:
 			self.old_dash = 0
 			self.dash = False
 			return
 		if self.old_dash == 0:
-				self.old_dash = curr_time
+			self.stamia -= DASH_STAMIA
+			self.old_dash = curr_time
 		if self.vx == 0 and self.vy == 0:
 			if self.direction == "LEFT":
 				self.vx = -DASH_SPEED
@@ -153,6 +168,9 @@ class mc(pygame.sprite.Sprite):
 
 		
 	def Fire(self, bg):
+		if self.stamia < FIRE_STAMIA:
+			return bullet()
+		self.stamia -= FIRE_STAMIA
 		if self.direction == "LEFT":
 			Bullet = bullet((self.pos[0] - self.bullet[0].w , self.pos[1] + self.h/2), self.Game, bg, "dan.png")
 			Bullet.vx = -BULLET_SPEED

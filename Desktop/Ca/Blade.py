@@ -4,7 +4,11 @@ class Blade(pygame.sprite.Sprite):
 	blade = ""
 	old_time = 0
 	K = True
+	blade = ""
 	def __init__(self, mc):
+		if mc.stamia < BLADE_STAMIA:
+			return
+		mc.stamia -= BLADE_STAMIA
 		pygame.sprite.Sprite.__init__(self)
 		curr_time = pygame.time.get_ticks()
 		self.old_time = curr_time
@@ -29,6 +33,8 @@ class Blade(pygame.sprite.Sprite):
 
 	
 	def update(self, mc):
+		if self.blade == "":
+			return
 		self.blade = "slash"
 		if mc.direction == "LEFT":
 			self.pos = (mc.pos[0] - mc.w/2, mc.pos[1] )#- mc.h//3)

@@ -7,7 +7,7 @@ from Mob1 import *
 from Mob2 import *
 from entity import *
 from Blade import *
-class game(pygame.sprite.Sprite):
+class game():
 	screen = 0
 	width = 0
 	height = 0
@@ -22,9 +22,8 @@ class game(pygame.sprite.Sprite):
 		self.width, self.height = pygame.display.get_surface().get_size()
 		self.font = pygame.font.SysFont(None, 72)
 		self.menu = setting_menu(self)
-		self.rect = self.screen.get_rect()
+	
 		# self.rect.lefttop = (0, 0)
-		self.rect.center = (self.width/2, self.height/2)
 		# self.rect.rightbottom = (self.width, self.height)
 
 		self.Buttons = pygame.sprite.Group()
@@ -35,9 +34,7 @@ class game(pygame.sprite.Sprite):
 		while (x >= mc.pos[0] - fish.w and x <= mc.pos[0] + mc.w - fish.w and y >= mc.pos[1] - fish.h and y <= mc.pos[1] + mc.h - fish.h):
 			x = randint(0, bg.w * 6 // 8)
 			y = randint(0, bg.h * 6 // 8)
-
 		return (x, y)
-	# def update(self):
 
 	def setup(self, bg, mc):
 		#sprite group
@@ -66,10 +63,6 @@ class game(pygame.sprite.Sprite):
 		Fish4 = []
 		for i in range(number_of_mob_4):
 			Fish4.append(mob4(self.spawn(bg, mc, tmp), "ca41", self, bg, 100))
-		# Fish = [mob0((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca3", self, bg, 100)  for i in range(number_of_mob_0)]
-		# Fish0 = [mob4((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca41", self, bg, 100) for i in range(number_of_mob_4)]
-		# Fish1 = [mob1((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca12", self, bg, 100) for i in range(number_of_mob_1)]
-		# Fish2 = [mob2((randint(0, bg.w * 6 // 8), randint(0, bg.h * 6 // 8)), "ca12", self, bg, 100) for i in range(number_of_mob_2)]
 		for fish in Fish0:
 			self.mobs_0.add(fish)
 			self.mobs.add(fish)
@@ -94,14 +87,4 @@ class game(pygame.sprite.Sprite):
 		global number_of_mob_0
 		number_of_mob_0 = int(kt[0])
 		self.setup(bg, mc)
-		# x = self.width/2
-		# y = self.height/2
-		# while(tme):
-		# 	bg.draw(self.screen)
-		# 	tme -= 1
-		# 	img = self.font.render('Stage ' + str(self.stage), True, (255, 255, fade))
-		# 	self.screen.blit(img, (self.width/2 - img.get_width()/2, self.height/2 - img.get_height()/2))
-		# 	fade -= 1
-		# 	pygame.display.update()
-		# 	sleep(0.0005)
 		self.stage += 1
