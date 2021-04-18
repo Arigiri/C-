@@ -26,10 +26,9 @@ def health_bar(fish):
 	w4 = image6.get_width()
 	h = image3.get_height()
 	fish.health = max(fish.health, 0)
-
-	mw = fish.Game.width - 30  - x
-	health_len = mw/100
-	nw = int(fish.health * health_len) - 10
+	health_len = (Game.width - 30 - x - 15)/fish.maxhealth
+	mw = health_len * fish.maxhealth
+	nw = (fish.health * health_len)
 	#health bg
 	pygame.draw.rect(Game.screen, COLOR2, (x + w2, y, Game.width - 30 - x - w2 + 10, image2.get_height()))
 	Game.screen.blit(image2, (x, y))
@@ -39,13 +38,10 @@ def health_bar(fish):
 	pygame.draw.rect(Game.screen, COLOR1, (x  + w4, y + 10, Game.width - 30 - x - w2 + 26, image4.get_height()))
 	if(fish.health == fish.maxhealth):Game.screen.blit(image4, (x + 15, y + 10))
 	if fish.health > 0:
-		image = image3.copy()
-		image = pygame.transform.scale(image, (h, nw))
-		image = pygame.transform.rotate(image, 90)
-		k = image.get_width()
-		x = Game.width - nw
-		x = min(x, Game.width - k)
-		Game.screen.blit(image, (x, y + 10))
+		lx = x + 15 + image4.get_width() - nw + mw
+		ly = y + 10
+		pygame.draw.rect(Game.screen, COLOR3, (lx, ly, nw - 15, image4.get_height()))
+
 	else:
 		exit()
 def draw_stamia(fish):
