@@ -38,6 +38,7 @@ class fish(pygame.sprite.Sprite):
 		self.name = name + ".png"
 		if name == "":
 			return
+		
 		self.image = pygame.image.load(self.name)
 		w = self.image.get_width()
 		h = self.image.get_height()
@@ -47,7 +48,7 @@ class fish(pygame.sprite.Sprite):
 		self.mob = mob
 		self.change = 0
 		self.mouth = 1
-		if self.mob == 3:
+		if self.mob == 0:
 			self.mouth = ""
 		self.yet = 1
 		self.w = self.image.get_width()

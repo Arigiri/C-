@@ -132,13 +132,15 @@ def process():
 					hit.kill()
 
 	#update mobs_0
+
 	Game.mobs.update(bg, Fish1, Game) 
+
 	#mobs attack
 	for fish in Game.mobs_0:
 		bullet = fish.Fire(Fish1, bg, Game)
 		if bullet.name != "":
 			Game.Bullet_Mobs.add(bullet)
-	for fish in Game.mobs_2:
+	for fish in Game.mobs_2:	
 		bullet = fish.Fire(Fish1, bg, Game)
 		if bullet.name != "":
 			Game.Bullet_Mobs.add(bullet)
@@ -146,22 +148,31 @@ def process():
 		fish.Slash(Fish1)
 	for fish in Game.mobs_1:
 		fish.Roar()
+	for fish in Game.mobs_3:
+		if fish.freeze.name == "":
+			fish.LIGHT()
+		else:
+			fish.freeze.update(Fish1)
+			fish.LIGHT()
 	for blade in Game.Blade_mc:
 		if blade.update(Fish1):
 			blade.kill()
-	Game.Bullet_Mobs.update(bg,"mobs_0")
+	Game.Bullet_Mobs.update(bg,"mobs_0", Fish1)
 	
 
 	#mc update
 	Main_Fish.update(bg)
 	Game.Bullet_Main.update(bg, "MAIN")
-
 	#draw
 	bg.draw(Game.screen)
 	Game.mobs.draw(Game.screen)
 	Game.Bullet_Main.draw(Game.screen)
 	Game.Bullet_Mobs.draw(Game.screen)
 	Game.Buttons.draw(Game.screen)
+	
+	for fish in Game.mobs_3:
+		if fish.freeze.name != "":
+			fish.freeze.draw(Game.screen)
 	Main_Fish.draw(Game.screen)
 	for blade in Game.Blade_mc:
 		if blade.image != "":
@@ -177,6 +188,7 @@ def process():
 	#update display
 	pygame.display.flip()
 	pygame.display.update()	
+
 
 if __name__ == '__main__':
 	Game = game()

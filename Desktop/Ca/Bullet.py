@@ -2,6 +2,7 @@ import pygame
 from Game import *
 from bg import *
 from setting import *
+from math import *
 class bullet(pygame.sprite.Sprite):
 	pos = (0, 0)
 	rpos = (0, 0)
@@ -16,6 +17,7 @@ class bullet(pygame.sprite.Sprite):
 	v = 50
 	life = 0
 	direction = 0
+	angle = 0
 	def __init__(self, pos = 0, Game = 0, bg = 0, name = "", vx = 0, vy = 0):
 		pygame.sprite.Sprite.__init__(self)
 		self.pos = pos
@@ -42,7 +44,7 @@ class bullet(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		self.rect.center = (self.pos[0] + self.w/2, self.pos[1] + self.h/2)
 
-	def update(self, bg, type):
+	def update(self, bg, type, mc):
 		if self.name == "":
 			return
 		
@@ -58,10 +60,17 @@ class bullet(pygame.sprite.Sprite):
 		# 	self.kill()
 			self.run()
 		else:
+			
 			x = self.rpos[0] - self.bgx + bg.x
 			y = self.rpos[1] - self.bgy + bg.y
 			self.pos = (x, y)
 			self.rect.center = (self.pos[0] + self.w/2, self.pos[1] + self.h/2)
+			if type == "mobs_0" and self.angle == 0:
+				mcx = mc.pos[0] - self.rpos[0]
+				mcy = mc.pos[1] - self.rpos[1]
+				self.angle = atan(mcy/mcx) /pi * 180
+
+				self.image = pygame.transform.rotate(self.image, self.angle)
 			self.run()
 
 	def run(self):

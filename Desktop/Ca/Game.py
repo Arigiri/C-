@@ -5,6 +5,7 @@ from Mob4 import *
 from Mob0 import *
 from Mob1 import *
 from Mob2 import *
+from Mob3 import *
 from entity import *
 from Blade import *
 class game():
@@ -43,6 +44,7 @@ class game():
 		self.mobs_4 = pygame.sprite.Group()
 		self.mobs_1 = pygame.sprite.Group()
 		self.mobs_2 = pygame.sprite.Group()
+		self.mobs_3 = pygame.sprite.Group()
 		self.Bullet_Main = pygame.sprite.Group()
 		self.Bullet_Mobs = pygame.sprite.Group()
 		self.Blade_mc = pygame.sprite.Group()
@@ -50,7 +52,7 @@ class game():
 		tmp = mob0()
 		Fish0 = []
 		for i in range(number_of_mob_0):
-			Fish0.append(mob0(self.spawn(bg, mc, tmp), "ca3", self, bg, 100))
+			Fish0.append(mob0(self.spawn(bg, mc, tmp), "ca0", self, bg, 100))
 		tmp = mob1()
 		Fish1 = []
 		for i in range(number_of_mob_1):
@@ -59,6 +61,10 @@ class game():
 		Fish2 = []
 		for i in range(number_of_mob_2):
 			Fish2.append(mob2(self.spawn(bg, mc, tmp), "ca12", self, bg, 100))
+		tmp = mob3()
+		Fish3 = []
+		for i in range(number_of_mob_3):
+			Fish3.append(mob3(self.spawn(bg, mc, tmp), "cas31", self, bg, 100))
 		tmp = mob4()
 		Fish4 = []
 		for i in range(number_of_mob_4):
@@ -71,6 +77,9 @@ class game():
 			self.mobs.add(fish)
 		for fish in Fish2:
 			self.mobs_2.add(fish)
+			self.mobs.add(fish)
+		for fish in Fish3:
+			self.mobs_3.add(fish)
 			self.mobs.add(fish)
 		for fish in Fish4:
 			self.mobs_4.add(fish)

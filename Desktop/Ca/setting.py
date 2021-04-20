@@ -9,7 +9,7 @@ number_of_mob_4 = 1
 HEALTH_HEIGHT = 25
 fps = 60
 #main statistic
-MAIN_SPEED = 1
+MAIN_SPEED = 3
 MAIN_DAMAGE = 25
 MC_HEALTH = 100
 MC_IMMUNE_TIME = 25
@@ -32,6 +32,8 @@ BIG_BULLET_WAIT = 100
 #mob 4 statistic
 SPLASH_DAMAGE = 1.5
 SPLASH_TIME = 15 #0.x second
+#mob 3 statistic
+FREEZE_TIME = 15
 #dash statistic
 DASH_SPEED = 75
 DASH_DISTANT = 50
