@@ -162,7 +162,7 @@ def process():
 
 	#mc update
 	Main_Fish.update(bg)
-	Game.Bullet_Main.update(bg, "MAIN")
+	Game.Bullet_Main.update(bg, "MAIN", Fish1)
 	#draw
 	bg.draw(Game.screen)
 	Game.mobs.draw(Game.screen)

@@ -18,7 +18,7 @@ class mob0(fish):
 		name = ""
 		if self.direction == "LEFT":
 			x1 = self.pos[0] - self.bullet[0].w
-			name = "bullet1"
+			name = "bullet2"
 		else:
 			x1  = self.pos[0] + self.w
 			name = "bullet2"

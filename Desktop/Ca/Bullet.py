@@ -68,12 +68,12 @@ class bullet(pygame.sprite.Sprite):
 			if type == "mobs_0" and self.angle == 0:
 				mcx = mc.pos[0] - self.rpos[0]
 				mcy = mc.pos[1] - self.rpos[1]
-				self.angle = atan(mcy/mcx) /pi * 180
+				self.angle = atan2(-mcy,mcx)
+				self.angle %= 2*pi
+				self.angle = degrees(self.angle)
 
 				self.image = pygame.transform.rotate(self.image, self.angle)
 			self.run()
 
 	def run(self):
 		self.rpos = (self.rpos[0] + self.vx, self.rpos[1] + self.vy)
-	
-
