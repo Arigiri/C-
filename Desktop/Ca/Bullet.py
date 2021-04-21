@@ -28,6 +28,7 @@ class bullet(pygame.sprite.Sprite):
 		self.vx = vx
 		self.vy = vy
 		self.life = BULLET_LIFE_TIME
+		self.begin = pos
 		if(self.name == ""):
 			return
 
@@ -47,10 +48,14 @@ class bullet(pygame.sprite.Sprite):
 	def update(self, bg, type, mc):
 		if self.name == "":
 			return
-		
-		self.life -= 1
-		if self.life == 0:
+		a = (self.rpos[0] - self.begin[0])
+		b = self.rpos[1] - self.begin[1]
+		a *= a
+		b *= b
+		dist = (a + b) ** (1/2)
+		if dist > BULLET_DISTANCE:
 			self.kill()
+
 		if type == "MAIN":
 			x = self.rpos[0] + bg.x - self.bgx
 			y = self.rpos[1] + bg.y - self.bgy
