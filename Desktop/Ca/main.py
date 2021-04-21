@@ -137,14 +137,14 @@ def process():
 
 	#mobs attack
 	for fish in mobs:
-		if fish.mob == 0:
+		if fish.mob == 0 or fish.mob == 2:
 			bullet = fish.Fire(Fish1, bg, Game)
 			if bullet.name != "":
 				Game.Bullet_Mobs.add(bullet)
-	for fish in Game.mobs_2:	
-		bullet = fish.Fire(Fish1, bg, Game)
-		if bullet.name != "":
-			Game.Bullet_Mobs.add(bullet)
+	# for fish in Game.mobs_2:	
+	# 	bullet = fish.Fire(Fish1, bg, Game)
+	# 	if bullet.name != "":
+	# 		Game.Bullet_Mobs.add(bullet)
 	for fish in Game.mobs_4:
 		fish.Slash(Fish1)
 	for fish in Game.mobs_1:
