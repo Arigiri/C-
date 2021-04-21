@@ -136,10 +136,11 @@ def process():
 	Game.mobs.update(bg, Fish1, Game) 
 
 	#mobs attack
-	for fish in Game.mobs_0:
-		bullet = fish.Fire(Fish1, bg, Game)
-		if bullet.name != "":
-			Game.Bullet_Mobs.add(bullet)
+	for fish in mobs:
+		if fish.mob == 0:
+			bullet = fish.Fire(Fish1, bg, Game)
+			if bullet.name != "":
+				Game.Bullet_Mobs.add(bullet)
 	for fish in Game.mobs_2:	
 		bullet = fish.Fire(Fish1, bg, Game)
 		if bullet.name != "":
