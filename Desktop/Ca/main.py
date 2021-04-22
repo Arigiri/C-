@@ -50,7 +50,7 @@ def draw_stamia(fish):
 	h = fish.sh/FULL_STAMIA * fish.stamia
 	lx = rx - fish.sw
 	ly = ry - h
-	pygame.draw.rect(Game.screen, RED,  (lx, ly, fish.sw, h))
+	pygame.draw.rect(Game.screen, YELLOW,  (lx, ly, fish.sw, h))
 	Game.screen.blit(fish.stamia_image, (fish.pos[0] + fish.w, fish.pos[1]))
 def end_stage():
 	if len(Game.mobs)== 0:
@@ -132,7 +132,15 @@ def process():
 					hit.kill()
 
 	#update mobs_0
-
+	sp = pygame.sprite.Group()
+	for fish in mobs:
+		if fish.mob == 3:
+			if fish.LIGHT():
+				sp.add(fish.freeze)
+	hits = pygame.sprite.groupcollide(Main_Fish, sp,False, False, pygame.sprite.collide_mask)
+	for hit in hits:
+		hit.Slow = True
+		hit.Slow = SLOW_TIME
 	Game.mobs.update(bg, Fish1, Game) 
 
 	#mobs attack
@@ -149,12 +157,10 @@ def process():
 		fish.Slash(Fish1)
 	for fish in Game.mobs_1:
 		fish.Roar()
-	for fish in Game.mobs_3:
-		if fish.freeze.name == "":
-			fish.LIGHT()
-		else:
-			fish.freeze.update(Fish1)
-			fish.LIGHT()
+	# for fish in Game.mobs_3:
+	# 	if fish.LIGHT():
+			# sp.update(fish)
+
 	for blade in Game.Blade_mc:
 		if blade.update(Fish1):
 			blade.kill()
@@ -170,11 +176,10 @@ def process():
 	Game.Bullet_Main.draw(Game.screen)
 	Game.Bullet_Mobs.draw(Game.screen)
 	Game.Buttons.draw(Game.screen)
-	
-	for fish in Game.mobs_3:
-		if fish.freeze.name != "":
-			fish.freeze.draw(Game.screen)
 	Main_Fish.draw(Game.screen)
+	for light in sp:
+		light.draw(Game.screen)
+
 	for blade in Game.Blade_mc:
 		if blade.image != "":
 			Game.Blade_mc.draw(Game.screen)

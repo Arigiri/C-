@@ -30,6 +30,7 @@ class mc(pygame.sprite.Sprite):
 	bullet = [bullet()]
 	direction = "LEFT"
 	direction1 = "UP"
+	Slow = False
 	dash = False
 	mousepos = 0
 	
@@ -72,6 +73,7 @@ class mc(pygame.sprite.Sprite):
 	# blade = ""
 	old_time = 0
 	image1 = ""
+	Slow_Time = SLOW_TIME
 	def draw_blade(self, game):
 		if self.image1 != "":
 			if self.direction == "RIGHT":
@@ -87,6 +89,13 @@ class mc(pygame.sprite.Sprite):
 		mousepos = pygame.mouse.get_pos()
 		self.vx = -(self.mousepos[0] - mousepos[0]) * MAIN_SPEED
 		self.vy = -(self.mousepos[1] - mousepos[1]) * MAIN_SPEED
+
+		if self.Slow and self.Slow_Time:
+			self.vx = max(self.vx, SLOW)
+			self.vy = max(self.vy, SLOW)
+			self.Slow_Time -= 1
+		if self.Slow_Time <= 0:
+			self.Slow = False
 		if self.dash:
 			self.Dash()
 		if self.mousepos[0] > mousepos[0]:

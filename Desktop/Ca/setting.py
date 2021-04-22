@@ -4,7 +4,7 @@ import pygame
 number_of_mob_0 = 10
 number_of_mob_1 = 1
 number_of_mob_2 = 1
-number_of_mob_3 = 0
+number_of_mob_3 = 1
 number_of_mob_4 = 1
 HEALTH_HEIGHT = 25
 fps = 60
@@ -14,6 +14,8 @@ MAIN_DAMAGE = 25
 MC_HEALTH = 100
 MC_IMMUNE_TIME = 25
 FULL_STAMIA = 100
+SLOW = 10
+SLOW_TIME = 10
 #Blade statistic
 BLADE_DAMAGE = 8.5
 MAIN_BLADE = 1
@@ -34,7 +36,8 @@ BIG_BULLET_WAIT = 100
 SPLASH_DAMAGE = 1.5
 SPLASH_TIME = 15 #0.x second
 #mob 3 statistic
-FREEZE_TIME = 15
+FREEZE_TIME = 75
+FREEZE_DELAY = 75
 #dash statistic
 DASH_SPEED = 75
 DASH_DISTANT = 50
