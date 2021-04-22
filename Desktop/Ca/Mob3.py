@@ -46,7 +46,7 @@ class mob3(fish):
 		curr_time = pygame.time.get_ticks()
 		
 		if self.freeze_delay == 0 and curr_time - self.old_time >= FREEZE_DELAY * 100 :
-			print(1)
+
 			self.freeze_delay = 1
 			self.old_time = curr_time
 			self.freeze = Freeze((0,0), "freeze1.png", self)

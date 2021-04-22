@@ -90,11 +90,11 @@ class mc(pygame.sprite.Sprite):
 		self.vx = -(self.mousepos[0] - mousepos[0]) * MAIN_SPEED
 		self.vy = -(self.mousepos[1] - mousepos[1]) * MAIN_SPEED
 
-		if self.Slow and self.Slow_Time:
-			self.vx = max(self.vx, SLOW)
-			self.vy = max(self.vy, SLOW)
+		if self.Slow > 0 and self.Slow_Time > 0:
+			self.vx -= SLOW
+			self.vy -= SLOW
 			self.Slow_Time -= 1
-		if self.Slow_Time <= 0:
+		elif self.Slow_Time <= 0:
 			self.Slow = False
 		if self.dash:
 			self.Dash()

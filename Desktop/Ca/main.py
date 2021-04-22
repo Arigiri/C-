@@ -118,11 +118,11 @@ def process():
 		if hit.immune:
 			continue
 		hit.health -= BULLET_DAMAGE	
-	hits = pygame.sprite.groupcollide(Main_Fish, mobs, False, False, pygame.sprite.collide_mask)
+	hits = pygame.sprite.groupcollide(Main_Fish, mobs, False, False, pygame.sprite.collide_rect)
 	for hit in hits:
 		hit.health -= SPLASH_DAMAGE
 	if len(Game.Blade_mc) >= 1:
-		hits = pygame.sprite.groupcollide(mobs, Game.Blade_mc, False, False, pygame.sprite.collide_mask)
+		hits = pygame.sprite.groupcollide(mobs, Game.Blade_mc, False, False, pygame.sprite.collide_rect)
 		for hit in hits:  
 			if hit.shield:
 				hit.health -= BLADE_DAMAGE//3
@@ -137,10 +137,12 @@ def process():
 		if fish.mob == 3:
 			if fish.LIGHT():
 				sp.add(fish.freeze)
-	hits = pygame.sprite.groupcollide(Main_Fish, sp,False, False, pygame.sprite.collide_mask)
+	hits = pygame.sprite.groupcollide(Main_Fish, sp,False, False, pygame.sprite.collide_rect)
 	for hit in hits:
-		hit.Slow = True
-		hit.Slow = SLOW_TIME
+		hit.Slow = 1
+		hit.Slow_Time = SLOW_TIME
+	for fish in Main_Fish:
+		print(fish.Slow)
 	Game.mobs.update(bg, Fish1, Game) 
 
 	#mobs attack
