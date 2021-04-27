@@ -76,8 +76,9 @@ class bullet(pygame.sprite.Sprite):
 				self.angle = atan2(-mcy,mcx)
 				self.angle %= 2*pi
 				self.angle = degrees(self.angle)
-
 				self.image = pygame.transform.rotate(self.image, self.angle)
+				self.vx /= BULLET_SPEED
+				self.vy /= BULLET_SPEED
 			self.run()
 
 	def run(self):

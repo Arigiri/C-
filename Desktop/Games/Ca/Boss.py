@@ -21,10 +21,10 @@ class Boss(fish):
 	old_time_phase_2 = 0
 	CD_phase_2 = 1000
 	def draw_health(self, Game):
-		max_len = Game.width * 2 / 3
+		max_len = Game.width * 2 / 4
 		health_percent = self.health/self.maxhealth
-		x = (Game.width - max_len)/2
-		y = Game.height/6
+		x = (Game.width - max_len)/6
+		y = Game.height/30
 		COLOR1 = (111, 116, 111)
 		COLOR2 = (58, 58, 58)
 		COLOR3 = (34,255,4)

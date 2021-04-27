@@ -56,6 +56,10 @@ class mob4(fish):
 		else: self.vx = 1
 		if p[1] < 0: self.vy = -1
 		else: self.vy = 1
+		if p[0] == 0:
+			p[0] = 1
+		if p[1] == 0:
+			p[1] = 1
 		self.vx *= MOBS_SPEED 
 		self.vy *= MOBS_SPEED / abs(p[0]) * abs(p[1])
 		self.vy = min(self.vy, MOBS_SPEED * 2.5)

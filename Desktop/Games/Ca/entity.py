@@ -19,8 +19,8 @@ class fish(pygame.sprite.Sprite):
 	bg = 0 #background
 	vx = 0 #vận tốc x
 	vy = 0 # vận tốc y
-	maxv = 5 #vận tốc max
-	minv = -5 #vận tốc min
+	maxv = 3 #vận tốc max
+	minv = -3 #vận tốc min
 	shield = False
 	health = 0
 	maxhealth = 0

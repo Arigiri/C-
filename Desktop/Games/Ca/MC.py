@@ -191,10 +191,10 @@ class mc(pygame.sprite.Sprite):
 		self.stamia -= FIRE_STAMIA
 		if self.direction == "LEFT":
 			Bullet = bullet((self.pos[0] - self.bullet[0].w , self.pos[1] + self.h/2), self.Game, bg, "bullet1.png")
-			Bullet.vx = -BULLET_SPEED
+			Bullet.vx = -MC_BULLET_SPEED 
 			Bullet.vy = 0
 		else:
 			Bullet = bullet((self.pos[0]  + self.w, self.pos[1] + self.h/2), self.Game, bg, "bullet2.png")
-			Bullet.vx = BULLET_SPEED
+			Bullet.vx = MC_BULLET_SPEED 
 			Bullet.vy = 0
 		return Bullet
