@@ -51,6 +51,7 @@ class mob3(fish):
 			self.old_time = curr_time
 			self.freeze = Freeze((0,0), "mob3\\freeze1.png", self)
 			name = "mob3\\freeze"
+			tt = "ca3"
 			if self.direction == "LEFT":
 				x = self.pos[0]  - self.freeze.w
 				y = self.pos[1] - self.h/2 - self.h/4 #+ self.freeze.h/2
@@ -59,14 +60,22 @@ class mob3(fish):
 				x = self.pos[0] + self.w# + self.freeze.w
 				y = self.pos[1] - self.h/2 - self.h/4
 				name += "2"
+				tt = "cas3"
 			self.freeze = Freeze((x,y), name + ".png", self)
+			self.name = "mob3\\" + tt + "F.png"
+			self.fire = True
 		elif curr_time - self.old_time > FREEZE_TIME * 100 and self.freeze_delay != 0:
 			self.freeze.kill()
 			self.old_time = curr_time
 			self.freeze_delay = 0
+			self.fire = False
 			return False
 		elif self.freeze_delay == 1:
 			self.freeze.update(self)
+			tt = "ca3"
+			if self.direction == "RIGHT":
+				tt = "cas3"
+			self.name = "mob3\\" + tt + "F.png"
 
 		return self.freeze_delay == 1
 		

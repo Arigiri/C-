@@ -29,7 +29,7 @@ class fish(pygame.sprite.Sprite):
 	bullet = [bullet()]
 	direction = "LEFT"
 	number_of_animation = 2
-
+	fire = False
 	delay = 0
 	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0, mob = ""): #khai báo
 		pygame.sprite.Sprite.__init__(self)
@@ -124,7 +124,7 @@ class fish(pygame.sprite.Sprite):
 			self.vy = randint(self.minv, self.maxv)
 
 	def name_detect(self):
-		if self.mob == 100:
+		if self.mob == 100 or self.fire:
 			return
 		if self.direction == "LEFT":
 			self.name = "ca" + str(self.mob) 

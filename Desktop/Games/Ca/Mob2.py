@@ -10,6 +10,7 @@ class mob2(fish):
 			self.Del = 0
 		else:
 			self.Del += 1
+			self.fire = False
 			return bullet()
 		
 		x = mc.pos[0] + mc.w/2
@@ -21,12 +22,15 @@ class mob2(fish):
 		w = image.get_width()
 		h = image.get_height()
 		self.bg = bg
+		tt = "ca2"
 		if self.direction == "LEFT":
 			x1 = self.pos[0] - self.w
 		else:
 			x1  = self.pos[0]
+			tt = "cas2"
 		y1 = self.pos[1] + self.h/2
-		
+		self.image = pygame.image.load("mob2\\" + tt + "F.png")
+		self.fire = True
 		vx = x - (x1 + w/2)
 		vy = y - (y1 + h/2)
 		p1 = mc.rect.center
