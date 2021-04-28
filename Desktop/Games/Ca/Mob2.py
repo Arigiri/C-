@@ -14,7 +14,7 @@ class mob2(fish):
 		
 		x = mc.pos[0] + mc.w/2
 		y = mc.pos[1] + mc.h/2
-		image = pygame.image.load("big_bullet.png")
+		image = pygame.image.load("mob2\\big_bullet.png")
 		w = image.get_width()
 		h = image.get_height()
 		pygame.transform.scale(image, (w * RATIO//100, h *RATIO//100))
@@ -37,5 +37,5 @@ class mob2(fish):
 		# 	vx *= 3
 		# 	vy *= 3
 		pygame.display.update()
-		Bullet = bullet((x1, y1), self.Game, bg, "big_bullet.png", vx//BIG_BULLET_SPEED, vy//BIG_BULLET_SPEED)
+		Bullet = bullet((x1, y1), self.Game, bg, "mob2\\big_bullet.png", vx//BIG_BULLET_SPEED, vy//BIG_BULLET_SPEED)
 		return Bullet

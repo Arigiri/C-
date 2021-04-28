@@ -22,7 +22,7 @@ class Freeze(pygame.sprite.Sprite):
 	def update(self, fish):
 		if self.name == "":
 			return
-		name = "freeze"
+		name = "mob3\\freeze"
 		if fish.direction == "LEFT":
 			x = fish.pos[0] - self.w
 			y = fish.pos[1] - fish.h/2 - fish.h/4
@@ -49,8 +49,8 @@ class mob3(fish):
 
 			self.freeze_delay = 1
 			self.old_time = curr_time
-			self.freeze = Freeze((0,0), "freeze1.png", self)
-			name = "freeze"
+			self.freeze = Freeze((0,0), "mob3\\freeze1.png", self)
+			name = "mob3\\freeze"
 			if self.direction == "LEFT":
 				x = self.pos[0]  - self.freeze.w
 				y = self.pos[1] - self.h/2 - self.h/4 #+ self.freeze.h/2

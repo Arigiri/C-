@@ -12,9 +12,9 @@ class mob1(fish):
 
 	def name_detect(self):
 		if self.direction == "LEFT":
-			self.name = "ca" + str(self.mob) + str(self.mouth) + ".png"
+			self.name = "mob1\\ca" + str(self.mob) + str(self.mouth) + ".png"
 		else:
-			self.name = "cas" + str(self.mob) + str(self.mouth) + ".png" 
+			self.name = "mob1\\cas" + str(self.mob) + str(self.mouth) + ".png" 
 	def Roar(self):
 		curr_time = pygame.time.get_ticks()
 		if curr_time - self.old_time >= ROAR_TIME * 100:

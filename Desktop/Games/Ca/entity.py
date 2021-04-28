@@ -28,6 +28,7 @@ class fish(pygame.sprite.Sprite):
 	stay = False
 	bullet = [bullet()]
 	direction = "LEFT"
+	number_of_animation = 2
 
 	delay = 0
 	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0, mob = ""): #khai báo
@@ -38,7 +39,7 @@ class fish(pygame.sprite.Sprite):
 		self.name = name + ".png"
 		if name == "":
 			return
-		
+
 		self.image = pygame.image.load(self.name)
 		w = self.image.get_width()
 		h = self.image.get_height()
@@ -48,8 +49,8 @@ class fish(pygame.sprite.Sprite):
 		self.mob = mob
 		self.change = 0
 		self.mouth = 1
-		if self.mob == 0:
-			self.mouth = ""
+		# if self.mob == 0:
+		# 	self.mouth = ""
 		self.yet = 1
 		self.w = self.image.get_width()
 		self.h = self.image.get_height()
@@ -65,6 +66,7 @@ class fish(pygame.sprite.Sprite):
 		self.vy = randint(self.minv, self.maxv)
 
 		self.health_len = self.w / maxhealth
+		self.cot = 0
 
 	def draw_health(self):
 		if self.mob == 100:
@@ -122,10 +124,15 @@ class fish(pygame.sprite.Sprite):
 			self.vy = randint(self.minv, self.maxv)
 
 	def name_detect(self):
+		if self.mob == 100:
+			return
 		if self.direction == "LEFT":
-			self.name = "ca" + str(self.mob) + str(self.mouth) + ".png"
+			self.name = "ca" + str(self.mob) 
 		else:
-			self.name = "cas" + str(self.mob) + str(self.mouth) + ".png"
+			self.name = "cas" + str(self.mob) 
+		self.name = "mob" + str(self.mob) + "\\" + self.name + str(self.cot % self.number_of_animation + 1)
+		self.cot += 1
+		self.name = self.name +".png"
 	def update(self, bg, mc, game): #update bot
 		self.bg = bg
 		if self.name == "":
@@ -150,12 +157,11 @@ class fish(pygame.sprite.Sprite):
 			self.direction = "RIGHT"
 		else:
 			self.direction = "LEFT"
-		
 		self.name_detect()
-		
 		self.delay += 1
-		
+
 		self.image = pygame.image.load(self.name).convert_alpha()
+
 		w = self.image.get_width()
 		h = self.image.get_height()
 		self.image = pygame.transform.scale(self.image, (w * RATIO //100, h *RATIO//100))

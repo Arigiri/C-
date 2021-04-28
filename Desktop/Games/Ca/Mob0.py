@@ -5,6 +5,7 @@ class mob0(fish):
 	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0):
 		super(mob0, self).__init__(pos, name, Game, bg, maxhealth, 0)
 	Del = 0
+	ani = 0
 	def Fire(self, mc, bg, game):		
 		if self.Del >= BULLET_WAIT:
 			self.Del = 0

@@ -16,9 +16,9 @@ class mob4(fish):
 		super(mob4, self).__init__(pos, name, Game, bg, maxhealth, 4)
 	def name_detect(self):
 		if self.direction == "LEFT":
-			self.name = "ca" + str(self.mob) + self.nm + ".png"
+			self.name = "mob4\\ca" + str(self.mob) + self.nm + ".png"
 		else:
-			self.name = "cas" + str(self.mob) + self.nm + ".png"
+			self.name = "mob4\\cas" + str(self.mob) + self.nm + ".png"
 	old_time = 0
 	def Slash(self, fish):
 		self.Slash_Wait -= 1

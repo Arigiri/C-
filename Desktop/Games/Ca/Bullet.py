@@ -44,6 +44,7 @@ class bullet(pygame.sprite.Sprite):
 
 		self.rect = self.image.get_rect()
 		self.rect.center = (self.pos[0] + self.w/2, self.pos[1] + self.h/2)
+		self.delay = 0
 
 	def update(self, bg, type, mc):
 		if self.name == "":
@@ -61,8 +62,6 @@ class bullet(pygame.sprite.Sprite):
 			y = self.rpos[1] + bg.y - self.bgy
 			self.pos = (x, y)
 			self.rect.center = (self.pos[0] + self.w/2, self.pos[1] + self.h/2)
-		# if self.pos[0] < self.bg.x or self.pos[0] + self.w - bg.x > self.bg.w or self.pos[1] < bg.y or self.pos[1] + self.h - bg.y > self.bg.h:
-		# 	self.kill()
 			self.run()
 		else:
 			
@@ -79,6 +78,12 @@ class bullet(pygame.sprite.Sprite):
 				self.image = pygame.transform.rotate(self.image, self.angle)
 				self.vx /= BULLET_SPEED
 				self.vy /= BULLET_SPEED
+			if type == "boss":
+				self.name = "bosss1_animation" + "\\" + "\\" + "bullet" + str(self.delay % 4 + 1) + ".png"
+				self.image = pygame.image.load(self.name)
+				self.w = self.image.get_width()
+				self.h = self.image.get_height()
+				self.delay += 1
 			self.run()
 
 	def run(self):

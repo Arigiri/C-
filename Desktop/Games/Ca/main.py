@@ -168,7 +168,7 @@ def process():
 			blade.kill()
 	Game.Bullet_Mobs.update(bg,"mobs_0", Fish1)
 	for boss in Game.Boss:
-		boss.Bullet.update(bg, "Boss", Fish1)
+		boss.Bullet.update(bg, "boss", Fish1)
 
 	#mc update
 	Main_Fish.update(bg)
@@ -194,6 +194,7 @@ def process():
 	health_bar(Fish1)	
 	for fish in Game.Boss:
 		fish.Bullet.draw(Game.screen)
+		# fish.Laser.draw(Game.screen)
 		fish.draw_health(Game)
 	#draw stamia
 	for fish in Main_Fish:
