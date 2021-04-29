@@ -64,8 +64,10 @@ class mc(pygame.sprite.Sprite):
 
 		self.maxhealth = maxhealth
 		self.health = self.maxhealth
+		self.lives = MC_LIVES
 		self.mousepos = pos
 		self.mousepos = (self.Game.width/2, self.Game.height/2)
+
 		self.name_listc = []
 		for i in range(1, self.list_names + 1):
 			self.name_listc.append("mc" + str(i))
@@ -73,6 +75,7 @@ class mc(pygame.sprite.Sprite):
 		for i in range(1, self.list_names + 1):
 			self.name_lists.append("mcs" + str(i))
 		pygame.mouse.set_pos(self.mousepos)
+
 		
 
 		 
@@ -86,6 +89,7 @@ class mc(pygame.sprite.Sprite):
 				game.screen.blit(self.image1, (self.pos[0] + self.w, self.pos[1] + self.h//3))
 			else:
 				game.screen.blit(self.image1, (self.pos[0] - self.w, self.pos[1] + self.h//3))
+	
 
 	def update(self, bg): #update nhân vật chính
 		if self.move == 0:

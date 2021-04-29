@@ -37,14 +37,17 @@ def health_bar(fish):
 	
 	Game.screen.blit(image6, (x + 15, y + 6))
 	pygame.draw.rect(Game.screen, COLOR1, (x  + w4, y + 10, Game.width - 30 - x - w2 + 26, image4.get_height()))
+	for life in range(MC_LIVES):
+		img = pygame.image.load("tim2.png")
+		Game.screen.blit(img, (Game.width - img.get_width() - 10, y + 10))
 	if(fish.health == fish.maxhealth):Game.screen.blit(image4, (x + 15, y + 10))
 	if fish.health > 0:
 		lx = x + 15 + image4.get_width() - nw + mw
 		ly = y + 10
 		pygame.draw.rect(Game.screen, COLOR3, (lx, ly, nw - 15, image4.get_height()))
-
 	else:
 		exit()
+
 def draw_stamia(fish):
 	rx = fish.pos[0] + fish.w +fish.sw
 	ry = fish.pos[1] + fish.sh

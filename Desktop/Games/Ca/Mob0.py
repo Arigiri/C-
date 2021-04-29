@@ -29,12 +29,10 @@ class mob0(fish):
 		return (x * x + y * y) ** 1/2
 	def find_v(self, mc):
 		x0 = self.pos[0]
-		y0 = self.pos[0]
+		y0 = self.pos[1]
 		a = self.a
 		b = self.b
 		delta = (-2 * x0 + 2 * a * b - 2 * a * y0) * (-2 * x0 + 2 * a * b - 2 * a * y0) - 4 * (1 + a * a)* (x0 * x0 + (b - y0) * (b - y0) - BULLET_SPEED * BULLET_SPEED)
-		if delta < 0:
-			print(delta)
 		delta **= (1/2)
 		x1 = (2 * x0 - 2 * a * (b - y0))
 		x2 = x1 + delta
@@ -95,7 +93,9 @@ class mob0(fish):
 			vx, vy = a,b
 		else:
 			vx, vy = self.find_v(mc)
-		pygame.display.update()
+			vx = vx - self.pos[0]
+			vy = vy - self.pos[1]
+			print(vx, vy)
 		Bullet = bullet((x1, y1), self.Game, bg, name + ".png", vx, vy)
 		return Bullet
 
