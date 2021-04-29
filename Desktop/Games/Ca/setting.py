@@ -21,7 +21,7 @@ SLOW_TIME = 10
 BLADE_DAMAGE = 8.5
 MAIN_BLADE = 1
 #MOBS statistic
-MOBS_SPEED = 15
+MOB_SPEED = 15
 #bullet statistic
 BULLET_SPEED = 8.5
 BULLET_DAMAGE = 10
@@ -31,7 +31,7 @@ BULLET_DISTANCE = 1200
 #mob1 statistic
 ROAR_TIME = 50
 #mob2 statistic
-BIG_BULLET_SPEED = 45
+BIG_BULLET_SPEED = 20
 BIG_BULLET_WAIT = 100
 #mob 4 statistic
 SPLASH_DAMAGE = 1.5
@@ -54,6 +54,7 @@ BG_SPEED = 25
 BLADE_STAMIA = 25
 #boss
 number_of_boss_1 = 1
+LASER_DAMAGE = 15
 image1 = pygame.image.load("HP1.png")
 image2 = pygame.image.load("HP2.png")
 image3 = pygame.image.load("HP3.png")

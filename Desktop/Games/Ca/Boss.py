@@ -9,8 +9,8 @@ class Laser(pygame.sprite.Sprite):
 		self.image1 = pygame.image.load("laser.png")
 		# self.image = pygame.transform.rotozoom(self.image1,rot, 1)
 		self.image = self.image1
-		self.rect = self.image.get_rect()
 		self.offset = pygame.Vector2(0, 250)
+		self.rect = self.image.get_rect(center=self.pos+self.offset)
 	def update(self, pos, rot):
 		self.pos = pos
 		self.rot = rot
@@ -91,11 +91,23 @@ class Boss(fish):
 			self.old_time_S2 = curr_time
 			self.S2_ATK = True
 			self.stay = True
-			self.laser = Laser((self.pos[0], self.pos[1] + self.h/2), self.angle)
+			pos = self.pos
+			if self.direction == "LEFT":
+				pos = (self.pos[0], self.pos[1] + self.h/2)
+			else:
+				pos = (self.pos[0] + self.w, self.pos[1] + self.h/2)
+			self.laser = Laser(pos, self.angle)
 			self.Laser.add(self.laser)
 		elif -self.old_time_S2 + curr_time < self.stay_time_s2:
 			self.angle += 3.5
-			self.Laser.update((self.pos[0], self.pos[1] + self.h/2), self.angle)
+			pos = self.pos
+			angle = self.angle
+			if self.direction == "LEFT":
+				pos = (self.pos[0], self.pos[1] + self.h/2)
+			else:
+				pos = (self.pos[0] + self.w, self.pos[1] + self.h/2)
+				angle *= -1
+			self.Laser.update(pos, angle)
 		else:
 			self.S2_ATK = False
 			self.stay = False
@@ -118,7 +130,7 @@ class Boss(fish):
 		O = self.rect.center
 		if curr_time - self.stay_time >= self.stay_time:
 			angle = alpha
-			for i in range(10):
+			for i in range(11):
 				vx1 = vx * cos(angle + rot) - vy * sin(angle + rot) + O[0]
 				vy1 = vx * sin(angle + rot) + vx * cos(angle + rot) + O[1]
 				vx2 = vx1 - O[0]

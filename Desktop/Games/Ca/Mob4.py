@@ -20,7 +20,7 @@ class mob4(fish):
 		else:
 			self.name = "mob4\\cas" + str(self.mob) + self.nm + ".png"
 	old_time = 0
-	def Slash(self, fish):
+	def Slash(self, fish, Game):
 		self.Slash_Wait -= 1
 		curr_time = pygame.time.get_ticks()
 		if curr_time - self.old_time >= SPLASH_TIME * 100:
@@ -32,35 +32,32 @@ class mob4(fish):
 		else:
 			self.nm = "2"
 		if self.Slash_Wait != 0:
+			self.fire = False
 			return
 		else: 
 			self.yet = False
 			self.Slash_Wait = 100
-		# x = fish.pos[0] + fish.w/2
-		# y = fish.pos[1] + fish.h/2
-		# x1 = self.pos[0] + self.w/2
-		# y1 = self.pos[1] + self.h/2
-		# vx = x - x1
-		# vy = y - y1
+
 		p1 = fish.rect.center
 		p2 = self.rect.center
 		p = (p1[0] - p2[0], p1[1] - p2[1])
-		# dist = (p[1] * p[1] + p[0] * p[0]) ** (1/2)
-		# if dist <= BULLET_SPEED * 100:
-		# 	vx *= 3
-		# 	vy *= 3
-		# self.vx = vx//MOBS_SPEED
-		# self.vy = vy//MOBS_SPEED
-		# rate = p[0] / p[1]
-		if p[0] < 0:self.vx = -1
-		else: self.vx = 1
-		if p[1] < 0: self.vy = -1
-		else: self.vy = 1
-		if p[0] == 0:
-			p[0] = 1
 		if p[1] == 0:
-			p[1] = 1
-		self.vx *= MOBS_SPEED 
-		self.vy *= MOBS_SPEED / abs(p[0]) * abs(p[1])
-		self.vy = min(self.vy, MOBS_SPEED * 2.5)
-		self.old_time = curr_time
+			if self.vx > 0:self.vx = BULLET_SPEED 
+			else: self.vx = -BULLET_SPEED
+			self.vy = 0
+		else:
+			ratio = p[0]/p[1]
+			if abs(self.vx) > abs(self.vy) and ratio > 1:
+				if self.vx > 0:
+					self.vx = MOB_SPEED
+				else:
+					self.vx = -MOB_SPEED
+				self.vy = self.vx/ratio
+			else:
+				if self.vy > 0:
+					self.vy = MOB_SPEED
+				else:
+					self.vy = -MOB_SPEED
+				self.vx = self.vy*ratio
+			self.old_time = curr_time
+			self.fire = True

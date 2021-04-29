@@ -132,8 +132,6 @@ class fish(pygame.sprite.Sprite):
 			self.name = "cas" + str(self.mob) 
 		if self.mob == 100:
 			self.name = "boss\\" + self.name + ".png"
-			if self.direction == "RIGHT":
-				print(self.name)
 			return
 		self.name = "mob" + str(self.mob) + "\\" + self.name + str(self.cot % self.number_of_animation + 1)
 		self.cot += 1

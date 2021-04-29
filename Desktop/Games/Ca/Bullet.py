@@ -76,8 +76,6 @@ class bullet(pygame.sprite.Sprite):
 				self.angle %= 2*pi
 				self.angle = degrees(self.angle)
 				self.image = pygame.transform.rotate(self.image, self.angle)
-				self.vx /= BULLET_SPEED
-				self.vy /= BULLET_SPEED
 			if type == "boss":
 				self.name = "bosss1_animation" + "\\" + "\\" + "bullet" + str(self.delay % 4 + 1) + ".png"
 				self.image = pygame.image.load(self.name)

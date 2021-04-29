@@ -9,6 +9,7 @@ import pygame
 from pygame.locals import *
 from random import *
 from Blade import *
+from minimap import *
 import time
 
 
@@ -109,7 +110,7 @@ def process():
 
 	hits = pygame.sprite.groupcollide(mobs, Game.Bullet_Main, False, True, pygame.sprite.collide_mask)
 	
-	for hit in hits:
+	for hit in hits:	
 		if not hit.shield:
 			hit.health -= MAIN_DAMAGE
 			if hit.health <= 0:
@@ -120,13 +121,18 @@ def process():
 		if hit.immune:
 			continue
 		hit.health -= BULLET_DAMAGE	
-	hits = pygame.sprite.groupcollide(Main_Fish, mobs, False, False, pygame.sprite.collide_rect)
+	hits = pygame.sprite.groupcollide(mobs, Main_Fish, False, False, pygame.sprite.collide_rect)
 	for hit in hits:
-		hit.health -= SPLASH_DAMAGE
+		if hit.mob == 4 or hit.mob == 1:
+			for fish in Main_Fish:
+				fish.health -= SPLASH_DAMAGE
 	for fish in Game.Boss:
 		hits = pygame.sprite.groupcollide(Main_Fish, fish.Bullet, False, True, pygame.sprite.collide_rect)
 		for hit in hits:
 			hit.health -= BULLET_DAMAGE
+		hits = pygame.sprite.groupcollide(Main_Fish, fish.Laser, False, False, pygame.sprite.collide_mask)
+		for hit in hits:
+			hit.health -= LASER_DAMAGE
 	if len(Game.Blade_mc) >= 1:
 		hits = pygame.sprite.groupcollide(mobs, Game.Blade_mc, False, False, pygame.sprite.collide_rect)
 		for hit in hits:  
@@ -159,7 +165,7 @@ def process():
 	for boss in Game.Boss:
 		boss.attack(bg, Game)
 	for fish in Game.mobs_4:
-		fish.Slash(Fish1)
+		fish.Slash(Fish1, Game)
 	for fish in Game.mobs_1:
 		fish.Roar()
 
@@ -174,6 +180,8 @@ def process():
 	#mc update
 	Main_Fish.update(bg)
 	Game.Bullet_Main.update(bg, "MAIN", Fish1)
+	#minimap update
+	Game.minimap.update(Game,bg, Fish1)
 	#draw
 	bg.draw(Game.screen)
 	Game.mobs.draw(Game.screen)
@@ -200,6 +208,12 @@ def process():
 	#draw stamia
 	for fish in Main_Fish:
 		draw_stamia(fish)
+	for fish in Game.mobs:
+		if fish.mob == 4:
+			if fish.fire:
+				pygame.draw.line(Game.screen, RED, Fish1.rect.center, fish.rect.center, 5)
+	#draw minimap
+	Game.minimap.draw(Game)
 	#update display
 	pygame.display.flip()
 	pygame.display.update()	

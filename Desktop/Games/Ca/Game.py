@@ -9,6 +9,7 @@ from Mob3 import *
 from entity import *
 from Blade import *
 from Boss import *
+from minimap import *
 class game():
 	screen = 0
 	width = 0
@@ -24,7 +25,7 @@ class game():
 		self.width, self.height = pygame.display.get_surface().get_size()
 		self.font = pygame.font.SysFont(None, 72)
 		self.menu = setting_menu(self)
-	
+		
 		# self.rect.lefttop = (0, 0)
 		# self.rect.rightbottom = (self.width, self.height)
 
@@ -39,6 +40,8 @@ class game():
 		return (x, y)
 
 	def setup(self, bg, mc):
+		self.bg = bg
+		self.minimap = minimap((self.width - bg.w * 1 / 20 - 3, self.height - bg.h * 1 / 20 - 3), self)
 		#sprite group
 		self.mobs = pygame.sprite.Group()
 		self.mobs_0 = pygame.sprite.Group()
