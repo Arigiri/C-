@@ -50,9 +50,10 @@ class bullet(pygame.sprite.Sprite):
 		if self.name == "":
 			return
 		a = (self.rpos[0] - self.begin[0])
-		b = self.rpos[1] - self.begin[1]
+		b = (self.rpos[1] - self.begin[1])
 		a *= a
 		b *= b
+		
 		dist = (a + b) ** (1/2)
 		if dist > BULLET_DISTANCE:
 			self.kill()

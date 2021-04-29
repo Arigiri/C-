@@ -6,6 +6,47 @@ class mob0(fish):
 		super(mob0, self).__init__(pos, name, Game, bg, maxhealth, 0)
 	Del = 0
 	ani = 0
+	def find_ab(self, mc):
+		x0 = self.pos[0]
+		y0 = self.pos[1]
+		x1 = mc.pos[0]
+		y1 = mc.pos[1]
+		D = x0 - x1
+		Dx = y0 - y1
+		Dy = y1 * x0 - x1 * y0
+		if D == 0:
+			return BULLET_SPEED, 0
+		x = Dx/D
+		y = Dy/D
+		return x, y
+	def distance(self,A, B):
+		x1 = A[0]
+		y1 = A[1]
+		x2 = B[0]
+		y2 = B[1]
+		x = x2 - x1
+		y = y2 - y1
+		return (x * x + y * y) ** 1/2
+	def find_v(self, mc):
+		x0 = self.pos[0]
+		y0 = self.pos[0]
+		a = self.a
+		b = self.b
+		delta = (-2 * x0 + 2 * a * b - 2 * a * y0) * (-2 * x0 + 2 * a * b - 2 * a * y0) - 4 * (1 + a * a)* (x0 * x0 + (b - y0) * (b - y0) - BULLET_SPEED * BULLET_SPEED)
+		if delta < 0:
+			print(delta)
+		delta **= (1/2)
+		x1 = (2 * x0 - 2 * a * (b - y0))
+		x2 = x1 + delta
+		x1 -= delta
+		y1 = x1 * a + b
+		y2 = x2 * a + b
+		A = self.distance((x1, y1), self.pos)
+		B = self.distance((x1, y1), mc.pos)
+		C = self.distance(self.pos, mc.pos)
+		if A + B == C:
+			return (x1, y1)
+		return (x2, y2)
 	def Fire(self, mc, bg, game):		
 		if self.Del >= BULLET_WAIT:
 			self.Del = 0
@@ -27,29 +68,33 @@ class mob0(fish):
 		
 		vx = x - x1
 		vy = y - y1
-		p1 = mc.rect.center
-		p2 = self.rect.center
-		p = (p1[0] - p2[0], p1[1] - p2[1])
-		dist = (p[1] * p[1] + p[0] * p[0]) ** (1/2)
-		if p[1] == 0:
-			vy = 0
-			if vx > 0:vx = BULLET_SPEED 
-			else: vx = -BULLET_SPEED
+		# p1 = mc.rect.center
+		# p2 = self.rect.center
+		# p = (p1[0] - p2[0], p1[1] - p2[1])
+		# dist = (p[1] * p[1] + p[0] * p[0]) ** (1/2)
+		# if p[1] == 0:
+		# 	vy = 0
+		# 	if vx > 0:vx = BULLET_SPEED 
+		# 	else: vx = -BULLET_SPEED
+		# else:
+		# 	ratio = p[0]/p[1]
+		# 	if abs(vx) > abs(vy) and ratio > 1:
+		# 		if vx > 0:
+		# 			vx = BULLET_SPEED
+		# 		else:
+		# 			vx = -BULLET_SPEED
+		# 		vy = vx/ratio
+		# 	else:
+		# 		if vy > 0:
+		# 			vy = BULLET_SPEED
+		# 		else:
+		# 			vy = -BULLET_SPEED
+		# 		vx = vy*ratio
+		self.a, self.b = self.find_ab(mc)
+		if self.b == 0:
+			vx, vy = a,b
 		else:
-			ratio = p[0]/p[1]
-			if abs(vx) > abs(vy) and ratio > 1:
-				if vx > 0:
-					vx = BULLET_SPEED
-				else:
-					vx = -BULLET_SPEED
-				vy = vx/ratio
-			else:
-				if vy > 0:
-					vy = BULLET_SPEED
-				else:
-					vy = -BULLET_SPEED
-				vx = vy*ratio
-
+			vx, vy = self.find_v(mc)
 		pygame.display.update()
 		Bullet = bullet((x1, y1), self.Game, bg, name + ".png", vx, vy)
 		return Bullet
