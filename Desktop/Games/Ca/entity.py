@@ -124,12 +124,17 @@ class fish(pygame.sprite.Sprite):
 			self.vy = randint(self.minv, self.maxv)
 
 	def name_detect(self):
-		if self.mob == 100 or self.fire:
+		if  self.fire:
 			return
 		if self.direction == "LEFT":
 			self.name = "ca" + str(self.mob) 
 		else:
 			self.name = "cas" + str(self.mob) 
+		if self.mob == 100:
+			self.name = "boss\\" + self.name + ".png"
+			if self.direction == "RIGHT":
+				print(self.name)
+			return
 		self.name = "mob" + str(self.mob) + "\\" + self.name + str(self.cot % self.number_of_animation + 1)
 		self.cot += 1
 		self.name = self.name +".png"

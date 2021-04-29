@@ -39,7 +39,7 @@ class Boss(fish):
 	old_time_S2 = 0
 	old_time_CD_ATK = 0
 	stay_time_s1 = 0
-	stay_time_s2 = 1500
+	stay_time_s2 = 5000
 	skill_CD = 5000
 	wait = 0
 	done = True
@@ -84,22 +84,23 @@ class Boss(fish):
 			self.phase += 1
 			self.reborn()
 
-	def Skill2(self, Game, bg):
+	def Skill2(self):
 		curr_time = pygame.time.get_ticks()
 		if not self.S2_ATK:
-			self.angle = -30
+			self.angle = 0
 			self.old_time_S2 = curr_time
 			self.S2_ATK = True
 			self.stay = True
 			self.laser = Laser((self.pos[0], self.pos[1] + self.h/2), self.angle)
 			self.Laser.add(self.laser)
-		elif self.old_time_S2 - curr_time < self.stay_time_s2:
-			self.angle += 1
+		elif -self.old_time_S2 + curr_time < self.stay_time_s2:
+			self.angle += 3.5
 			self.Laser.update((self.pos[0], self.pos[1] + self.h/2), self.angle)
-			pygame.draw.circle(Game.screen, RED, self.laser.pos, 3)
 		else:
 			self.S2_ATK = False
 			self.stay = False
+			for laser in self.Laser:
+				laser.kill()
 
 
 	def Skill1(self, Game, bg, rot):
@@ -127,9 +128,10 @@ class Boss(fish):
 				self.Bullet.add(bullet((vx1, vy1), Game, bg, "bosss1_animation\\bullet1.png",vx2, vy2))
 				angle += alpha
 	def phase1(self, Game, bg):
-		# self.Skill1(Game, bg, 0)
-
-		self.Skill2(Game, bg)
+		atkS = randint(0, 3)
+		if atkS <= 2 and not self.S2_ATK:
+			self.Skill1(Game, bg, 0)
+		else: self.Skill2()
 	
 	def phase2(self, Game, bg):
 		if self.done == True:
