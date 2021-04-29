@@ -7,15 +7,21 @@ class Laser(pygame.sprite.Sprite):
 		self.pos = pos
 		self.rot = rot
 		self.image1 = pygame.image.load("laser.png")
-		self.image = pygame.transform.rotozoom(self.image1,rot, 1)
+		# self.image = pygame.transform.rotozoom(self.image1,rot, 1)
+		self.image = self.image1
 		self.rect = self.image.get_rect()
+		self.offset = pygame.Vector2(0, 250)
 	def update(self, pos, rot):
 		self.pos = pos
 		self.rot = rot
+		self.rotate()
+
 		# self.image = pygame.image.load("laser.png")
-		self.image = pygame.transform.rotozoom(self.image1,rot, 1)
-		self.rect = self.image.get_rect()
-		print(1)
+	def rotate(self):
+		self.image = pygame.transform.rotozoom(self.image1, -self.rot, 1)
+		offset_rotated = self.offset.rotate(self.rot)
+		self.rect = self.image.get_rect(center=self.pos+offset_rotated)
+
 
 class Boss(fish):
 	phase = 0
@@ -77,6 +83,7 @@ class Boss(fish):
 		else: 
 			self.phase += 1
 			self.reborn()
+
 	def Skill2(self, Game, bg):
 		curr_time = pygame.time.get_ticks()
 		if not self.S2_ATK:
@@ -84,11 +91,12 @@ class Boss(fish):
 			self.old_time_S2 = curr_time
 			self.S2_ATK = True
 			self.stay = True
-			laser = Laser(self.rpos, self.angle)
-			self.Laser.add(laser)
+			self.laser = Laser((self.pos[0], self.pos[1] + self.h/2), self.angle)
+			self.Laser.add(self.laser)
 		elif self.old_time_S2 - curr_time < self.stay_time_s2:
 			self.angle += 1
-			self.Laser.update(self.rpos, self.angle)
+			self.Laser.update((self.pos[0], self.pos[1] + self.h/2), self.angle)
+			pygame.draw.circle(Game.screen, RED, self.laser.pos, 3)
 		else:
 			self.S2_ATK = False
 			self.stay = False
@@ -119,9 +127,9 @@ class Boss(fish):
 				self.Bullet.add(bullet((vx1, vy1), Game, bg, "bosss1_animation\\bullet1.png",vx2, vy2))
 				angle += alpha
 	def phase1(self, Game, bg):
-		self.Skill1(Game, bg, 0)
+		# self.Skill1(Game, bg, 0)
 
-		# self.Skill2(Game, bg)
+		self.Skill2(Game, bg)
 	
 	def phase2(self, Game, bg):
 		if self.done == True:

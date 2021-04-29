@@ -21,7 +21,7 @@ def health_bar(fish):
 	COLOR2 = (58, 58, 58)
 	COLOR3 = (34,255,4)
 	w1 = image1.get_width()
-	w2 = image2.get_width()
+	w2 = image2.get_width()	
 	w3 = image3.get_width()
 	w4 = image6.get_width()
 	h = image3.get_height()
@@ -169,6 +169,7 @@ def process():
 	Game.Bullet_Mobs.update(bg,"mobs_0", Fish1)
 	for boss in Game.Boss:
 		boss.Bullet.update(bg, "boss", Fish1)
+		# boss.Laser.update()
 
 	#mc update
 	Main_Fish.update(bg)
@@ -194,7 +195,7 @@ def process():
 	health_bar(Fish1)	
 	for fish in Game.Boss:
 		fish.Bullet.draw(Game.screen)
-		# fish.Laser.draw(Game.screen)
+		fish.Laser.draw(Game.screen)
 		fish.draw_health(Game)
 	#draw stamia
 	for fish in Main_Fish:
