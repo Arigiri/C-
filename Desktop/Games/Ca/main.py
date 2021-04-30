@@ -39,14 +39,21 @@ def health_bar(fish):
 	pygame.draw.rect(Game.screen, COLOR1, (x  + w4, y + 10, Game.width - 30 - x - w2 + 26, image4.get_height()))
 	for life in range(MC_LIVES):
 		img = pygame.image.load("tim2.png")
-		Game.screen.blit(img, (Game.width - img.get_width() - 10, y + 10))
+		Game.screen.blit(img, (Game.width - img.get_width() * (life + 1) - 30 * (life + 1), y + 10 + img.get_height()))
+	for life in range(fish.lives):
+		img = pygame.image.load("tim1.png")
+		Game.screen.blit(img, (Game.width - img.get_width() * (life + 1) - 30 * (life + 1), y + 10 + img.get_height()))
 	if(fish.health == fish.maxhealth):Game.screen.blit(image4, (x + 15, y + 10))
 	if fish.health > 0:
 		lx = x + 15 + image4.get_width() - nw + mw
 		ly = y + 10
 		pygame.draw.rect(Game.screen, COLOR3, (lx, ly, nw - 15, image4.get_height()))
 	else:
-		exit()
+		if fish.lives > 0:
+			fish.lives -= 1
+			fish.health = fish.maxhealth
+		else:
+			exit()
 
 def draw_stamia(fish):
 	rx = fish.pos[0] + fish.w +fish.sw
@@ -77,9 +84,8 @@ def process():
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			exit()
-		elif event.type == KEYDOWN and event.key == K_F4:
-			exit()
 		if event.type == MOUSEBUTTONDOWN:
+
 			if event.button == 1:
 				blade = Blade(Fish1)
 				if blade.blade != "":
@@ -87,21 +93,35 @@ def process():
 			else:
 				for fish in Main_Fish:
 					fish.dash = True
-
-		if event.type == KEYDOWN and event.key == K_SPACE:
-			bullet = Fish1.Fire(bg)
-			if bullet.name != "":
-				Game.Bullet_Main.add(bullet)
-		if (event.type == KEYDOWN and event.key == K_ESCAPE) or (event.type == MOUSEBUTTONDOWN and Game.menu.button.get_clicked()) :
-			if Game.Pause == False:
-				Game.Pause = True
-			else:
-				Game.Pause = False
+	d = pygame.key.get_pressed()
+	if d[K_ESCAPE]:
+		if Game.Pause == False:
+			Game.Pause = True
+			pygame.mouse.set_visible(True)
+		else:
+			Game.Pause = False
+			pygame.mouse.set_visible(False)
+	if d[K_SPACE]:
+		bullet = Fish1.Fire(bg)
+		if bullet.name != "":
+			Game.Bullet_Main.add(bullet)
+	if d[K_F4]:
+		exit()
 	if Game.Pause == True:
-		pygame.mouse.set_pos(Game.width/2, Game.height/2)
 		Game.menu.draw(Game.screen)
+		Game.Buttons.draw(Game.screen)
+		for button in Game.Buttons:
+			K = button.update(Game)
+			if K == False:
+				Game.Pause = False
 		pygame.display.flip()
+		for fish in Main_Fish:
+			fish.move = 0
 		return
+	else:
+		pygame.mouse.set_visible(False)
+
+
 	#update
 	bg.update(Fish1)
 
@@ -181,16 +201,16 @@ def process():
 		# boss.Laser.update()
 
 	#mc update
-	Main_Fish.update(bg)
+	Main_Fish.update(bg, Game)
 	Game.Bullet_Main.update(bg, "MAIN", Fish1)
 	#minimap update
 	Game.minimap.update(Game,bg, Fish1)
 	#draw
-	bg.draw(Game.screen)
+	bg.draw(Game.screen)	
 	Game.mobs.draw(Game.screen)
 	Game.Bullet_Main.draw(Game.screen)
 	Game.Bullet_Mobs.draw(Game.screen)
-	Game.Buttons.draw(Game.screen)
+	# Game.Buttons.draw(Game.screen)
 	Main_Fish.draw(Game.screen)
 	for light in sp:
 		light.draw(Game.screen)
@@ -226,8 +246,9 @@ if __name__ == '__main__':
 	Game = game()
 	bg = bg(-500, -500, Game)
 	Menu = menu(Game)
+	Time = pygame.time.Clock()
 	while(Menu.update()):
-		pass
+		Time.tick(fps)
 	
 	Fish1 = mc((Game.width/2, Game.height/2), "mc1", Game, bg, MC_HEALTH + 1)
 	Game.load(bg, Fish1)
@@ -237,7 +258,7 @@ if __name__ == '__main__':
 	Main_Fish.add(Fish1)
 
 
-	Time = pygame.time.Clock()
+	
 	curr_time = pygame.time.get_ticks()
 	while(1):
 		tme = pygame.time.get_ticks()

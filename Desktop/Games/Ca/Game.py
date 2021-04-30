@@ -16,7 +16,7 @@ class game():
 	height = 0
 	stage = 1
 	Pause = False
-
+	RATIO = 70
 	def __init__(self):
 		pygame.sprite.Sprite.__init__(self)
 
@@ -30,7 +30,8 @@ class game():
 		# self.rect.rightbottom = (self.width, self.height)
 
 		self.Buttons = pygame.sprite.Group()
-		self.Buttons.add(self.menu.button)
+		self.Buttons = self.menu.Buttons
+		# self.Buttons.add(self.menu.button)
 	def spawn(self, bg, mc, fish):
 		x = randint(0, bg.w * 6 // 8)
 		y = randint(0, bg.h * 6 // 8)

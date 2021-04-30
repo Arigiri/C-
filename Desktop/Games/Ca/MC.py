@@ -49,7 +49,7 @@ class mc(pygame.sprite.Sprite):
 		self.stamia = FULL_STAMIA
 		w = self.image.get_width()
 		h = self.image.get_height()
-		self.image = pygame.transform.scale(self.image, (w * RATIO //100, h *RATIO//100))
+		self.image = pygame.transform.scale(self.image, (w * Game.RATIO //100, h * Game.RATIO//100))
 		self.Game = Game
 		self.w = self.image.get_width()
 		self.h = self.image.get_height()
@@ -91,11 +91,12 @@ class mc(pygame.sprite.Sprite):
 				game.screen.blit(self.image1, (self.pos[0] - self.w, self.pos[1] + self.h//3))
 	
 
-	def update(self, bg): #update nhân vật chính
+	def update(self, bg, Game): #update nhân vật chính
 		if self.move == 0:
 			self.move = 1
 			pygame.mouse.set_pos((self.Game.width/2, self.Game.height/2))
 			return
+
 		mousepos = pygame.mouse.get_pos()
 		self.vx = -(self.mousepos[0] - mousepos[0]) * MAIN_SPEED
 		self.vy = -(self.mousepos[1] - mousepos[1]) * MAIN_SPEED
@@ -158,7 +159,7 @@ class mc(pygame.sprite.Sprite):
 			self.image = pygame.image.load(self.name)
 			w = self.image.get_width()
 			h = self.image.get_height()
-			self.image = pygame.transform.scale(self.image, (w * RATIO //100, h *RATIO//100))
+			self.image = pygame.transform.scale(self.image, (w * Game.RATIO //100, h * Game.RATIO//100))
 			self.delay %= 5
 			self.img += 1
 		self.stamia += STAMIA_RESTORE
