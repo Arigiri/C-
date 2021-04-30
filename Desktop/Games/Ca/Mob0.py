@@ -34,8 +34,8 @@ class mob0(fish):
 		b = self.b
 		delta = (-2 * x0 + 2 * a * b - 2 * a * y0) * (-2 * x0 + 2 * a * b - 2 * a * y0) - 4 * (1 + a * a) * (x0 * x0 + (b - y0) * (b - y0) - BULLET_SPEED * BULLET_SPEED)
 		delta **= (1/2)
-		x1 = ((2 * x0 - 2 * a * (b - y0)) - delta)/(2 * (1 - a * a))
-		x2 = ((2 * x0 - 2 * a * (b - y0)) + delta)/(2 * (1 - a * a))
+		x1 = ((2 * x0 - 2 * a * (b - y0)) - delta)/(2 * (1 + a * a))
+		x2 = ((2 * x0 - 2 * a * (b - y0)) + delta)/(2 * (1 + a * a))
 		# x1 -= delta
 		y1 = x1 * a + b
 		y2 = x2 * a + b
