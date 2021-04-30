@@ -53,17 +53,18 @@ class menu(button):
 		self.settingMenu.draw(self.game.screen)
 		if self.game.Pause == True:
 			self.setting_menu.draw(self.game.screen)
+			self.setting_menu.Buttons.draw(self.game.screen)
 			for button in self.setting_menu.Buttons:
 				button.update(self.game)
-			self.setting_menu.Buttons.draw(self.game.screen)
-			img = pygame.image.load("example.png")
-			w = img.get_width()
-			h = img.get_height()
-			img = pygame.transform.scale(img, (img.get_width() * self.game.RATIO //100, img.get_height() * self.game.RATIO//100))
-			pygame.draw.rect(self.game.screen, (249, 214, 210), (self.game.width * 3 / 4, self.game.height * 3 / 4, w, h))
-			rect = img.get_rect(center = (self.game.width * 3 /4 + img.get_width() / 2, self.game.height * 3 / 4 + img.get_height() / 2))
-			self.game.screen.blit(img, rect)
-			
+				if button.name == "zoom" and button.Show:
+					img = pygame.image.load("example.png")
+					w = img.get_width()
+					h = img.get_height()
+					img = pygame.transform.scale(img, (img.get_width() * self.game.RATIO //100, img.get_height() * self.game.RATIO//100))
+					pygame.draw.rect(self.game.screen, (249, 214, 210), (self.game.width * 3 / 4, self.game.height * 3 / 4, w, h))
+					rect = img.get_rect(center = (self.game.width * 3 /4 + img.get_width() / 2, self.game.height * 3 / 4 + img.get_height() / 2))
+					self.game.screen.blit(img, rect)
+					
 
 			
 			
