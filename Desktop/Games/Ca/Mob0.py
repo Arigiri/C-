@@ -6,9 +6,9 @@ class mob0(fish):
 		super(mob0, self).__init__(pos, name, Game, bg, maxhealth, 0)
 	Del = 0
 	ani = 0
-	def find_ab(self, mc):
-		x0 = self.pos[0]
-		y0 = self.pos[1]
+	def find_ab(self, mc, bg):
+		x0 = self.rpos[0] - bg.x
+		y0 = self.rpos[1] - bg.y
 		x1 = mc.pos[0]
 		y1 = mc.pos[1]
 		D = x0 - x1
@@ -27,16 +27,16 @@ class mob0(fish):
 		x = x2 - x1
 		y = y2 - y1
 		return (x * x + y * y) ** 1/2
-	def find_v(self, mc):
-		x0 = self.pos[0]
-		y0 = self.pos[1]
+	def find_v(self, mc, bg):
+		x0 = self.rpos[0] - bg.x
+		y0 = self.rpos[1] - bg.y
 		a = self.a
 		b = self.b
-		delta = (-2 * x0 + 2 * a * b - 2 * a * y0) * (-2 * x0 + 2 * a * b - 2 * a * y0) - 4 * (1 + a * a)* (x0 * x0 + (b - y0) * (b - y0) - BULLET_SPEED * BULLET_SPEED)
+		delta = (-2 * x0 + 2 * a * b - 2 * a * y0) * (-2 * x0 + 2 * a * b - 2 * a * y0) - 4 * (1 + a * a) * (x0 * x0 + (b - y0) * (b - y0) - BULLET_SPEED * BULLET_SPEED)
 		delta **= (1/2)
-		x1 = (2 * x0 - 2 * a * (b - y0))
-		x2 = x1 + delta
-		x1 -= delta
+		x1 = ((2 * x0 - 2 * a * (b - y0)) - delta)/(2 * (1 - a * a))
+		x2 = ((2 * x0 - 2 * a * (b - y0)) + delta)/(2 * (1 - a * a))
+		# x1 -= delta
 		y1 = x1 * a + b
 		y2 = x2 * a + b
 		A = self.distance((x1, y1), self.pos)
@@ -98,25 +98,29 @@ class mob0(fish):
 		# 		else:
 		# 			vy = -BULLET_SPEED
 		# 		vx = vy*ratio
-		# self.a, self.b = self.find_ab(mc)
+		self.a, self.b = self.find_ab(mc, bg)
 		# if self.b == 0:
 		# 	vx, vy = a,b
 		# else:
-		# vx, vy = self.find_v(mc)
+		vx, vy = self.find_v(mc, bg)
 		# print()
 		# print(vx, vy)
-		# vx = vx - self.pos[0]
-		# vy = vy - self.pos[1]
+		vx = vx - self.pos[0]
+		vy = vy - self.pos[1]
 		# print((vx ** 2 + vy ** 2) ** (1/2))
 		# print()
-		self.a, self.b = self.find(mc)
-		if vx > 0:
-			vx = BULLET_SPEED
-		else:
-			vx = -BULLET_SPEED
-		vy = vx * self.a + self.b
+		# self.a, self.b = self.find(mc)
+		# if vx > 0:
+		# 	vx = BULLET_SPEED
+		# else:
+		# 	vx = -BULLET_SPEED
+		# vy = vx * self.a + self.b
 		# vx = vx - self.pos[0]
 		# vy = vy - self.pos[1] 
+		
+		# if abs(vx) > BULLET_SPEED or abs(vy) > BULLET_SPEED:
+		# 	vx /= (vx/BULLET_SPEED)
+		# 	vy /= (vx/BULLET_SPEED)
 		print(vx, vy)
 		Bullet = bullet((x1, y1), self.Game, bg, name + ".png", vx, vy)
 		return Bullet

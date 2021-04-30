@@ -32,6 +32,7 @@ class menu(button):
 
 	def draw(self):
 		self.game.screen.blit(self.image, (self.pos[0], self.pos[1]))
+	Help = 0
 	def update(self):
 		if not self.game.Pause:
 			for event in pygame.event.get():
@@ -40,12 +41,22 @@ class menu(button):
 				elif event.type == KEYDOWN and event.key == K_F4:
 					exit()
 				if event.type == MOUSEBUTTONDOWN:
+					if self.Help > 0:
+						self.Help += 1
 					if self.get_clicked():
-						pygame.mouse.set_visible(False)
-						return False
+						self.Help += 1
 					if self.settingMenu.get_clicked():
 						self.game.Pause = True
 
+		if self.Help > 0:
+			if self.Help > 5:
+				self.Help = 0
+				pygame.mouse.set_visible(False)
+				return False
+			img = pygame.image.load("help\\help" + str(self.Help) + ".png")
+			self.game.screen.blit(img, (0, 0))
+			pygame.display.flip()
+			return True
 		image = pygame.image.load("bg2.png")
 		image = pygame.transform.scale(image, (self.game.width, self.game.height))
 		self.game.screen.blit(image, (0, 0))
