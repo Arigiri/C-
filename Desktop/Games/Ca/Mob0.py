@@ -7,8 +7,8 @@ class mob0(fish):
 	Del = 0
 	ani = 0
 	def find_ab(self, mc, bg):
-		x0 = self.rpos[0] - bg.x
-		y0 = self.rpos[1] - bg.y
+		x0 = self.pos[0]
+		y0 = self.pos[1]
 		x1 = mc.pos[0]
 		y1 = mc.pos[1]
 		D = x0 - x1
@@ -28,8 +28,8 @@ class mob0(fish):
 		y = y2 - y1
 		return (x * x + y * y) ** 1/2
 	def find_v(self, mc, bg):
-		x0 = self.rpos[0] - bg.x
-		y0 = self.rpos[1] - bg.y
+		x0 = self.pos[0]
+		y0 = self.pos[1]
 		a = self.a
 		b = self.b
 		delta = (-2 * x0 + 2 * a * b - 2 * a * y0) * (-2 * x0 + 2 * a * b - 2 * a * y0) - 4 * (1 + a * a) * (x0 * x0 + (b - y0) * (b - y0) - BULLET_SPEED * BULLET_SPEED)
