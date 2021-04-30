@@ -49,7 +49,7 @@ def health_bar(fish):
 		ly = y + 10
 		pygame.draw.rect(Game.screen, COLOR3, (lx, ly, nw - 15, image4.get_height()))
 	else:
-		if fish.lives > 0:
+		if fish.lives > 1:
 			fish.lives -= 1
 			fish.health = fish.maxhealth
 		else:

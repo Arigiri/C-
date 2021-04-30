@@ -105,8 +105,8 @@ class mob0(fish):
 		vx, vy = self.find_v(mc, bg)
 		# print()
 		# print(vx, vy)
-		vx = vx - self.pos[0]
-		vy = vy - self.pos[1]
+		vx = abs(vx - self.pos[0])
+		vy = abs(vy - self.pos[1])
 		# print((vx ** 2 + vy ** 2) ** (1/2))
 		# print()
 		# self.a, self.b = self.find(mc)
@@ -121,7 +121,11 @@ class mob0(fish):
 		# if abs(vx) > BULLET_SPEED or abs(vy) > BULLET_SPEED:
 		# 	vx /= (vx/BULLET_SPEED)
 		# 	vy /= (vx/BULLET_SPEED)
-		print(vx, vy)
+		# print(vx, vy)
+		if mc.pos[0] < self.pos[0]:
+			vx *= -1
+		if mc.pos[1] < self.pos[1]:
+			vy *= -1
 		Bullet = bullet((x1, y1), self.Game, bg, name + ".png", vx, vy)
 		return Bullet
 

@@ -33,7 +33,7 @@ class mc(pygame.sprite.Sprite):
 	Slow = False
 	dash = False
 	mousepos = 0
-	list_names = 3	
+	list_names = 16
 	move = 1
 	
 	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0): #khai báo
@@ -69,11 +69,11 @@ class mc(pygame.sprite.Sprite):
 		self.mousepos = (self.Game.width/2, self.Game.height/2)
 
 		self.name_listc = []
-		for i in range(1, self.list_names + 1):
-			self.name_listc.append("mc" + str(i))
+		for i in range(0, self.list_names):
+			self.name_listc.append("mc_animation\\mc" + str(i))
 		self.name_lists = []
-		for i in range(1, self.list_names + 1):
-			self.name_lists.append("mcs" + str(i))
+		for i in range(0, self.list_names):
+			self.name_lists.append("mc_animation\\mcs" + str(i))
 		pygame.mouse.set_pos(self.mousepos)
 
 		
@@ -149,19 +149,17 @@ class mc(pygame.sprite.Sprite):
 		self.delay += 1
 
 		if self.direction == "LEFT":
-			name = "mc"
+			name = "mc_animation\\mc"
 		else:
-			name = "mcs"
+			name = "mc_animation\\mcs"
 
-		if self.delay == 5:
-			self.name = name + str(self.img % self.list_names + 1) + ".png"
-			
-			self.image = pygame.image.load(self.name)
-			w = self.image.get_width()
-			h = self.image.get_height()
-			self.image = pygame.transform.scale(self.image, (w * Game.RATIO //100, h * Game.RATIO//100))
-			self.delay %= 5
-			self.img += 1
+		self.name = name + str(self.img % self.list_names) + ".png"
+		
+		self.image = pygame.image.load(self.name)
+		w = self.image.get_width()
+		h = self.image.get_height()
+		self.image = pygame.transform.scale(self.image, (w * Game.RATIO //100, h * Game.RATIO//100))
+		self.img += 1
 		self.stamia += STAMIA_RESTORE
 		self.stamia = min(self.stamia, FULL_STAMIA)
 		pygame.mouse.set_pos((self.Game.width/2, self.Game.height/2))
