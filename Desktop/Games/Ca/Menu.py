@@ -60,11 +60,12 @@ class menu(button):
 
 
 		if self.Help > 0:
-			if self.Help > 5:
+			if self.Help > 7:
 				self.Help = 0
 				pygame.mouse.set_visible(False)
 				return False
 			img = pygame.image.load("help\\help" + str(self.Help) + ".png")
+			img = pygame.transform.scale(img, (bg.Game.width, bg.Game.height))
 			self.game.screen.blit(img, (0, 0))
 			self.game.screen.blit( self.Skip.image,self.Skip.rect)
 			pygame.display.flip()

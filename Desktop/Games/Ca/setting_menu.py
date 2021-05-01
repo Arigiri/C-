@@ -70,8 +70,10 @@ class Zoom_button(button):
 		if self.bar1.hold():
 			pos = pygame.mouse.get_pos()
 			if pos[0] >= self.bar2.pos[0] and pos[0]<= self.bar2.w + self.bar2.pos[0]:
-				self.bar1.rect.center = (pos[0], self.bar1.rect.center[1])
-				game.RATIO = int(pos[0]/self.bar2.w * 100)
+				game.RATIO = max(int(pos[0]/self.bar2.w * 100), game.Min_ratio)
+				self.bar1.pos = (10 + self.bar2.w * game.RATIO / 100, game.height / 2)
+				self.bar1.rect.center = (self.bar1.pos[0] + self.bar1.w/2, self.bar1.rect.center[1])
+				
 		if self.Show: 
 			self.Bar.draw(game.screen)
 			# pygame.display.flip()

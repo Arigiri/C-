@@ -258,7 +258,8 @@ def process():
 
 if __name__ == '__main__':
 	Game = game()
-	bg = bg(-500, -500, Game)
+	bg = bg(0, 0, Game)
+	# print(Game.Min_ratio)
 	Menu = menu(Game)
 	Time = pygame.time.Clock()
 	Fish1 = mc()
@@ -273,6 +274,12 @@ if __name__ == '__main__':
 	if not Game.updated:
 		Game.load(bg, Fish1)
 		Game.setup(bg, Fish1)
+	bg.image = pygame.transform.scale(bg.image, (bg.w * Game.RATIO // 100, bg.h * Game.RATIO // 100))
+	bg.w = bg.image.get_width()
+	bg.h = bg.image.get_height()
+	global MAIN_SPEED
+	MAIN_SPEED = MAIN_SPEED * Game.RATIO/100
+	# print
 	Main_Fish = pygame.sprite.GroupSingle()
 	
 	Main_Fish.add(Fish1)

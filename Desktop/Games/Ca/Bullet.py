@@ -35,7 +35,7 @@ class bullet(pygame.sprite.Sprite):
 		self.image = pygame.image.load(name)
 		w = self.image.get_width()
 		h = self.image.get_height()
-		self.image = pygame.transform.scale(self.image, (w * 50 //100, h *50//100))
+		self.image = pygame.transform.scale(self.image, (w * Game.RATIO //100, h *Game.RATIO//100))
 		self.w = self.image.get_width()
 		self.h = self.image.get_height()
 

@@ -1,4 +1,3 @@
-  
 import pygame
 from MC import *
 from setting import *
@@ -15,6 +14,9 @@ class bg:
 		self.w = pygame.Surface.get_width(self.image)
 		self.h = pygame.Surface.get_height(self.image)
 		self.Game = Game
+		Ratio1 = int(Game.width / self.w* 100) + 1
+		Ratio2 = int(Game.height / self.h * 100) + 1
+		Game.Min_ratio = max(Ratio1, Ratio2)
 
 	def draw(self, screen):
 		screen.blit(self.image, (self.x, self.y))
