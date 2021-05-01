@@ -4,13 +4,14 @@ class Freeze(pygame.sprite.Sprite):
 	image = ""
 	name = ""
 	fish = ""
-	def __init__(self, pos = (0, 0), name = "", fish = ""):
+	def __init__(self, pos = (0, 0), name = "", fish = "", Game = ""):
 		pygame.sprite.Sprite.__init__(self)
 		self.pos = pos
 		self.name = name
 		if self.name == "":
 			return
 		self.image = pygame.image.load(self.name)
+		self.image = pygame.transform.scale(self.image, (self.image.get_width() * Game.RATIO // 100, self.image.get_height() * Game.RATIO // 100))
 		self.w = self.image.get_width()
 		self.h = self.image.get_height()
 		self.rect = self.image.get_rect()
@@ -33,6 +34,8 @@ class Freeze(pygame.sprite.Sprite):
 			name += "2"
 		self.image = pygame.image.load(name + ".png")
 		self.image = pygame.transform.scale(self.image, (self.image.get_width() * Game.RATIO // 100, self.image.get_height() * Game.RATIO // 100))
+		self.w = self.image.get_width()
+		self.h = self.image.get_height()
 		self.pos = (x, y)
 		self.rect.center = (self.pos[0] + self.w/2, self.pos[1] + self.h/2)
 		
@@ -51,7 +54,7 @@ class mob3(fish):
 
 			self.freeze_delay = 1
 			self.old_time = curr_time
-			self.freeze = Freeze((0,0), "mob3\\freeze1.png", self)
+			self.freeze = Freeze((0,0), "mob3\\freeze1.png", self, self.Game)
 			name = "mob3\\freeze"
 			tt = "ca3"
 			if self.direction == "LEFT":
@@ -63,7 +66,7 @@ class mob3(fish):
 				y = self.pos[1] - self.h/2 - self.h/4
 				name += "2"
 				tt = "cas3"
-			self.freeze = Freeze((x,y), name + ".png", self)
+			self.freeze = Freeze((x,y), name + ".png", self, self.Game)
 			self.name = "mob3\\" + tt + "F.png"
 			self.fire = True
 		elif curr_time - self.old_time > FREEZE_TIME * 100 and self.freeze_delay != 0:
