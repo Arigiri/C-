@@ -43,8 +43,8 @@ class game():
 
 	def setup(self, bg, mc):
 		self.bg = bg
-		self.minimap = minimap((self.width - bg.w * 1 / 20 - 3, self.height - bg.h * 1 / 20 - 3), self)
-		self.minimap = minimap((self.width - self.minimap.w, self.height - self.minimap.h), self)
+		self.minimap = minimap((0, 0), self)
+		self.minimap = minimap((self.width - self.bg.w/self.minimap.ratio*self.RATIO/100 - 5, self.height - self.bg.h/self.minimap.ratio*self.RATIO/100 - 5), self)
 		#sprite group
 		self.mobs = pygame.sprite.Group()
 		self.mobs_0 = pygame.sprite.Group()
