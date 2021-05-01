@@ -64,8 +64,8 @@ class Boss(fish):
 		phs = pygame.image.load("phase.png")
 		max_len = Game.width * 2 / 4
 		health_percent = self.health/self.maxhealth
-		x = (Game.width - max_len)/6
-		y = Game.height/30
+		x = image.get_width() + 30#(Game.width - max_len)/6
+		y = image.get_height()/2#Game.height/30
 		COLOR1 = (111, 116, 111)
 		COLOR2 = (58, 58, 58)
 		COLOR3 = (34,255,4)
@@ -79,7 +79,7 @@ class Boss(fish):
 			color = RED
 		pygame.draw.rect(Game.screen, COLOR2, (x,y, max_len,25))
 		pygame.draw.rect(Game.screen, color, (ls -  w + 2.5, y + 2.5, w - 5,25 - 5))
-		Game.screen.blit(image, (ls + 3, y - 15))
+		Game.screen.blit(image, (0, 0))
 		# Game.screen.blit(phs, (ls + 3, y - 15 + image.get_height()))
 	def reborn(self):
 		if self.phase == 2:
