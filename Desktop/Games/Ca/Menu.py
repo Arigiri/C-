@@ -30,7 +30,7 @@ class menu(button):
 		self.setting_menu = setting_menu(self.game)
 		self.settingMenu = setting((self.pos[0], self.pos[1] + self.h))
 		self.Skip = button((game.width * 5 / 6, game.height * 5 / 6), "Skip")
-		
+		self.Skip = button((game.width - self.Skip.w, game.height - self.Skip.h), "Skip")
 		self.setting_menu.Buttons = pygame.sprite.Group()
 		self.setting_menu.Buttons.add(self.setting_menu.exit_button)
 		self.setting_menu.Buttons.add(self.setting_menu.zoom_button)
