@@ -43,6 +43,7 @@ class game():
 
 	def setup(self, bg, mc):
 		self.bg = bg
+		self.RATIO = self.Min_ratio + 5
 		self.minimap = minimap((0, 0), self)
 		self.minimap = minimap((self.width - self.bg.w/self.minimap.ratio*self.RATIO/100 - 5, self.height - self.bg.h/self.minimap.ratio*self.RATIO/100 - 5), self)
 		#sprite group

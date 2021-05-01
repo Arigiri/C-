@@ -45,7 +45,7 @@ class bullet(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		self.rect.center = (self.pos[0] + self.w/2, self.pos[1] + self.h/2)
 		self.delay = 0
-	def update(self, bg, type, mc):
+	def update(self, bg, type, mc, game):
 		if self.name == "":
 			return
 		a = (self.rpos[0] - self.begin[0])
@@ -54,7 +54,7 @@ class bullet(pygame.sprite.Sprite):
 		b *= b
 
 		dist = (a + b) ** (1/2)
-		if dist > BULLET_DISTANCE:
+		if dist > BULLET_DISTANCE * game.RATIO / 100:
 			self.kill()
 
 		if type == "MAIN":

@@ -9,11 +9,14 @@ from Mob3 import *
 from entity import *
 from random import *
 class Laser(pygame.sprite.Sprite):
-	def __init__(self, pos = (0, 0), rot = 0):
+	def __init__(self, pos = (0, 0), rot = 0, Game = ""):
 		pygame.sprite.Sprite.__init__(self)
 		self.pos = pos
 		self.rot = rot
 		self.image1 = pygame.image.load("laser.png")
+		w = self.image1.get_width()
+		h = self.image1.get_height()
+		self.image1 = pygame.transform.scale(self.image1, (w * Game.RATIO // 100, h * Game.RATIO // 100))
 		# self.image = pygame.transform.rotozoom(self.image1,rot, 1)
 		self.image = self.image1
 		self.offset = pygame.Vector2(0, 250)
@@ -92,7 +95,7 @@ class Boss(fish):
 			self.phase += 1
 			self.reborn()
 
-	def Skill2(self):
+	def Skill2(self, Game):
 		curr_time = pygame.time.get_ticks()
 		if not self.S2_ATK:
 			self.angle = 0
@@ -106,7 +109,7 @@ class Boss(fish):
 			else:
 				pos = (self.pos[0] + self.w, self.pos[1] + self.h/2)
 				self.name = "mob100\\cas100F2.png"
-			self.laser = Laser(pos, self.angle)
+			self.laser = Laser(pos, self.angle, Game)
 			self.Laser.add(self.laser)
 
 		elif -self.old_time_S2 + curr_time < self.stay_time_s2:
@@ -189,7 +192,7 @@ class Boss(fish):
 		atkS = randint(0, 3)
 		if atkS <= 2 and not self.S2_ATK:
 			self.Skill1(Game, bg, 0)
-		else: self.Skill2()
+		else: self.Skill2(Game)
 	def phase2(self, Game, bg):
 		atkS = randint(0, 3)
 		if atkS <= 2 and not self.S2_ATK or not self.done:
@@ -204,7 +207,7 @@ class Boss(fish):
 				else:
 					self.wait += 1
 		else:
-			self.Skill2()
+			self.Skill2(Game)
 		self.Skill3(Game, bg)
 	def phase3(self, Game, bg):
 		atkS = randint(0, 3)

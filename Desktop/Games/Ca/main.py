@@ -211,7 +211,7 @@ def process():
 			blade.kill()
 	Game.Bullet_Mobs.update(bg,"mobs_0", Fish1)
 	for boss in Game.Boss:
-		boss.Bullet.update(bg, "boss", Fish1)
+		boss.Bullet.update(bg, "boss", Fish1, Game)
 		# boss.Laser.update()
 
 	#mc update
