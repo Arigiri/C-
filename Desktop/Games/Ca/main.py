@@ -65,7 +65,21 @@ def draw_stamia(fish):
 	Game.screen.blit(fish.stamia_image, (fish.pos[0] + fish.w, fish.pos[1]))
 def end_stage():
 	if len(Game.mobs)== 0:
-		Game.load(bg, Fish1)
+		global img, rect
+		if Game.stop == 0:
+
+			img = pygame.image.load("setting\\clear_stage.png")
+			rect = img.get_rect(center = (Game.width/2, Game.height/2))
+			Game.stop += 1 
+		elif Game.stop < 50:
+			Game.stop += 1
+			Game.screen.blit(img, rect)
+			pygame.display.update()
+		else:
+			Game.stop = 0
+			Game.load(bg, Fish1)
+		
+		
 		
 def get_mobs_on_screen(Game, bg):
 	mobs = pygame.sprite.Group()
@@ -120,6 +134,8 @@ def process():
 			bullet = Fish1.Fire(bg)
 			if bullet.name != "":
 				Game.Bullet_Main.add(bullet)
+	if len(Game.mobs) == 0:
+		return
 	#update
 	bg.update(Fish1)
 
@@ -253,7 +269,7 @@ if __name__ == '__main__':
 		# print(1)
 		Fish1 = mc((Game.width/2, Game.height/2), "mc1", Game, bg, MC_HEALTH)
 		# print(Fish1.name)
-	
+	# Game.stage = 7
 	if not Game.updated:
 		Game.load(bg, Fish1)
 		Game.setup(bg, Fish1)
@@ -261,7 +277,6 @@ if __name__ == '__main__':
 	
 	Main_Fish.add(Fish1)
 
-	
 	curr_time = pygame.time.get_ticks()
 	while(1):
 		tme = pygame.time.get_ticks()

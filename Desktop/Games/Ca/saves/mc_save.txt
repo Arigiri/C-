@@ -1,8 +1,8 @@
-mc_animation\mcs11.png
-1492
-141
+mc_animation\mcs7.png
+1617
+354
 100
-90
+50
 3
 960
 540

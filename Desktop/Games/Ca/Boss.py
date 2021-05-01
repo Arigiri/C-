@@ -1,6 +1,13 @@
 import pygame
 from Bullet import *
 from entity import *
+from Mob4 import *
+from Mob0 import *
+from Mob1 import *
+from Mob2 import *
+from Mob3 import *
+from entity import *
+from random import *
 class Laser(pygame.sprite.Sprite):
 	def __init__(self, pos = (0, 0), rot = 0):
 		pygame.sprite.Sprite.__init__(self)
@@ -47,6 +54,7 @@ class Boss(fish):
 	CD_phase_2 = 1000
 	S2_ATK = False
 	angle = -60
+	skill_CD_S3 = 360
 	Laser = pygame.sprite.Group()
 	def draw_health(self, Game):
 		image = pygame.image.load("boss.png")
@@ -139,38 +147,79 @@ class Boss(fish):
 				vy2/=2
 				self.Bullet.add(bullet((vx1, vy1), Game, bg, "bosss1_animation\\bullet1.png",vx2, vy2))
 				angle += alpha
+	def spawn(self, mob, bg ,Game):
+		if mob == 1:
+			fish = mob1((randint(0, bg.w), randint(0, bg.h)), "mob1\\ca11", Game, bg, MOB_MAX_HEALTH)
+			Game.mobs_1.add(fish)
+		if mob == 2:
+			fish = mob2((randint(0, bg.w), randint(0, bg.h)), "mob2\\ca21", Game, bg, MOB_MAX_HEALTH)
+			Game.mobs_2.add(fish)
+		if mob == 3:
+			fish = mob3((randint(0, bg.w), randint(0, bg.h)), "mob3\\ca31", Game, bg, MOB_MAX_HEALTH)
+			Game.mobs_3.add(fish)
+		if mob == 4:
+			fish = mob4((randint(0, bg.w), randint(0, bg.h)), "mob4\\ca41", Game, bg, MOB_MAX_HEALTH)
+			Game.mobs_4.add(fish)
+		if mob == 0:
+			fish = mob0((randint(0, bg.w), randint(0, bg.h)), "mob0\\ca01", Game, bg, MOB_MAX_HEALTH)
+			Game.mobs_0.add(fish)
+
+		Game.mobs.add(fish)
+		return Game
+	def Skill3(self, game, bg):
+		if self.skill_CD_S3:
+			self.skill_CD_S3 -= 1
+			return
+		else:
+			self.skill_CD_S3 = 1000
+		if len(game.mobs) > 16:
+			return
+		mobs = [0, 0, 0, 1, 2, 3, 3, 4, 4]
+		mob1 = choice(mobs)
+		mob2 = choice(mobs)
+		while(mob2 == mob1):
+			mob2 = choice(mobs)
+		game = self.spawn(mob1, bg, game)
+		game = self.spawn(mob2, bg, game)
 	def phase1(self, Game, bg):
 		atkS = randint(0, 3)
 		if atkS <= 2 and not self.S2_ATK:
 			self.Skill1(Game, bg, 0)
 		else: self.Skill2()
-	
 	def phase2(self, Game, bg):
-		if self.done == True:
-			self.done = False
-			self.Skill1(Game, bg, 0)
-		else:
-			if self.wait >= 25:
-				self.done = True
-				self.Skill1(Game, bg, 30)
-				self.wait = 0
-			else:
-				self.wait += 1
-	def phase3(self, Game, bg):
-
-		if self.done == True:
-			self.done = False
-			self.Skill1(Game, bg, 0)
-		else:
-			if self.wait == 25:
-				self.Skill1(Game, bg, 30)
-				self.wait += 1
-			elif self.wait >= 50:
-				self.done = True
+		atkS = randint(0, 3)
+		if atkS <= 2 and not self.S2_ATK or not self.done:
+			if self.done == True:
+				self.done = False
 				self.Skill1(Game, bg, 0)
-				self.wait = 0
 			else:
-				self.wait += 1
+				if self.wait >= 25:
+					self.done = True
+					self.Skill1(Game, bg, 30)
+					self.wait = 0
+				else:
+					self.wait += 1
+		else:
+			self.Skill2()
+		self.Skill3(Game, bg)
+	def phase3(self, Game, bg):
+		atkS = randint(0, 3)
+		if atkS <= 2 and not self.S2_ATK or not self.done:	
+			if self.done == True:
+				self.done = False
+				self.Skill1(Game, bg, 0)
+			else:
+				if self.wait == 25:
+					self.Skill1(Game, bg, 30)
+					self.wait += 1
+				elif self.wait >= 50:
+					self.done = True
+					self.Skill1(Game, bg, 0)
+					self.wait = 0
+				else:
+					self.wait += 1
+		else:
+			self.Skill3()
 	def attack(self, bg,Game):
 		curr_time = pygame.time.get_ticks()
 		if curr_time - self.old_time_CD_ATK < self.skill_CD and self.old_time_CD_ATK != 0 and self.done and not self.S2_ATK:

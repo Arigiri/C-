@@ -157,10 +157,11 @@ class fish(pygame.sprite.Sprite):
 			elif self.mouth != "": self.mouth = 1
 		if self.mob == 100:
 			self.mouth = ""
-		if self.vx > 0:
-			self.direction = "RIGHT"
-		else:
-			self.direction = "LEFT"
+		if not self.stay:
+			if self.vx > 0:
+				self.direction = "RIGHT"
+			else:
+				self.direction = "LEFT"
 		self.name_detect()
 
 		self.image = pygame.image.load(self.name).convert_alpha()
@@ -199,7 +200,7 @@ class fish(pygame.sprite.Sprite):
 	def read(self, num):
 		f = open("saves\\" + "entity" + str(num) + ".txt", "r")
 		read = f.readlines()
-		
+
 		self.name = read[0][0:len(read[0]) - 1]
 		self.pos = int(read[1]), int(read[2])
 		self.rpos = int(read[3]), int(read[4])

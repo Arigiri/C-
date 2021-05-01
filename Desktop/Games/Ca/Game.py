@@ -26,7 +26,7 @@ class game():
 		self.width, self.height = pygame.display.get_surface().get_size()
 		self.font = pygame.font.SysFont(None, 72)
 		self.menu = setting_menu(self)
-		
+		self.stop = 0
 		# self.rect.lefttop = (0, 0)
 		# self.rect.rightbottom = (self.width, self.height)
 
@@ -59,27 +59,27 @@ class game():
 		tmp = mob0()
 		Fish0 = []
 		for i in range(number_of_mob_0):
-			Fish0.append(mob0(self.spawn(bg, mc, tmp), "mob0\\ca01", self, bg, 100))
+			Fish0.append(mob0(self.spawn(bg, mc, tmp), "mob0\\ca01", self, bg, MOB_MAX_HEALTH))
 		tmp = mob1()
 		Fish1 = []
 		for i in range(number_of_mob_1):
-			Fish1.append(mob1(self.spawn(bg, mc, tmp), "mob1\\ca12", self, bg, 100))
+			Fish1.append(mob1(self.spawn(bg, mc, tmp), "mob1\\ca12", self, bg, MOB_MAX_HEALTH))
 		tmp = mob2()
 		Fish2 = []
 		for i in range(number_of_mob_2):
-			Fish2.append(mob2(self.spawn(bg, mc, tmp), "mob2\\ca21", self, bg, 100))
+			Fish2.append(mob2(self.spawn(bg, mc, tmp), "mob2\\ca21", self, bg, MOB_MAX_HEALTH))
 		tmp = mob3()
 		Fish3 = []
 		for i in range(number_of_mob_3):
-			Fish3.append(mob3(self.spawn(bg, mc, tmp), "mob3\\cas31", self, bg, 100))
+			Fish3.append(mob3(self.spawn(bg, mc, tmp), "mob3\\cas31", self, bg, MOB_MAX_HEALTH))
 		tmp = mob4()
 		Fish4 = []
 		for i in range(number_of_mob_4):
-			Fish4.append(mob4(self.spawn(bg, mc, tmp), "mob4\\ca41", self, bg, 100))
+			Fish4.append(mob4(self.spawn(bg, mc, tmp), "mob4\\ca41", self, bg, MOB_MAX_HEALTH))
 		tmp = Boss()
 		BOSS = []
 		for i in range(number_of_boss_1):
-			BOSS.append(Boss(self.spawn(bg, mc, tmp), "boss\\ca100", self, bg, 100))
+			BOSS.append(Boss(self.spawn(bg, mc, tmp), "boss\\ca100", self, bg, MOB_MAX_HEALTH))
 		for fish in Fish0:
 			self.mobs_0.add(fish)
 			self.mobs.add(fish)
