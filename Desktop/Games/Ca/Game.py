@@ -101,14 +101,19 @@ class game():
 	def load(self, bg, mc):
 		fade = 100
 		
-		f = open("stage" + str(self.stage) + ".txt", "r")
+		f = open("stages\\stage" + str(self.stage) + ".txt", "r")
 		kt = f.readlines()
 		# kt = kt.split()
 		tme = 100
 
 		f.close()
-		global number_of_mob_0
+		global number_of_mob_0, number_of_mob_1,number_of_mob_2,number_of_mob_3,number_of_mob_4,number_of_boss_1
 		number_of_mob_0 = int(kt[0])
+		number_of_mob_1 = int(kt[1])
+		number_of_mob_2 = int(kt[2])
+		number_of_mob_3 = int(kt[3])
+		number_of_mob_4 = int(kt[4])
+		number_of_boss_1 = int(kt[5])
 		self.setup(bg, mc)
 		self.stage += 1
 	def __str__(self):
@@ -155,8 +160,6 @@ class game():
 		for i in range(count1):
 			Fish = fish()
 			Fish.read(i)
-			print(Fish.pos)
-			print(Fish.vx, Fish.vy)
 			if Fish.mob == 0:
 				tmp = Fish.rpos
 				Fish = mob0(Fish.pos, Fish.name, self, bg, Fish.health)

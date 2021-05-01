@@ -90,10 +90,7 @@ def process():
 		else:
 			Game.Pause = False
 			pygame.mouse.set_visible(False)
-	if d[K_SPACE]:
-		bullet = Fish1.Fire(bg)
-		if bullet.name != "":
-			Game.Bullet_Main.add(bullet)
+
 	if d[K_F4]:
 		exit()
 	if Game.Pause == True:
@@ -119,6 +116,10 @@ def process():
 			else:
 				for fish in Main_Fish:
 					fish.dash = True
+		if event.type == KEYDOWN and event.key == K_SPACE:
+			bullet = Fish1.Fire(bg)
+			if bullet.name != "":
+				Game.Bullet_Main.add(bullet)
 	#update
 	bg.update(Fish1)
 
@@ -263,10 +264,6 @@ if __name__ == '__main__':
 	
 	curr_time = pygame.time.get_ticks()
 	while(1):
-		print()
-		for fish in Game.mobs:
-			print(fish.pos)
-		print()
 		tme = pygame.time.get_ticks()
 		if tme - curr_time >= MC_IMMUNE_TIME * 100:
 			for fish in Main_Fish:
