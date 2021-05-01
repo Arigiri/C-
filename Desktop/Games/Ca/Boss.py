@@ -102,18 +102,23 @@ class Boss(fish):
 			pos = self.pos
 			if self.direction == "LEFT":
 				pos = (self.pos[0], self.pos[1] + self.h/2)
+				self.name = "mob100\\ca100F2.png"
 			else:
 				pos = (self.pos[0] + self.w, self.pos[1] + self.h/2)
+				self.name = "mob100\\cas100F2.png"
 			self.laser = Laser(pos, self.angle)
 			self.Laser.add(self.laser)
+
 		elif -self.old_time_S2 + curr_time < self.stay_time_s2:
 			self.angle += 3.5
 			pos = self.pos
 			angle = self.angle
 			if self.direction == "LEFT":
 				pos = (self.pos[0], self.pos[1] + self.h/2)
+				self.name = "mob100\\ca100F2.png"
 			else:
 				pos = (self.pos[0] + self.w, self.pos[1] + self.h/2)
+				self.name = "mob100\\cas100F2.png"
 				angle *= -1
 			self.Laser.update(pos, angle)
 		else:
@@ -128,10 +133,9 @@ class Boss(fish):
 		# if self.atk == True:
 		# 	if (curr_time - self.old_time_S1 < self.CD_S1 * 100 and self.old_time_S1 != 0):
 		# 		return
-
-		self.stay = False
+		if self.direction == "LEFT":self.name = "mob100\\ca100F1.png"
+		else: self.name = "mob100\\cas100F1.png"
 		self.old_time_S1 = curr_time
-		self.stay = False
 		vx = 20
 		vy = 20
 		alpha = 20

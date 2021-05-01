@@ -9,7 +9,7 @@ number_of_mob_4 = 1
 HEALTH_HEIGHT = 25
 fps = 60
 #main statistic
-MAIN_SPEED = 0.1
+MAIN_SPEED = 0.5
 MAIN_DAMAGE = 25
 MC_HEALTH = 100
 MC_IMMUNE_TIME = 25

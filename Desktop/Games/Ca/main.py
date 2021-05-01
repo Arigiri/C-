@@ -207,7 +207,7 @@ def process():
 		fish.Roar()
 
 	for blade in Game.Blade_mc:
-		if blade.update(Fish1):
+		if blade.update(Fish1, Game):
 			blade.kill()
 	Game.Bullet_Mobs.update(bg,"mobs_0", Fish1)
 	for boss in Game.Boss:
@@ -270,7 +270,7 @@ if __name__ == '__main__':
 		# print(1)
 		Fish1 = mc((Game.width/2, Game.height/2), "mc1", Game, bg, MC_HEALTH)
 		# print(Fish1.name)
-	# Game.stage = 7
+	Game.stage = 7
 	if not Game.updated:
 		Game.load(bg, Fish1)
 		Game.setup(bg, Fish1)

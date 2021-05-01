@@ -97,11 +97,13 @@ class mc(pygame.sprite.Sprite):
 			self.move = 1
 			pygame.mouse.set_pos((self.Game.width/2, self.Game.height/2))
 			return
+		global BG_SPEED
 		self.vx, self.vy = 0, 0
 		mousepos = pygame.mouse.get_pos()
 		self.vx = (mousepos[0] -self.mousepos[0]) * MAIN_SPEED
 		self.vy = (mousepos[1] - self.mousepos[1]) * MAIN_SPEED
-
+		BG_SPEED = self.vx
+		BG_SPEED = self.vy
 		if self.Slow > 0 and self.Slow_Time > 0:
 			# SLOW = 0.01
 			self.vx *= SLOW

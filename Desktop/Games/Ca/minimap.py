@@ -5,9 +5,11 @@ class minimap():
 		self.pos = pos
 		# self.mobs = Game.mobs
 		self.image = pygame.Surface(self.pos, pygame.SRCALPHA)
-
-		self.rect = self.image.get_rect()
 		self.ratio = 20
+		self.w = Game.bg.w//self.ratio
+		self.h = Game.bg.h//self.ratio
+		self.rect = self.image.get_rect()
+		
 	def update(self, Game, bg, mc):
 		self.mobs = Game.mobs
 		self.image = pygame.Surface(self.pos, pygame.SRCALPHA)

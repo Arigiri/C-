@@ -65,7 +65,8 @@ class fish(pygame.sprite.Sprite):
 
 		self.vx = randint(self.minv, self.maxv)
 		self.vy = randint(self.minv, self.maxv)
-
+		if self.mob == "100":
+			self.number_of_animation = 4
 		self.health_len = self.w / MOB_MAX_HEALTH
 		self.cot = 0
 
@@ -127,13 +128,13 @@ class fish(pygame.sprite.Sprite):
 	def name_detect(self):
 		if  self.fire:
 			return
+		if self.mob == 100 and self.name[len(self.name) - 2] == 'F':
+			return
 		if self.direction == "LEFT":
 			self.name = "ca" + str(self.mob) 
 		else:
 			self.name = "cas" + str(self.mob) 
-		if self.mob == 100:
-			self.name = "boss\\" + self.name + ".png"
-			return
+		
 		self.name = "mob" + str(self.mob) + "\\" + self.name + str(self.cot % self.number_of_animation + 1)
 		self.cot += 1
 		self.name = self.name +".png"
