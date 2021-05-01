@@ -67,52 +67,13 @@ class mob0(fish):
 		
 		vx = x - x1
 		vy = y - y1
-		# p1 = mc.rect.center
-		# p2 = self.rect.center
-		# p = (p1[0] - p2[0], p1[1] - p2[1])
-		# dist = (p[1] * p[1] + p[0] * p[0]) ** (1/2)
-		# if p[1] == 0:
-		# 	vy = 0
-		# 	if vx > 0:vx = BULLET_SPEED 
-		# 	else: vx = -BULLET_SPEED
-		# else:
-		# 	ratio = p[0]/p[1]
-		# 	if abs(vx) > abs(vy) and ratio > 1:
-		# 		if vx > 0:
-		# 			vx = BULLET_SPEED
-		# 		else:
-		# 			vx = -BULLET_SPEED
-		# 		vy = vx/ratio
-		# 	else:
-		# 		if vy > 0:
-		# 			vy = BULLET_SPEED
-		# 		else:
-		# 			vy = -BULLET_SPEED
-		# 		vx = vy*ratio
+
 		self.a, self.b = self.find_ab(mc, bg)
-		# if self.b == 0:
-		# 	vx, vy = a,b
-		# else:
+
 		vx, vy = self.find_v(mc, bg)
-		# print()
-		# print(vx, vy)
+
 		vx = abs(vx - self.pos[0])
 		vy = abs(vy - self.pos[1])
-		# print((vx ** 2 + vy ** 2) ** (1/2))
-		# print()
-		# self.a, self.b = self.find(mc)
-		# if vx > 0:
-		# 	vx = BULLET_SPEED
-		# else:
-		# 	vx = -BULLET_SPEED
-		# vy = vx * self.a + self.b
-		# vx = vx - self.pos[0]
-		# vy = vy - self.pos[1] 
-		
-		# if abs(vx) > BULLET_SPEED or abs(vy) > BULLET_SPEED:
-		# 	vx /= (vx/BULLET_SPEED)
-		# 	vy /= (vx/BULLET_SPEED)
-		# print(vx, vy)
 		if mc.pos[0] < self.pos[0]:
 			vx *= -1
 		if mc.pos[1] < self.pos[1]:

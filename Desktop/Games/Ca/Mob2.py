@@ -5,6 +5,46 @@ class mob2(fish):
 	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0):
 		super(mob2, self).__init__(pos, name, Game, bg, maxhealth, 2)
 	Del = 0
+	def find_ab(self, mc, bg):
+		x0 = self.pos[0]
+		y0 = self.pos[1]
+		x1 = mc.pos[0]
+		y1 = mc.pos[1]
+		D = x0 - x1
+		Dx = y0 - y1
+		Dy = y1 * x0 - x1 * y0
+		if D == 0:
+			return BULLET_SPEED, 0
+		x = Dx/D
+		y = Dy/D
+		return x, y
+	def distance(self,A, B):
+		x1 = A[0]
+		y1 = A[1]
+		x2 = B[0]
+		y2 = B[1]
+		x = x2 - x1
+		y = y2 - y1
+		return (x * x + y * y) ** 1/2
+	def find_v(self, mc, bg):
+		x0 = self.pos[0]
+		y0 = self.pos[1]
+		a = self.a
+		b = self.b
+		delta = (-2 * x0 + 2 * a * b - 2 * a * y0) * (-2 * x0 + 2 * a * b - 2 * a * y0) - 4 * (1 + a * a) * (x0 * x0 + (b - y0) * (b - y0) - BIG_BULLET_SPEED * BIG_BULLET_SPEED)
+		delta **= (1/2)
+		x1 = ((2 * x0 - 2 * a * (b - y0)) - delta)/(2 * (1 + a * a))
+		x2 = ((2 * x0 - 2 * a * (b - y0)) + delta)/(2 * (1 + a * a))
+		# x1 -= delta
+		y1 = x1 * a + b
+		y2 = x2 * a + b
+		A = self.distance((x1, y1), self.pos)
+		B = self.distance((x1, y1), mc.pos)
+		C = self.distance(self.pos, mc.pos)
+		if A + B == C:
+			return (x1, y1)
+		return (x2, y2)
+
 	def Fire(self, mc, bg, game):		
 		if self.Del >= BIG_BULLET_WAIT:
 			self.Del = 0
@@ -31,15 +71,16 @@ class mob2(fish):
 		y1 = self.pos[1] + self.h/2
 		self.image = pygame.image.load("mob2\\" + tt + "F.png")
 		self.fire = True
-		vx = x - (x1 + w/2)
-		vy = y - (y1 + h/2)
-		p1 = mc.rect.center
-		p2 = self.rect.center
-		p = (p1[0] - p2[0], p1[1] - p1[1])
-		dist = (p[1] * p[1] + p[0] * p[0]) ** (1/2)
-		# if dist <= BIG_BULLET_SPEED * 10:
-		# 	vx *= 3
-		# 	vy *= 3
-		pygame.display.update()
-		Bullet = bullet((x1, y1), self.Game, bg, "mob2\\big_bullet.png", vx//BIG_BULLET_SPEED, vy//BIG_BULLET_SPEED)
+		self.a, self.b = self.find_ab(mc, bg)
+
+		vx, vy = self.find_v(mc, bg)
+
+		vx = abs(vx - self.pos[0])
+		vy = abs(vy - self.pos[1])
+		if mc.pos[0] < self.pos[0]:
+			vx *= -1
+		if mc.pos[1] < self.pos[1]:
+			vy *= -1
+		# pygame.display.update()
+		Bullet = bullet((x1, y1), self.Game, bg, "mob2\\big_bullet.png", vx, vy)
 		return Bullet
