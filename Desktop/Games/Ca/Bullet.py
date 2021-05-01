@@ -45,45 +45,6 @@ class bullet(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		self.rect.center = (self.pos[0] + self.w/2, self.pos[1] + self.h/2)
 		self.delay = 0
-	def find_ab(self, mc):
-		x0 = self.pos[0]
-		y0 = self.pos[1]
-		x1 = mc.pos[0]
-		y1 = mc.pos[1]
-		D = x0 - x1
-		Dx = y0 - y1
-		Dy = y1 * x0 - x1 * y0
-		if D == 0:
-			return BULLET_SPEED, 0
-		x = Dx/D
-		y = Dy/D
-		return x, y
-	def distance(self,A, B):
-		x1 = A[0]
-		y1 = A[1]
-		x2 = B[0]
-		y2 = B[1]
-		x = x2 - x1
-		y = y2 - y1
-		return (x * x + y * y) ** 1/2
-	def find_v(self, mc):
-		x0 = self.pos[0]
-		y0 = self.pos[1]
-		a = self.a
-		b = self.b
-		delta = (-2 * x0 + 2 * a * b - 2 * a * y0) * (-2 * x0 + 2 * a * b - 2 * a * y0) - 4 * (1 + a * a)* (x0 * x0 + (b - y0) * (b - y0) - BULLET_SPEED * BULLET_SPEED)
-		delta **= (1/2)
-		x1 = (2 * x0 - 2 * a * (b - y0))
-		x2 = x1 + delta
-		x1 -= delta
-		y1 = x1 * a + b
-		y2 = x2 * a + b
-		A = self.distance((x1, y1), self.pos)
-		B = self.distance((x1, y1), mc.pos)
-		C = self.distance(self.pos, mc.pos)
-		if A + B == C:
-			return (x1, y1)
-		return (x2, y2)
 	def update(self, bg, type, mc):
 		if self.name == "":
 			return
@@ -115,10 +76,6 @@ class bullet(pygame.sprite.Sprite):
 				self.angle %= 2*pi
 				self.angle = degrees(self.angle)
 				self.image = pygame.transform.rotate(self.image, self.angle)
-				# self.a,self.b= self.find_ab(mc)
-				# vx, vy = self.find_v(mc)
-				# self.vx = vx - self.pos[0]
-				# self.vy = vy - self.pos[1]
 			if type == "boss":
 				self.name = "bosss1_animation" + "\\" + "\\" + "bullet" + str(self.delay % 4 + 1) + ".png"
 				self.image = pygame.image.load(self.name)
@@ -129,3 +86,20 @@ class bullet(pygame.sprite.Sprite):
 
 	def run(self):
 		self.rpos = (self.rpos[0] + self.vx, self.rpos[1] + self.vy)
+	def __str__(self):
+		return self.name + '\n' + str(int(self.pos[0])) + '\n' + str(int(self.pos[1])) + '\n' + str(int(self.rpos[0])) + '\n' + str(int(self.rpos[1])) + '\n' + str(int(self.vx)) + '\n' + str(int(self.vy))
+	def write(self, num, type):
+		print(1)
+		f = open("saves\\bullet" + type + str(num) + ".txt", "w")
+		f.write(str(self))
+		f.close()
+	def read(self, num, type):
+		f = open("saves\\bullet" + type + str(num) + ".txt", "r")
+		read = f.readlines()
+		self.name = read[0][0:len(read[0])- 1]
+		self.pos = int(read[1]), int(read[2])
+		self.rpos = int(read[3]), int(read[4])
+		self.vx = int(read[5])
+		self.vy = int(read[6])
+		
+		f.close()

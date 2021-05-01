@@ -13,7 +13,6 @@ import pygame
 class mc(pygame.sprite.Sprite):
 	name = "" # tên ảnh
 	pos = (0, 0) # tọa độ màn
-	rpos = (0, 0) # tọa độ bg
 	image = "" #ảnh
 	Game = 0 #game
 	w = 0; h = 0 #chiều rộng, chiều dài
@@ -39,7 +38,8 @@ class mc(pygame.sprite.Sprite):
 	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0): #khai báo
 		pygame.sprite.Sprite.__init__(self)
 		self.pos = pos
-		self.rpos = pos
+		if name == "":
+			return
 		self.name = name + ".png"
 		self.image = pygame.image.load(self.name)
 		self.stamia_image = pygame.image.load("stamia.png")
@@ -92,14 +92,15 @@ class mc(pygame.sprite.Sprite):
 	
 
 	def update(self, bg, Game): #update nhân vật chính
+		self.Game = Game
 		if self.move == 0:
 			self.move = 1
 			pygame.mouse.set_pos((self.Game.width/2, self.Game.height/2))
 			return
-
+		self.vx, self.vy = 0, 0
 		mousepos = pygame.mouse.get_pos()
-		self.vx = -(self.mousepos[0] - mousepos[0]) * MAIN_SPEED
-		self.vy = -(self.mousepos[1] - mousepos[1]) * MAIN_SPEED
+		self.vx = (mousepos[0] -self.mousepos[0]) * MAIN_SPEED
+		self.vy = (mousepos[1] - self.mousepos[1]) * MAIN_SPEED
 
 		if self.Slow > 0 and self.Slow_Time > 0:
 			# SLOW = 0.01
@@ -127,7 +128,7 @@ class mc(pygame.sprite.Sprite):
 		else:
 			cl = self.w
 		if -self.bg.x + self.Game.width + self.w >= self.bg.w:
-			cr = self.Game.width - self.w
+			cr = Game.width - self.w
 		else:
 			cr = self.Game.width - 2 * self.w
 		if self.bg.y >= 0:
@@ -201,3 +202,40 @@ class mc(pygame.sprite.Sprite):
 			Bullet.vx = MC_BULLET_SPEED 
 			Bullet.vy = 0
 		return Bullet
+	def __str__(self):
+		return self.name + '\n' + str(int(self.pos[0])) + '\n' + str(int(self.pos[1])) + '\n' + str(self.stamia) + '\n' + str(self.health) + '\n' + str(self.lives) + '\n' + str(int(self.mousepos[0])) + '\n' + str(int(self.mousepos[1]))
+	def read(self, Game):
+		f = open("saves\\mc_save.txt", "r")
+		read = f.readlines()
+		self.name = read[0][0:len(read[0]) - 1]
+		# print(int(read[1]), int(read[2]))
+		self.pos = int(read[1]), int(read[2])
+		self.stamia = int(read[3])
+		self.health = int(read[4])
+		self.lives = int(read[5])
+		self.mousepos = int(read[6]), int(read[7])
+		self.image = pygame.image.load(self.name)
+		self.rect = self.image.get_rect()
+		self.rect.center = (self.pos[0] + self.w/2, self.pos[1] + self.h/2)
+		self.maxhealth = MC_HEALTH
+		self.stamia_image = pygame.image.load("stamia.png")
+		sw = self.stamia_image.get_width()
+		sh = self.stamia_image.get_height()
+		
+		self.stamia = FULL_STAMIA
+		w = self.image.get_width()
+		h = self.image.get_height()
+		self.image = pygame.transform.scale(self.image, (w * Game.RATIO //100, h * Game.RATIO//100))
+		# self.Game = Game
+		self.w = self.image.get_width()
+		self.h = self.image.get_height()
+		# self.bg = bg
+		rate = sw/sh
+		self.stamia_image = pygame.transform.scale(self.stamia_image, (int(rate * self.h), self.h))
+		self.sw = self.stamia_image.get_width()
+		self.sh = self.stamia_image.get_height()
+		f.close()
+	def write(self):
+		f = open("saves\\mc_save.txt", "w")
+		f.write(str(self))
+		f.close()

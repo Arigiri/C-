@@ -81,18 +81,7 @@ def process():
 	#stage
 	end_stage() 
 	#process events
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			exit()
-		if event.type == MOUSEBUTTONDOWN:
-
-			if event.button == 1:
-				blade = Blade(Fish1)
-				if blade.blade != "":
-					Game.Blade_mc.add(blade) 
-			else:
-				for fish in Main_Fish:
-					fish.dash = True
+	
 	d = pygame.key.get_pressed()
 	if d[K_ESCAPE]:
 		if Game.Pause == False:
@@ -110,10 +99,7 @@ def process():
 	if Game.Pause == True:
 		Game.menu.draw(Game.screen)
 		Game.Buttons.draw(Game.screen)
-		for button in Game.Buttons:
-			K = button.update(Game)
-			if K == False:
-				Game.Pause = False
+		Game.menu.update(Game, Fish1, bg)
 		pygame.display.flip()
 		for fish in Main_Fish:
 			fish.move = 0
@@ -121,7 +107,18 @@ def process():
 	else:
 		pygame.mouse.set_visible(False)
 
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			exit()
+		if event.type == MOUSEBUTTONDOWN:
 
+			if event.button == 1:
+				blade = Blade(Fish1)
+				if blade.blade != "":
+					Game.Blade_mc.add(blade) 
+			else:
+				for fish in Main_Fish:
+					fish.dash = True
 	#update
 	bg.update(Fish1)
 
@@ -247,20 +244,29 @@ if __name__ == '__main__':
 	bg = bg(-500, -500, Game)
 	Menu = menu(Game)
 	Time = pygame.time.Clock()
-	while(Menu.update()):
+	Fish1 = mc()
+	while(Menu.update(Fish1, bg)):
 		Time.tick(fps)
 	
-	Fish1 = mc((Game.width/2, Game.height/2), "mc1", Game, bg, MC_HEALTH + 1)
-	Game.load(bg, Fish1)
-	Game.setup(bg, Fish1)
+	if Fish1.name == "":
+		# print(1)
+		Fish1 = mc((Game.width/2, Game.height/2), "mc1", Game, bg, MC_HEALTH)
+		# print(Fish1.name)
+	
+	if not Game.updated:
+		Game.load(bg, Fish1)
+		Game.setup(bg, Fish1)
 	Main_Fish = pygame.sprite.GroupSingle()
 	
 	Main_Fish.add(Fish1)
 
-
 	
 	curr_time = pygame.time.get_ticks()
 	while(1):
+		print()
+		for fish in Game.mobs:
+			print(fish.pos)
+		print()
 		tme = pygame.time.get_ticks()
 		if tme - curr_time >= MC_IMMUNE_TIME * 100:
 			for fish in Main_Fish:

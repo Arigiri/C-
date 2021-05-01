@@ -44,5 +44,16 @@ class bg:
 				self.y = tmpy
 			
 	def __str__(self):
-		return "{0},{1}".format(self.x, self.y)
+		return	str(self.x) + '\n' + str(self.y)
+	def write(self):
+		f = open("saves\\bg_save.txt", "w")
+		f.write(str(self))
+		f.close()
+	def read(self):
+		f = open("saves\\bg_save.txt", "r")
+		read = f.readlines()
+		self.x = int(read[0])
+		self.y = int(read[1])
+		f.close()
+
 			

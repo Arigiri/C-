@@ -45,16 +45,7 @@ class mob0(fish):
 		if A + B == C:
 			return (x1, y1)
 		return (x2, y2)
-	def find(self, mc):
-		x0 = self.pos[0]
-		y0 = self.pos[1]
-		x1 = mc.pos[0]
-		y1 = mc.pos[1]
-		if y1 == y0:
-			return BULLET_SPEED, 0
-		a = (x1 - x0)/(y1 - y0)
-		b =(x0 * x1 - x0 * x0 - y0 * y1 + y0 * y0)/(y1 - y0)
-		return a, b
+
 	def Fire(self, mc, bg, game):		
 		if self.Del >= BULLET_WAIT:
 			self.Del = 0

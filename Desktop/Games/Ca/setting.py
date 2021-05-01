@@ -23,6 +23,7 @@ BLADE_DAMAGE = 8.5
 MAIN_BLADE = 1
 #MOBS statistic
 MOB_SPEED = 15
+MOB_MAX_HEALTH = 100
 #bullet statistic
 BULLET_SPEED = 8.5
 BULLET_DAMAGE = 10
@@ -37,6 +38,7 @@ BIG_BULLET_WAIT = 100
 #mob 4 statistic
 SPLASH_DAMAGE = 1.5
 SPLASH_TIME = 15 #0.x second
+SPLASH_SPEED = 12
 #mob 3 statistic
 FREEZE_TIME = 75
 FREEZE_DELAY = 75

@@ -17,6 +17,7 @@ class game():
 	stage = 1
 	Pause = False
 	RATIO = 70
+	updated = False
 	def __init__(self):
 		pygame.sprite.Sprite.__init__(self)
 
@@ -110,3 +111,104 @@ class game():
 		number_of_mob_0 = int(kt[0])
 		self.setup(bg, mc)
 		self.stage += 1
+	def __str__(self):
+		paper = str(self.stage) + '\n'
+		return paper
+	def write(self, mc):
+		count1 = 0
+		for mob in self.mobs:
+			print(mob.pos)
+			mob.write(count1)
+			count1 += 1
+		print()
+		self.bg.write()
+		count2 = 0
+		for bullet in self.Bullet_Mobs:
+			bullet.write(count2, "mob")
+			count2 += 1
+		count3 = 0
+		for bullet in self.Bullet_Main:
+			bullet.write(count3, "main")
+			count3 += 1
+		f = open("saves\\game_save.txt", "w")
+		f.write(str(count1) + '\n' + str(count2) + '\n' + str(count3) + '\n')
+		f.write(str(self))
+		mc.write()
+	def read(self, mc, bg):	
+		bg.read()
+		self.bg = bg
+		f = open("saves\\game_save.txt", "r")
+		read = f.readlines()
+		count1 = int(read[0])
+		count2 = int(read[1])
+		count3 = int(read[2])
+		self.mobs = pygame.sprite.Group()
+		self.mobs_0 = pygame.sprite.Group()
+		self.mobs_4 = pygame.sprite.Group()
+		self.mobs_1 = pygame.sprite.Group()
+		self.mobs_2 = pygame.sprite.Group()
+		self.mobs_3 = pygame.sprite.Group()
+		self.Bullet_Main = pygame.sprite.Group()
+		self.Bullet_Mobs = pygame.sprite.Group()
+		self.Blade_mc = pygame.sprite.Group()
+		self.Boss = pygame.sprite.Group()
+		for i in range(count1):
+			Fish = fish()
+			Fish.read(i)
+			print(Fish.pos)
+			print(Fish.vx, Fish.vy)
+			if Fish.mob == 0:
+				tmp = Fish.rpos
+				Fish = mob0(Fish.pos, Fish.name, self, bg, Fish.health)
+				Fish.rpos = tmp
+				self.mobs_0.add(Fish)
+				self.mobs.add(Fish)
+			if Fish.mob == 1:
+				tmp = Fish.rpos
+				Fish = mob1(Fish.pos, Fish.name, self, bg, Fish.health)
+				Fish.rpos = tmp
+				self.mobs_1.add(Fish)
+				self.mobs.add(Fish)
+			if Fish.mob == 2:
+				tmp = Fish.rpos
+				Fish = mob2(Fish.pos, Fish.name, self, bg, Fish.health)
+				Fish.rpos = tmp
+				self.mobs_2.add(Fish)
+				self.mobs.add(Fish)
+			if Fish.mob == 3:
+				tmp = Fish.rpos
+				Fish = mob3(Fish.pos, Fish.name, self, bg, Fish.health)
+				Fish.rpos = tmp
+				self.mobs_3.add(Fish)
+				self.mobs.add(Fish)
+			if Fish.mob == 4:
+				tmp = Fish.rpos
+				Fish = mob4(Fish.pos, Fish.name, self, bg, Fish.health)
+				Fish.rpos = tmp
+				self.mobs_4.add(Fish)
+				self.mobs.add(Fish)
+			if Fish.mob == 100:
+				tmp = Fish.rpos
+				Fish = Boss(Fish.pos, Fish.name, self, bg, Fish.health)
+				Fish.rpos = tmp
+				self.Boss.add(Fish)
+				self.mobs.add(Fish)
+		for i in range(count2):
+			Bullet = bullet()
+			Bullet.read(i, "mob")
+			Bullet = bullet(Bullet.pos, self, bg, Bullet.name, Bullet.vx, Bullet.vy)
+			self.Bullet_Mobs.add(Bullet)
+
+		for i in range(count3):
+			Bullet = bullet()
+			Bullet.read(i, "main")
+			Bullet = bullet(Bullet.pos, self, bg, Bullet.name, Bullet.vx, Bullet.vy)
+			self.Bullet_Main.add(Bullet)
+		self.stage = int(read[3])
+		mc.read(self)
+		self.updated = True
+		self.minimap = minimap((self.width - bg.w * 1 / 20 - 3, self.height - bg.h * 1 / 20 - 3), self)
+
+			
+
+		

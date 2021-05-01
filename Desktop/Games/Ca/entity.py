@@ -31,15 +31,16 @@ class fish(pygame.sprite.Sprite):
 	number_of_animation = 2
 	fire = False
 	delay = 0
-	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0, mob = ""): #khai báo
+	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, health = 0, mob = ""): #khai báo
 		pygame.sprite.Sprite.__init__(self)
 
 		self.pos = pos
 		self.rpos = pos
-		self.name = name + ".png"
+		self.name = name
 		if name == "":
 			return
-
+		if self.name[len(self.name) - 1] != 'g':
+			self.name += '.png'
 		self.image = pygame.image.load(self.name)
 		w = self.image.get_width()
 		h = self.image.get_height()
@@ -59,13 +60,13 @@ class fish(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		self.rect.center = (self.w/2 + self.pos[0], self.h/2 + self.pos[1])
 		
-		self.maxhealth = maxhealth
-		self.health = self.maxhealth
+		self.maxhealth = MOB_MAX_HEALTH
+		self.health = health
 
 		self.vx = randint(self.minv, self.maxv)
 		self.vy = randint(self.minv, self.maxv)
 
-		self.health_len = self.w / maxhealth
+		self.health_len = self.w / MOB_MAX_HEALTH
 		self.cot = 0
 
 	def draw_health(self):
@@ -161,7 +162,6 @@ class fish(pygame.sprite.Sprite):
 		else:
 			self.direction = "LEFT"
 		self.name_detect()
-		self.delay += 1
 
 		self.image = pygame.image.load(self.name).convert_alpha()
 
@@ -190,8 +190,25 @@ class fish(pygame.sprite.Sprite):
 		x = min(x, bg.w - self.w)
 		y = min(y, bg.h - self.h)
 		self.rpos = (x, y)
+	def __str__(self):
+		return self.name + '\n' + str(self.pos[0]) + '\n' + str(self.pos[1]) + '\n' + str(self.rpos[0]) + '\n' + str(self.rpos[1])+ '\n' + str(self.mob) + '\n' + str(self.vx) + '\n' + str(self.vy) + '\n' + str(self.cot) + '\n' + str(self.health)
+	def write(self, num):
+		f = open("saves\\" + "entity" + str(num) + ".txt", "w")
+		f.write(str(self))
+		f.close()
+	def read(self, num):
+		f = open("saves\\" + "entity" + str(num) + ".txt", "r")
+		read = f.readlines()
+		
+		self.name = read[0][0:len(read[0]) - 1]
+		self.pos = int(read[1]), int(read[2])
+		self.rpos = int(read[3]), int(read[4])
+		self.mob = int(read[5])
+		self.vx = int(read[6])
+		self.vy = int(read[7])
+		self.cot = int(read[8])
+		self.health = int(read[9])
+		f.close()
 
-
-	
 
 
