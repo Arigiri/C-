@@ -209,14 +209,14 @@ def process():
 	for blade in Game.Blade_mc:
 		if blade.update(Fish1, Game):
 			blade.kill()
-	Game.Bullet_Mobs.update(bg,"mobs_0", Fish1)
+	Game.Bullet_Mobs.update(bg,"mobs_0", Fish1, Game)
 	for boss in Game.Boss:
 		boss.Bullet.update(bg, "boss", Fish1, Game)
 		# boss.Laser.update()
 
 	#mc update
 	Main_Fish.update(bg, Game)
-	Game.Bullet_Main.update(bg, "MAIN", Fish1)
+	Game.Bullet_Main.update(bg, "MAIN", Fish1, Game)
 	#minimap update
 	Game.minimap.update(Game,bg, Fish1)
 	#draw
