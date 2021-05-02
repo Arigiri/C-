@@ -110,10 +110,10 @@ class mc(pygame.sprite.Sprite):
 			self.vx *= SLOW
 			self.vy *= SLOW
 			self.Slow_Time -= 1
+			print(1)
 		elif self.Slow_Time <= 0:
+
 			self.Slow = False
-		if self.dash:
-			self.Dash()
 		if self.mousepos[0] > mousepos[0]:
 			self.direction = "LEFT"
 		elif self.mousepos[0] < mousepos[0]:
@@ -169,27 +169,7 @@ class mc(pygame.sprite.Sprite):
 		pygame.mouse.set_pos((self.Game.width/2, self.Game.height/2))
 
 
-	old_dash = 0
-	def Dash(self):
-		curr_time = pygame.time.get_ticks()
-		if self.stamia < DASH_STAMIA:
-			return
-		if curr_time - self.old_dash>= DASH_TIME * 100 and self.old_dash != 0:
-			self.old_dash = 0
-			self.dash = False
-			return
-		if self.old_dash == 0:
-			self.stamia -= DASH_STAMIA
-			self.old_dash = curr_time
-		if self.vx == 0 and self.vy == 0:
-			if self.direction == "LEFT":
-				self.vx = -self.Game.DASH_SPEED
-			elif self.direction == "RIGHT":
-				self.vx =  self.Game.DASH_SPEED
-		else:
-			self.vx *= DASH_RATIO
-			self.vy *= DASH_RATIO
-			# self.dash = False
+	
 
 		
 	def Fire(self, bg):

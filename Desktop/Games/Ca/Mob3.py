@@ -117,19 +117,21 @@ class mob3(fish):
 			if mc.pos[1] < self.pos[1]:
 				vy *= -1
 			name += '.png'
+			angle = -1
 			Bullet = bullet((x,y), game, bg, name, vx, vy)
 			Bullet.type = "mobs_3"
+
 			game.Bullet_Mobs.add(Bullet)
-			vx1 = vx * cos(5) - vy * sin(5)
-			vy1 = vx * sin(5) + vx * cos(5)
-			Bullet = bullet((x,y), game, bg, name, vx1, vy1)
-			Bullet.type = "mobs_3"
-			game.Bullet_Mobs.add(Bullet)
-			vx1 = vx * cos(-5) - vy * sin(-5)
-			vy1 = vx * sin(-5) + vx * cos(-5)
-			Bullet = bullet((x,y), game, bg, name, vx1, vy1)
-			Bullet.type = "mobs_3"
-			game.Bullet_Mobs.add(Bullet)
+			# vx1 = vx * cos(angle) - vy * sin(angle)
+			# vy1 = vx * sin(angle) + vx * cos(angle)
+			# Bullet = bullet((x,y), game, bg, name, vx1, vy1)
+			# Bullet.type = "mobs_3"
+			# game.Bullet_Mobs.add(Bullet)
+			# vx1 = vx * cos(-angle) - vy * sin(-angle)
+			# vy1 = vx * sin(-angle) + vx * cos(-angle)
+			# Bullet = bullet((x,y), game, bg, name, vx1, vy1)
+			# Bullet.type = "mobs_3"
+			# game.Bullet_Mobs.add(Bullet)
 			self.name = "mob3\\" + tt + "F.png"
 			self.fire = True
 		elif curr_time - self.old_time > FREEZE_TIME * 100 and self.freeze_delay != 0:

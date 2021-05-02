@@ -88,9 +88,10 @@ class Boss(fish):
 		else:
 			self.health = (1.5/1.15) * self.maxhealth
 			self.maxhealth = self.health
-	def kill(self):
+	def destroy(self):
 		if self.phase == 3:
 			self.name = ""
+			self.kill()
 		else: 
 			self.phase += 1
 			self.reborn()
@@ -255,6 +256,8 @@ class Boss(fish):
 				else:
 					self.wait += 1
 	def attack(self, bg,Game):
+		if self.name == "":
+			return
 		curr_time = pygame.time.get_ticks()
 		if self.skill_CD_S3:
 			self.skill_CD_S3 -= 1

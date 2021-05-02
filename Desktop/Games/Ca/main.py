@@ -31,7 +31,6 @@ def health_bar(fish):
 	pygame.draw.rect(Game.screen, COLOR2, (x + w2, y, Game.width - 30 - x - w2 + 10, image2.get_height()))
 	Game.screen.blit(image2, (x, y))
 	#curr_health
-	
 	Game.screen.blit(image6, (x + 15, y + 6))
 	pygame.draw.rect(Game.screen, COLOR1, (x  + w4, y + 10, Game.width - 30 - x - w2 + 26, image4.get_height()))
 	for life in range(MC_LIVES):
@@ -60,11 +59,38 @@ def draw_stamia(fish):
 	ly = ry - h
 	pygame.draw.rect(Game.screen, YELLOW,  (lx, ly, fish.sw, h))
 	Game.screen.blit(fish.stamia_image, (fish.pos[0] + fish.w, fish.pos[1]))
+def rot_center(image, angle):
+    """rotate an image while keeping its center and size"""
+    orig_rect = image.get_rect()
+    rot_image = pygame.transform.rotate(image, angle)
+    rot_rect = orig_rect.copy()
+    rot_rect.center = rot_image.get_rect().center
+    rot_image = rot_image.subsurface(rot_rect).copy()
+    return rot_image
 def end_stage():
 	if len(Game.mobs)== 0:
+		Game.angle = 0
+		if Game.stage >= 7:
+			Image = pygame.image.load("end\\sc.png")
+
+			# Image = pygame.transform.scale(Image, (Game.width, Game.height))
+			Rect = Image.get_rect(center = (Game.width/2, Game.height/2))
+			while(1):
+				for event in pygame.event.get():
+					if event.type == QUIT:
+						pygame.quit()
+						exit()
+				tmp = rot_center(Image, Game.angle)
+				Rect = tmp.get_rect(center = (Game.width/2, Game.height/2))
+				img1 = pygame.image.load("end\\text" + str(Game.angle % 2 + 1) + ".png" )
+				RECT = img1.get_rect(center = (Game.width/2, Game.height/2))
+				Game.screen.blit(tmp, Rect)
+				Game.screen.blit(img1, RECT)
+				pygame.display.update()
+				Game.angle += 1
+			return
 		global img, rect
 		if Game.stop == 0:
-
 			img = pygame.image.load("setting\\clear_stage.png")
 			rect = img.get_rect(center = (Game.width/2, Game.height/2))
 			Game.stop += 1 
@@ -124,9 +150,6 @@ def process():
 				blade = Blade(Fish1)
 				if blade.blade != "":
 					Game.Blade_mc.add(blade) 
-			else:
-				for fish in Main_Fish:
-					fish.dash = True
 		if event.type == KEYDOWN and event.key == K_SPACE and Game.Fire_delay == 0:
 			bullet = Fish1.Fire(bg)
 			if bullet.name != "":
@@ -151,11 +174,13 @@ def process():
 			hit.health -= MAIN_DAMAGE
 			if hit.health <= 0:
 				# hit.name = ""
-				hit.kill()
+				if hit.mob == 100:hit.destroy()
+				else:hit.kill()
 	hits = pygame.sprite.groupcollide(Game.Bullet_Mobs, Main_Fish, False, False, pygame.sprite.collide_rect)
 	for hit in hits:
 		if hit.type == "mobs_3":
-			Main_Fish.Slow = True
+			for fish in Main_Fish:
+				fish.Slow = True
 	hits = pygame.sprite.groupcollide(Main_Fish, Game.Bullet_Mobs, False, True, pygame.sprite.collide_rect)
 	for hit in hits:
 		if hit.immune:
@@ -249,10 +274,7 @@ def process():
 	#draw stamia
 	for fish in Main_Fish:
 		draw_stamia(fish)
-	for fish in Game.mobs:
-		if fish.mob == 4:
-			if fish.fire:
-				pygame.draw.line(Game.screen, RED, Fish1.rect.center, fish.rect.center, 5)
+	
 	#draw minimap
 	Game.minimap.draw(Game)
 	#update display
@@ -264,7 +286,7 @@ if __name__ == '__main__':
 	Game = game()
 
 	bg = bg(0, 0, Game)
-	print(Game.MOB_SPEED)
+	
 	Menu = menu(Game)
 	Time = pygame.time.Clock()
 	Fish1 = mc()
