@@ -12,7 +12,7 @@ class mob4(fish):
 	Del = 0
 	Slash_Wait = 100
 	nm = "1"
-	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0):
+	def __init__(self, pos = (0,0), name = "ca41", Game = 0, bg = 0, maxhealth = 0):
 		super(mob4, self).__init__(pos, name, Game, bg, maxhealth, 4)
 	def name_detect(self):
 		if self.direction == "LEFT":

@@ -3,7 +3,7 @@ from entity import *
 
 import pygame
 class mob1(fish):
-	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0):
+	def __init__(self, pos = (0,0), name = "mob1\\ca11", Game = 0, bg = 0, maxhealth = 0):
 		super(mob1, self).__init__(pos, name, Game, bg, maxhealth, 1)
 
 	old_time = 0

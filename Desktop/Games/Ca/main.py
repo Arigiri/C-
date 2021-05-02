@@ -68,6 +68,12 @@ def rot_center(image, angle):
     rot_image = rot_image.subsurface(rot_rect).copy()
     return rot_image
 def end_stage():
+	if Game.restart == True:
+		Game.stage = 1
+		Game.load(bg, Fish1)
+		Game.Pause = False
+		Game.restart = False
+		return
 	if len(Game.mobs)== 0:
 		Game.angle = 0
 		if Game.stage >= 7:
@@ -113,6 +119,7 @@ def get_mobs_on_screen(Game, bg):
 			mobs.add(mob)
 	return mobs
 def process():
+
 	#set fps
 	Time.tick(fps)
 	#stage
@@ -120,23 +127,28 @@ def process():
 	#process events
 	
 	d = pygame.key.get_pressed()
-	if d[K_ESCAPE]:
+	if d[K_ESCAPE] and not Game.Pause_delay:
 		if Game.Pause == False:
 			Game.Pause = True
 			pygame.mouse.set_visible(True)
 		else:
 			Game.Pause = False
 			pygame.mouse.set_visible(False)
-
-	if d[K_F4]:
-		exit()
+		Game.Pause_delay = 5
+	if Game.Pause_delay:
+		Game.Pause_delay -= 1
 	if Game.Pause == True:
 		Game.menu.draw(Game.screen)
 		Game.Buttons.draw(Game.screen)
 		Game.menu.update(Game, Fish1, bg)
-		pygame.display.flip()
 		for fish in Main_Fish:
 			fish.move = 0
+		if Game.save_success:
+			img = pygame.image.load("setting\\save_success.png")
+			rect = img.get_rect(center = (Game.width/2, Game.height/2))
+			Game.screen.blit(img, rect)
+			Game.save_success -= 1
+		pygame.display.flip()
 		return
 	else:
 		pygame.mouse.set_visible(False)
@@ -291,13 +303,19 @@ if __name__ == '__main__':
 	Time = pygame.time.Clock()
 	Fish1 = mc()
 	while(Menu.update(Fish1, bg)):
+		if Game.load_success:
+			img = pygame.image.load("setting\\load_success.png")
+			rect = img.get_rect(center = (Game.width/2, Game.height/2))
+			Game.screen.blit(img, rect)
+			Game.load_success -= 1
+		pygame.display.update()		
 		Time.tick(fps)
 	
 	if Fish1.name == "":
 		# print(1)
 		Fish1 = mc((Game.width/2, Game.height/2), "mc_animation\\mc0", Game, bg, MC_HEALTH)
 		# print(Fish1.name)
-	Game.stage = 7
+	# Game.stage = 7
 	if not Game.updated:
 		Game.load(bg, Fish1)
 		Game.setup(bg, Fish1)

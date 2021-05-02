@@ -42,7 +42,7 @@ class Freeze(pygame.sprite.Sprite):
 		
 	
 class mob3(fish):
-	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0):
+	def __init__(self, pos = (0,0), name = "mob3\\ca31", Game = 0, bg = 0, maxhealth = 0):
 		super(mob3, self).__init__(pos, name, Game, bg, maxhealth, 3)
 		self.Game = Game
 	freeze = Freeze()

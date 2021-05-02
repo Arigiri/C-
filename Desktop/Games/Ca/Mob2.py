@@ -2,7 +2,7 @@ from Mob4 import *
 from entity import *
 
 class mob2(fish):
-	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0):
+	def __init__(self, pos = (0,0), name = "mob2\\ca21", Game = 0, bg = 0, maxhealth = 0):
 		super(mob2, self).__init__(pos, name, Game, bg, maxhealth, 2)
 	Del = 0
 	def find_ab(self, mc, bg):

@@ -37,7 +37,7 @@ class fish(pygame.sprite.Sprite):
 		self.pos = pos
 		self.rpos = pos
 		self.name = name
-		if name == "":
+		if Game == 0:
 			return
 		if self.name[len(self.name) - 1] != 'g':
 			self.name += '.png'

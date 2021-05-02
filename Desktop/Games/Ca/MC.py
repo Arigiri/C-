@@ -188,7 +188,7 @@ class mc(pygame.sprite.Sprite):
 			Bullet.vy = 0
 		return Bullet
 	def __str__(self):
-		return self.name + '\n' + str(int(self.pos[0])) + '\n' + str(int(self.pos[1])) + '\n' + str(self.stamia) + '\n' + str(self.health) + '\n' + str(self.lives) + '\n' + str(int(self.mousepos[0])) + '\n' + str(int(self.mousepos[1]))
+		return self.name + '\n' + str(int(self.pos[0])) + '\n' + str(int(self.pos[1])) + '\n' + str(self.stamia) + '\n' + str(int(self.health)) + '\n' + str(int(self.lives)) + '\n' + str(int(self.mousepos[0])) + '\n' + str(int(self.mousepos[1]))
 	def read(self, Game):
 		f = open("saves\\mc_save.txt", "r")
 		read = f.readlines()

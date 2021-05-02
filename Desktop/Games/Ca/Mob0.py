@@ -2,7 +2,7 @@
 from Mob4 import *
 from entity import *
 class mob0(fish):
-	def __init__(self, pos = (0,0), name = "", Game = 0, bg = 0, maxhealth = 0):
+	def __init__(self, pos = (0,0), name = "ca01", Game = 0, bg = 0, maxhealth = 0):
 		super(mob0, self).__init__(pos, name, Game, bg, maxhealth, 0)
 	Del = 0
 	ani = 0

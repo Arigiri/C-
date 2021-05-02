@@ -56,18 +56,7 @@ class Zoom_button(button):
 	Show = False
 
 	def update(self, game):
-		# for event in pygame.event.get():
-		# 	if event.type == QUIT:
-		# 		exit()
-		# 	if event.type == MOUSEBUTTONUP:
-		# 		if self.get_clicked():	self.Show = not self.Show
-		# 		pos = pygame.mouse.get_pos()
-		# 		self.clicked_buttons = [s for s in game.Buttons if s.rect.collidepoint(pos)]
-		# 		for button in self.clicked_buttons:
-		# 			if button.name == "exit":
-		# 				game.Pause = False
-		# 			if button.name == "load":
-		# 				game.read(mc)
+
 		if self.bar1.hold():
 			pos = pygame.mouse.get_pos()
 			if pos[0] >= self.bar2.pos[0] and pos[0]<= self.bar2.w + self.bar2.pos[0]:
@@ -77,7 +66,6 @@ class Zoom_button(button):
 				
 		if self.Show: 
 			self.Bar.draw(game.screen)
-			# pygame.display.flip()
 		return True
 
 class exit_button(button):
@@ -91,13 +79,7 @@ class exit_button(button):
 		self.h = self.image.get_height()
 		self.rect.center = (self.pos[0] + self.w/2, self.pos[1] + self.h/2)
 
-	# def update(self, game, mc):
-	# 	for event in pygame.event.get():
-	# 		if event.type == QUIT:
-	# 			exit()
-	# 		if event.type == MOUSEBUTTONDOWN:
-	# 			if self.get_clicked():	return False
-	# 	return True
+
 class save_button(button):
 	def __init__(self, pos = (0, 0)):
 		super(button, self).__init__()
@@ -108,29 +90,46 @@ class save_button(button):
 		self.w = self.image.get_width()
 		self.h = self.image.get_height()
 		self.rect.center = (self.pos[0] + self.w/2, self.pos[1] + self.h/2)
+class quit_button(button):
+	def __init__(self, pos = (0, 0)):
+		super(quit_button, self).__init__(pos, "quit")
+class restart_button(button):
+	def __init__(self, pos = (0, 0)):
+		super(restart_button, self).__init__(pos, "restart")
 class setting_menu(pygame.sprite.Sprite):
 	def __init__(self, Game):
 		pygame.sprite.Sprite.__init__(self)
 		self.game = Game
 		self.image = pygame.image.load("setting\\menu.png")
-		self.image = pygame.transform.scale(self.image, (self.game.width, self.game.height))
+
+		# self.image = pygame.transform.scale(self.image, (self.game.width, self.game.height))
 		self.rect = self.image.get_rect()
 		self.w = self.image.get_width()
 		self.h = self.image.get_height()
 		self.pos = ((Game.width - self.w)/2, 15)
 		tmp = pygame.image.load("setting\\save.png")
-		self.save_button = save_button((Game.width - tmp.get_width() - 30, Game.height * 1 / 10))
+		
 		self.Buttons = pygame.sprite.Group()
 		tmp = pygame.image.load("setting\\zoom.png")
 		self.exit_button = button((0, 0), "exit")
-		self.exit_button = exit_button((Game.width - self.exit_button.w - 30, self.exit_button.h))
-		self.zoom_button = Zoom_button((Game.width - tmp.get_width() - 30, Game.height * 1 / 10), Game)
+		self.exit_button = exit_button((self.pos[0] + self.w - self.exit_button.w/2, self.pos[1]))
+		self.zoom_button = Zoom_button((self.pos[0] + self.w/2, Game.height * 1 / 10), Game)
+		self.zoom_button = Zoom_button((self.pos[0] + self.w/2 - self.zoom_button.w/2, Game.height * 3 / 10), Game)
 		self.load_button = load_button((Game.width /2, Game.height * 1 / 4))
+		self.load_button = load_button((self.pos[0] + self.w/2 - self.zoom_button.w/2, self.zoom_button.pos[1] + self.zoom_button.h + 30))
+		self.save_button = save_button((Game.width - tmp.get_width() - 30, Game.height * 2 / 10))
+		self.save_button = save_button((self.pos[0] + self.w/2 - self.zoom_button.w/2, Game.height * 2 / 10))
+
+		self.quit_button = quit_button()
+		self.quit_button = quit_button((self.pos[0] + self.w/2 - self.zoom_button.w/2, self.save_button.pos[1] + self.save_button.h + 30))
+		self.restart_button = restart_button()
+		self.restart_button = restart_button((self.pos[0] + self.w/2 - self.zoom_button.w/2, self.quit_button.pos[1] + self.quit_button.h + 30))
 		self.Buttons.add(self.save_button)
 		self.Buttons.add(self.exit_button)
+		self.Buttons.add(self.quit_button)
+		self.Buttons.add(self.restart_button)
 		self.rect.center = (self.pos[0] + self.w/2, self.pos[1] + self.h/2)
-		# self.Buttons.add(self.zoom_button)
-		# self.Buttons.add(self.exit_button)
+
 	def update(self, game, mc, bg):
 		for event in pygame.event.get():
 			if event.type == QUIT:
@@ -142,15 +141,23 @@ class setting_menu(pygame.sprite.Sprite):
 							game.Pause = False
 						if button.name == "save":
 							game.write(mc)
+							game.save_success = 5
 						if button.name == "zoom":
 							button.Show = not button.Show
 						if button.name == "load":
 							game.read(mc, bg)
+							game.load_success = 5
+						if button.name == "quit":
+							pygame.quit()
+							exit()
+						if button.name == "restart":
+							game.restart = True
+							
 
-		pygame.draw.rect(game.screen, RED, self.load_button.rect, 1)
+		# pygame.draw.rect(game.screen, RED, self.load_button.rect, 1)
 	def draw(self, surface):
 		surface.blit(self.image, self.pos)
 		image = pygame.image.load("setting\\tt.png")
 		w = image.get_width()
 		h = image.get_height()
-		surface.blit(image, (self.pos[0] + self.w/2 - w/2, self.pos[1] - h/4))
+		surface.blit(image, (self.pos[0] + self.w/2 - w/2, self.pos[1] + h/2 - 30))

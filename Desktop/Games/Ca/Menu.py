@@ -31,10 +31,12 @@ class menu(button):
 		self.settingMenu = setting((self.pos[0], self.pos[1] + self.h))
 		self.Skip = button((game.width * 5 / 6, game.height * 5 / 6), "Skip")
 		self.Skip = button((game.width - self.Skip.w, game.height - self.Skip.h), "Skip")
+		self.setting_menu.quit_button = quit_button((self.setting_menu.pos[0] + self.setting_menu.w/2 - self.setting_menu.zoom_button.w/2, self.setting_menu.load_button.pos[1] + self.setting_menu.load_button.h + 30))
 		self.setting_menu.Buttons = pygame.sprite.Group()
 		self.setting_menu.Buttons.add(self.setting_menu.exit_button)
 		self.setting_menu.Buttons.add(self.setting_menu.zoom_button)
 		self.setting_menu.Buttons.add(self.setting_menu.load_button)
+		self.setting_menu.Buttons.add(self.setting_menu.quit_button)
 	def draw(self):
 		self.game.screen.blit(self.image, (self.pos[0], self.pos[1]))
 	Help = 0
@@ -68,7 +70,7 @@ class menu(button):
 			img = pygame.transform.scale(img, (bg.Game.width, bg.Game.height))
 			self.game.screen.blit(img, (0, 0))
 			self.game.screen.blit( self.Skip.image,self.Skip.rect)
-			pygame.display.flip()
+			# pygame.display.flip()
 			return True
 		image = pygame.image.load("bg2.png")
 		image = pygame.transform.scale(image, (self.game.width, self.game.height))
@@ -90,8 +92,9 @@ class menu(button):
 				h = img.get_height()
 				img = pygame.transform.scale(img, (img.get_width() * self.game.RATIO //100, img.get_height() * self.game.RATIO//100))
 				pygame.draw.rect(self.game.screen, (249, 214, 210), (self.game.width * 3 / 4, self.game.height * 3 / 4, w, h))
+
 				rect = img.get_rect(center = (self.game.width * 3 /4 + img.get_width() / 2, self.game.height * 3 / 4 + img.get_height() / 2))
 				self.game.screen.blit(img, rect)
 				self.setting_menu.zoom_button.Bar.draw(self.game.screen)	
-		pygame.display.update()
+		# pygame.display.update()
 		return True
