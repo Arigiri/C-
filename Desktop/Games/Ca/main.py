@@ -70,9 +70,15 @@ def rot_center(image, angle):
 def end_stage():
 	if Game.restart == True:
 		Game.stage = 1
+		Fish1.health = MC_HEALTH
+		Fish1.lives = MC_LIVES
+		global Main_Fish
+		Main_Fish = pygame.sprite.GroupSingle()
 		Game.load(bg, Fish1)
 		Game.Pause = False
 		Game.restart = False
+		
+		Main_Fish.add(Fish1)
 		return
 	if len(Game.mobs)== 0:
 		Game.angle = 0
@@ -290,7 +296,6 @@ def process():
 	#draw minimap
 	Game.minimap.draw(Game)
 	#update display
-	pygame.display.flip()
 	pygame.display.update()	
 
 

@@ -95,6 +95,7 @@ class Boss(fish):
 		else: 
 			self.phase += 1
 			self.reborn()
+		self.S2_ATK = False
 	old_name = ""
 	def Skill2(self, Game):
 		curr_time = pygame.time.get_ticks()

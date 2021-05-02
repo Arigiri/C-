@@ -132,7 +132,7 @@ class mob3(fish):
 			# Bullet = bullet((x,y), game, bg, name, vx1, vy1)
 			# Bullet.type = "mobs_3"
 			# game.Bullet_Mobs.add(Bullet)
-			self.name = "mob3\\" + tt + "F.png"
+			# self.name = "mob3\\" + tt + "F.png"
 			self.fire = True
 		elif curr_time - self.old_time > FREEZE_TIME * 100 and self.freeze_delay != 0:
 			self.freeze.kill()

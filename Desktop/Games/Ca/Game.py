@@ -34,7 +34,7 @@ class game():
 		self.stop = 0
 		rate = 3
 		self.MAIN_SPEED, self.MOB_SPEED, self.BULLET_SPEED, self.BIG_BULLET_SPEED, self.SPLASH_SPEED, self.DASH_SPEED, self.MC_BULLET_SPEED = MAIN_SPEED, MOB_SPEED, BULLET_SPEED, BIG_BULLET_SPEED, SPLASH_SPEED, DASH_SPEED, MC_BULLET_SPEED
-		if not (self.width == 1366 and self.height == 768):
+		if (self.width == 1920 and self.height == 1080):
 			self.MAIN_SPEED *= rate
 			self.MOB_SPEED *= rate
 			self.BULLET_SPEED *= rate

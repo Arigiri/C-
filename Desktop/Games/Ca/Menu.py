@@ -29,14 +29,17 @@ class menu(button):
 		self.game.Pause = False
 		self.setting_menu = setting_menu(self.game)
 		self.settingMenu = setting((self.pos[0], self.pos[1] + self.h))
-		self.Skip = button((game.width * 5 / 6, game.height * 5 / 6), "Skip")
-		self.Skip = button((game.width - self.Skip.w, game.height - self.Skip.h), "Skip")
-		self.setting_menu.quit_button = quit_button((self.setting_menu.pos[0] + self.setting_menu.w/2 - self.setting_menu.zoom_button.w/2, self.setting_menu.load_button.pos[1] + self.setting_menu.load_button.h + 30))
+		self.setting_menu.tutorial_button = tutorial_button((self.setting_menu.pos[0] + self.setting_menu.w/2 - self.setting_menu.zoom_button.w/2, self.setting_menu.load_button.pos[1] + self.setting_menu.load_button.h + 30))
+		self.setting_menu.quit_button = quit_button((self.setting_menu.pos[0] + self.setting_menu.w/2 - self.setting_menu.zoom_button.w/2, self.setting_menu.tutorial_button.pos[1] + self.setting_menu.tutorial_button.h + 30))
+
 		self.setting_menu.Buttons = pygame.sprite.Group()
 		self.setting_menu.Buttons.add(self.setting_menu.exit_button)
 		self.setting_menu.Buttons.add(self.setting_menu.zoom_button)
 		self.setting_menu.Buttons.add(self.setting_menu.load_button)
 		self.setting_menu.Buttons.add(self.setting_menu.quit_button)
+		self.setting_menu.Buttons.add(self.setting_menu.tutorial_button)
+
+
 	def draw(self):
 		self.game.screen.blit(self.image, (self.pos[0], self.pos[1]))
 	Help = 0
@@ -45,33 +48,16 @@ class menu(button):
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					exit()
-				elif event.type == KEYDOWN and event.key == K_F4:
-					exit()
 				if event.type == MOUSEBUTTONUP:
-					if self.Help > 0:
-						self.Help += 1
-					if self.get_clicked():
-						self.Help += 1
 					if self.settingMenu.get_clicked():
 						self.game.Pause = True
-					if self.Skip.get_clicked():
-						self.Help = 0
+					if self.get_clicked():
 						pygame.mouse.set_visible(False)
 						return False
 					
 
 
-		if self.Help > 0:
-			if self.Help > 7:
-				self.Help = 0
-				pygame.mouse.set_visible(False)
-				return False
-			img = pygame.image.load("help\\help" + str(self.Help) + ".png")
-			img = pygame.transform.scale(img, (bg.Game.width, bg.Game.height))
-			self.game.screen.blit(img, (0, 0))
-			self.game.screen.blit( self.Skip.image,self.Skip.rect)
-			# pygame.display.flip()
-			return True
+		
 		image = pygame.image.load("bg2.png")
 		image = pygame.transform.scale(image, (self.game.width, self.game.height))
 		self.game.screen.blit(image, (0, 0))
@@ -85,6 +71,7 @@ class menu(button):
 				
 			self.setting_menu.draw(self.game.screen)
 			self.setting_menu.Buttons.draw(self.game.screen)
+
 			# self.settingload_button.draw(self.game.screen)	
 			if self.setting_menu.zoom_button.Show:
 				img = pygame.image.load("example.png")
@@ -96,5 +83,18 @@ class menu(button):
 				rect = img.get_rect(center = (self.game.width * 3 /4 + img.get_width() / 2, self.game.height * 3 / 4 + img.get_height() / 2))
 				self.game.screen.blit(img, rect)
 				self.setting_menu.zoom_button.Bar.draw(self.game.screen)	
+			if self.setting_menu.Help > 0:
+				if self.setting_menu.Help > 7:
+					self.setting_menu.Help = 0
+					for button in self.setting_menu.Buttons:
+						if button.name == "skip":
+							button.kill()
+				else:
+					img = pygame.image.load("help\\help" + str(self.setting_menu.Help) + ".png")
+					img = pygame.transform.scale(img, (self.game.width, self.game.height))
+					self.setting_menu.game.screen.blit(img, (0, 0))
+					self.setting_menu.skip_button.draw(self.game.screen)
+					self.setting_menu.skip_button.Show = True
+			
 		# pygame.display.update()
 		return True
