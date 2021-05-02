@@ -55,7 +55,7 @@ class mc(pygame.sprite.Sprite):
 		self.h = self.image.get_height()
 		self.bg = bg
 		rate = sw/sh
-		self.stamia_image = pygame.transform.scale(self.stamia_image, (int(rate * self.h), self.h))
+		self.stamia_image = pygame.transform.scale(self.stamia_image, (int(rate * self.h) * Game.RATIO // 100, self.h * Game.RATIO // 100))
 		self.sw = self.stamia_image.get_width()
 		self.sh = self.stamia_image.get_height()
 

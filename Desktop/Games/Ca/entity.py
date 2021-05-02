@@ -41,6 +41,7 @@ class fish(pygame.sprite.Sprite):
 			return
 		if self.name[len(self.name) - 1] != 'g':
 			self.name += '.png'
+		# print(self.name)
 		self.image = pygame.image.load(self.name)
 		w = self.image.get_width()
 		h = self.image.get_height()
@@ -193,7 +194,7 @@ class fish(pygame.sprite.Sprite):
 		y = min(y, bg.h - self.h)
 		self.rpos = (x, y)
 	def __str__(self):
-		return self.name + '\n' + str(self.pos[0]) + '\n' + str(self.pos[1]) + '\n' + str(self.rpos[0]) + '\n' + str(self.rpos[1])+ '\n' + str(self.mob) + '\n' + str(self.vx) + '\n' + str(self.vy) + '\n' + str(self.cot) + '\n' + str(self.health)
+		return self.name + '\n' + str(int(self.pos[0])) + '\n' + str(int(self.pos[1])) + '\n' + str(int(self.rpos[0])) + '\n' + str(int(self.rpos[1]))+ '\n' + str(self.mob) + '\n' + str(int(self.vx)) + '\n' + str(int(self.vy)) + '\n' + str(self.cot) + '\n' + str(self.health)
 	def write(self, num):
 		f = open("saves\\" + "entity" + str(num) + ".txt", "w")
 		f.write(str(self))

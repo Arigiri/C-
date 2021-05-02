@@ -46,7 +46,8 @@ class Zoom_button(button):
 		self.bar1 = button((10, Game.height / 2), "bar1")
 		self.bar2 = button((10, Game.height / 2), "bar2")
 		self.bar2 = button((10 , Game.height / 2 + self.bar2.h/2),"bar2")
-		self.bar1 = button((10 + self.bar2.w * RATIO / 100, Game.height / 2), "bar1")
+		print(Game.RATIO)
+		self.bar1 = button((10 + self.bar2.w * Game.RATIO / 100, Game.height / 2), "bar1")
 		
 		self.Bar = pygame.sprite.Group()
 		self.Bar.add(self.bar2)

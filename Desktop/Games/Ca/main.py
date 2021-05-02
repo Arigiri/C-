@@ -21,11 +21,8 @@ def health_bar(fish):
 	COLOR1 = (111, 116, 111)
 	COLOR2 = (58, 58, 58)
 	COLOR3 = (34,255,4)
-	w1 = image1.get_width()
 	w2 = image2.get_width()	
-	w3 = image3.get_width()
 	w4 = image6.get_width()
-	h = image3.get_height()
 	fish.health = max(fish.health, 0)
 	health_len = (Game.width - 30 - x - 15)/fish.maxhealth
 	mw = health_len * fish.maxhealth
@@ -58,8 +55,8 @@ def health_bar(fish):
 def draw_stamia(fish):
 	rx = fish.pos[0] + fish.w +fish.sw
 	ry = fish.pos[1] + fish.sh
-	h = fish.sh/FULL_STAMIA * fish.stamia
-	lx = rx - fish.sw
+	h = (fish.sh/FULL_STAMIA * fish.stamia) 
+	lx = rx - fish.sw 
 	ly = ry - h
 	pygame.draw.rect(Game.screen, YELLOW,  (lx, ly, fish.sw, h))
 	Game.screen.blit(fish.stamia_image, (fish.pos[0] + fish.w, fish.pos[1]))
@@ -259,7 +256,7 @@ def process():
 if __name__ == '__main__':
 	Game = game()
 	bg = bg(0, 0, Game)
-	# print(Game.Min_ratio)
+	# print(Game.RATIO)
 	Menu = menu(Game)
 	Time = pygame.time.Clock()
 	Fish1 = mc()
@@ -268,7 +265,7 @@ if __name__ == '__main__':
 	
 	if Fish1.name == "":
 		# print(1)
-		Fish1 = mc((Game.width/2, Game.height/2), "mc1", Game, bg, MC_HEALTH)
+		Fish1 = mc((Game.width/2, Game.height/2), "mc_animation\\mc0", Game, bg, MC_HEALTH)
 		# print(Fish1.name)
 	Game.stage = 7
 	if not Game.updated:

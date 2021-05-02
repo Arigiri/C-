@@ -19,7 +19,7 @@ class Freeze(pygame.sprite.Sprite):
 		self.fish = fish
 	def draw(self,Surface):
 		# print(self.pos)
-		Surface.blit(self.image,self.pos)
+		Surface.blit(self.image,self.rect)
 	def update(self, fish, Game):
 		if self.name == "":
 			return

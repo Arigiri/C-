@@ -27,6 +27,15 @@ class game():
 		self.font = pygame.font.SysFont(None, 72)
 		self.menu = setting_menu(self)
 		self.stop = 0
+		rate = 1.406
+		global MAIN_SPEED, MOB_SPEED, BULLET_SPEED, BIG_BULLET_SPEED, SPLASH_SPEED, DASH_SPEED
+		if not (self.width == 1366 and self.height == 768):
+			MAIN_SPEED *= rate
+			MOB_SPEED *= rate
+			BULLET_SPEED *= rate
+			BIG_BULLET_SPEED *= rate
+			SPLASH_SPEED *= rate
+			DASH_SPEED *= rate
 		# self.rect.lefttop = (0, 0)
 		# self.rect.rightbottom = (self.width, self.height)
 
@@ -43,7 +52,7 @@ class game():
 
 	def setup(self, bg, mc):
 		self.bg = bg
-		self.RATIO = self.Min_ratio + 5
+		# self.RATIO = self.Min_ratio + 5
 		self.minimap = minimap((0, 0), self)
 		self.minimap = minimap((self.width - self.bg.w/self.minimap.ratio*self.RATIO/100 - 5, self.height - self.bg.h/self.minimap.ratio*self.RATIO/100 - 5), self)
 		#sprite group
@@ -119,7 +128,7 @@ class game():
 		self.setup(bg, mc)
 		self.stage += 1
 	def __str__(self):
-		paper = str(self.stage) + '\n'
+		paper = str(self.stage) + '\n' + str(self.RATIO) + '\n'
 		return paper
 	def write(self, mc):
 		count1 = 0
@@ -210,9 +219,11 @@ class game():
 			Bullet = bullet(Bullet.pos, self, bg, Bullet.name, Bullet.vx, Bullet.vy)
 			self.Bullet_Main.add(Bullet)
 		self.stage = int(read[3])
+		self.RATIO = int(read[4])
 		mc.read(self)
 		self.updated = True
-		self.minimap = minimap((self.width - bg.w * 1 / 20 - 3, self.height - bg.h * 1 / 20 - 3), self)
+		self.minimap = minimap((0, 0), self)
+		self.minimap = minimap((self.width - self.bg.w/self.minimap.ratio*self.RATIO/100 - 5, self.height - self.bg.h/self.minimap.ratio*self.RATIO/100 - 5), self)
 
 			
 

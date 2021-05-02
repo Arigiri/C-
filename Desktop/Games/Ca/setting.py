@@ -50,17 +50,17 @@ DASH_TIME = DASH_DISTANT/DASH_SPEED
 #entity ratio
 RATIO = 70
 #stamia consume
-DASH_STAMIA = 25
+DASH_STAMIA = FULL_STAMIA * 6 // 10
 STAMIA_RESTORE = 1
-FIRE_STAMIA = 5
+FIRE_STAMIA = FULL_STAMIA // 5
 BG_SPEED = 25
-BLADE_STAMIA = 25
+BLADE_STAMIA = FULL_STAMIA // 3
 #boss
 number_of_boss_1 = 1
 LASER_DAMAGE = 3.5
-image1 = pygame.image.load("HP1.png")
-image2 = pygame.image.load("HP2.png")
-image3 = pygame.image.load("HP3.png")
-image4 = pygame.image.load("HP4.png")
-image6 = pygame.image.load("HP4s.png")
+image1 = pygame.image.load("tmp\\HP1.png")
+image2 = pygame.image.load("tmp\\HP2.png")
+image3 = pygame.image.load("tmp\\HP3.png")
+image4 = pygame.image.load("tmp\\HP4.png")
+image6 = pygame.image.load("tmp\\HP4s.png")
 
