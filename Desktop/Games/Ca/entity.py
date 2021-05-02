@@ -129,8 +129,11 @@ class fish(pygame.sprite.Sprite):
 	def name_detect(self):
 		if  self.fire:
 			return
-		if self.mob == 100 and self.name[len(self.name) - 2] == 'F':
-			return
+		if self.mob == 100:
+			for char in self.name:
+				if char == 'F':
+					return
+	
 		if self.direction == "LEFT":
 			self.name = "ca" + str(self.mob) 
 		else:
@@ -152,7 +155,7 @@ class fish(pygame.sprite.Sprite):
 				self.vx *= 3
 				self.vy *= 3
 			self.delay = 0
-		if self.change == 5 and self.mob != 4 and self.mob != 1:
+		if self.change == 10 and self.mob != 4 and self.mob != 1:
 			self.change = 0
 			if self.mouth == 1:
 				self.mouth = 2

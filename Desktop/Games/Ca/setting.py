@@ -7,7 +7,7 @@ number_of_mob_2 = 1
 number_of_mob_3 = 1
 number_of_mob_4 = 1
 HEALTH_HEIGHT = 25
-fps = 60
+fps = 30
 #main statistic
 MAIN_SPEED = 0.35
 MAIN_DAMAGE = 25
@@ -28,16 +28,16 @@ MOB_MAX_HEALTH = 100
 BULLET_SPEED = 6.5
 BULLET_DAMAGE = 10
 BULLET_LIFE_TIME = 60
-BULLET_WAIT = 140
+BULLET_WAIT = 50
 BULLET_DISTANCE = 1200
 #mob1 statistic
 ROAR_TIME = 50
 #mob2 statistic
-BIG_BULLET_SPEED = 8
+BIG_BULLET_SPEED = 25
 BIG_BULLET_WAIT = 100
 #mob 4 statistic
 SPLASH_DAMAGE = 1.5
-SPLASH_TIME = 15 #0.x second
+SPLASH_TIME = 50 #0.x second
 SPLASH_SPEED = 12
 #mob 3 statistic
 FREEZE_TIME = 75

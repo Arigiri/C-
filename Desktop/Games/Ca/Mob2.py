@@ -58,7 +58,7 @@ class mob2(fish):
 		image = pygame.image.load("mob2\\big_bullet.png")
 		w = image.get_width()
 		h = image.get_height()
-		pygame.transform.scale(image, (w * RATIO//100, h *RATIO//100))
+		image = pygame.transform.scale(image, (w * game.RATIO//100, h *game.RATIO//100))
 		w = image.get_width()
 		h = image.get_height()
 		self.bg = bg
@@ -70,6 +70,9 @@ class mob2(fish):
 			tt = "cas2"
 		y1 = self.pos[1] + self.h/2
 		self.image = pygame.image.load("mob2\\" + tt + "F.png")
+		w = self.image.get_width()
+		h = self.image.get_height()
+		self.image = pygame.transform.scale(self.image, (w * game.RATIO//100, h *game.RATIO//100))
 		self.fire = True
 		self.a, self.b = self.find_ab(mc, bg)
 

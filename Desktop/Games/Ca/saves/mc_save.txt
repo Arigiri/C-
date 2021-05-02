@@ -1,8 +1,8 @@
-mc_animation\mcs5.png
-570
-594
+mc_animation\mc8.png
+900
+333
 100
-100
+90
 3
 960
 540

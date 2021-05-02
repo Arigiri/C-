@@ -51,11 +51,12 @@ class mc(pygame.sprite.Sprite):
 		h = self.image.get_height()
 		self.image = pygame.transform.scale(self.image, (w * Game.RATIO //100, h * Game.RATIO//100))
 		self.Game = Game
+
 		self.w = self.image.get_width()
 		self.h = self.image.get_height()
 		self.bg = bg
 		rate = sw/sh
-		self.stamia_image = pygame.transform.scale(self.stamia_image, (int(rate * self.h) * Game.RATIO // 100, self.h * Game.RATIO // 100))
+		self.stamia_image = pygame.transform.scale(self.stamia_image, (int(rate * self.h) , self.h ))
 		self.sw = self.stamia_image.get_width()
 		self.sh = self.stamia_image.get_height()
 
@@ -182,9 +183,9 @@ class mc(pygame.sprite.Sprite):
 			self.old_dash = curr_time
 		if self.vx == 0 and self.vy == 0:
 			if self.direction == "LEFT":
-				self.vx = -DASH_SPEED
+				self.vx = -self.Game.DASH_SPEED
 			elif self.direction == "RIGHT":
-				self.vx =  DASH_SPEED
+				self.vx =  self.Game.DASH_SPEED
 		else:
 			self.vx *= DASH_RATIO
 			self.vy *= DASH_RATIO
@@ -197,10 +198,12 @@ class mc(pygame.sprite.Sprite):
 		self.stamia -= FIRE_STAMIA
 		if self.direction == "LEFT":
 			Bullet = bullet((self.pos[0] - self.bullet[0].w , self.pos[1] + self.h/2), self.Game, bg, "bullet1.png")
+			Bullet.type = "MAIN"
 			Bullet.vx = -MC_BULLET_SPEED 
 			Bullet.vy = 0
 		else:
 			Bullet = bullet((self.pos[0]  + self.w, self.pos[1] + self.h/2), self.Game, bg, "bullet2.png")
+			Bullet.type = "MAIN"
 			Bullet.vx = MC_BULLET_SPEED 
 			Bullet.vy = 0
 		return Bullet

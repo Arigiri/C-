@@ -18,6 +18,7 @@ class bg:
 		Ratio2 = int(Game.height / self.h * 100) + 1
 		Game.Min_ratio = max(Ratio1, Ratio2)
 		Game.RATIO = Game.Min_ratio + 5
+		
 
 	def draw(self, screen):
 		screen.blit(self.image, (self.x, self.y))

@@ -15,7 +15,7 @@ class mob0(fish):
 		Dx = y0 - y1
 		Dy = y1 * x0 - x1 * y0
 		if D == 0:
-			return BULLET_SPEED, 0
+			return bg.Game.BULLET_SPEED, 0
 		x = Dx/D
 		y = Dy/D
 		return x, y
@@ -32,7 +32,7 @@ class mob0(fish):
 		y0 = self.pos[1]
 		a = self.a
 		b = self.b
-		delta = (-2 * x0 + 2 * a * b - 2 * a * y0) * (-2 * x0 + 2 * a * b - 2 * a * y0) - 4 * (1 + a * a) * (x0 * x0 + (b - y0) * (b - y0) - BULLET_SPEED * BULLET_SPEED)
+		delta = (-2 * x0 + 2 * a * b - 2 * a * y0) * (-2 * x0 + 2 * a * b - 2 * a * y0) - 4 * (1 + a * a) * (x0 * x0 + (b - y0) * (b - y0) - bg.Game.BULLET_SPEED * bg.Game.BULLET_SPEED)
 		delta **= (1/2)
 		x1 = ((2 * x0 - 2 * a * (b - y0)) - delta)/(2 * (1 + a * a))
 		x2 = ((2 * x0 - 2 * a * (b - y0)) + delta)/(2 * (1 + a * a))
@@ -79,5 +79,6 @@ class mob0(fish):
 		if mc.pos[1] < self.pos[1]:
 			vy *= -1
 		Bullet = bullet((x1, y1), self.Game, bg, name + ".png", vx, vy)
+		Bullet.type = "mobs_0"
 		return Bullet
 

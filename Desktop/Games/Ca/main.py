@@ -127,13 +127,15 @@ def process():
 			else:
 				for fish in Main_Fish:
 					fish.dash = True
-		if event.type == KEYDOWN and event.key == K_SPACE:
+		if event.type == KEYDOWN and event.key == K_SPACE and Game.Fire_delay == 0:
 			bullet = Fish1.Fire(bg)
 			if bullet.name != "":
 				Game.Bullet_Main.add(bullet)
+			Game.Fire_delay = 5
 	if len(Game.mobs) == 0:
 		return
-	#update
+	if Game.Fire_delay:Game.Fire_delay -= 1
+	#update11
 	bg.update(Fish1)
 
 	#check fish in current screen
@@ -150,11 +152,16 @@ def process():
 			if hit.health <= 0:
 				# hit.name = ""
 				hit.kill()
+	hits = pygame.sprite.groupcollide(Game.Bullet_Mobs, Main_Fish, False, False, pygame.sprite.collide_rect)
+	for hit in hits:
+		if hit.type == "mobs_3":
+			Main_Fish.Slow = True
 	hits = pygame.sprite.groupcollide(Main_Fish, Game.Bullet_Mobs, False, True, pygame.sprite.collide_rect)
 	for hit in hits:
 		if hit.immune:
 			continue
 		hit.health -= BULLET_DAMAGE	
+
 	hits = pygame.sprite.groupcollide(mobs, Main_Fish, False, False, pygame.sprite.collide_rect)
 	for hit in hits:
 		if hit.mob == 4 or hit.mob == 1:
@@ -181,8 +188,8 @@ def process():
 	sp = pygame.sprite.Group()
 	for fish in mobs:
 		if fish.mob == 3:
-			if fish.LIGHT():
-				sp.add(fish.freeze)
+			fish.LIGHT(Fish1, bg, Game)
+				# sp.add(fish.freeze)
 	hits = pygame.sprite.groupcollide(Main_Fish, sp,False, False, pygame.sprite.collide_rect)
 	for hit in hits:
 		hit.Slow = 1
@@ -206,14 +213,14 @@ def process():
 	for blade in Game.Blade_mc:
 		if blade.update(Fish1, Game):
 			blade.kill()
-	Game.Bullet_Mobs.update(bg,"mobs_0", Fish1, Game)
+	Game.Bullet_Mobs.update(bg, Fish1, Game)
 	for boss in Game.Boss:
-		boss.Bullet.update(bg, "boss", Fish1, Game)
+		boss.Bullet.update(bg,  Fish1, Game)
 		# boss.Laser.update()
 
 	#mc update
 	Main_Fish.update(bg, Game)
-	Game.Bullet_Main.update(bg, "MAIN", Fish1, Game)
+	Game.Bullet_Main.update(bg, Fish1, Game)
 	#minimap update
 	Game.minimap.update(Game,bg, Fish1)
 	#draw
@@ -255,8 +262,9 @@ def process():
 
 if __name__ == '__main__':
 	Game = game()
+
 	bg = bg(0, 0, Game)
-	# print(Game.RATIO)
+	print(Game.MOB_SPEED)
 	Menu = menu(Game)
 	Time = pygame.time.Clock()
 	Fish1 = mc()

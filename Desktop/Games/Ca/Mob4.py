@@ -87,26 +87,5 @@ class mob4(fish):
 			self.vx *= -1
 		if fish.pos[1] < self.pos[1]:
 			self.vy *= -1
-		# p1 = fish.rect.center
-		# p2 = self.rect.center
-		# p = (p1[0] - p2[0], p1[1] - p2[1])
-		# if p[1] == 0:
-		# 	if self.vx > 0:self.vx = BULLET_SPEED 
-		# 	else: self.vx = -BULLET_SPEED
-		# 	self.vy = 0
-		# else:
-		# 	ratio = p[0]/p[1]
-		# 	if abs(self.vx) > abs(self.vy) and ratio > 1:
-		# 		if self.vx > 0:
-		# 			self.vx = MOB_SPEED
-		# 		else:
-		# 			self.vx = -MOB_SPEED
-		# 		self.vy = self.vx/ratio
-		# 	else:
-		# 		if self.vy > 0:
-		# 			self.vy = MOB_SPEED
-		# 		else:
-		# 			self.vy = -MOB_SPEED
-		# 		self.vx = self.vy*ratio
 			self.old_time = curr_time
 			self.fire = True

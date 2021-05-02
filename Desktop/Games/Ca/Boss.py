@@ -57,7 +57,7 @@ class Boss(fish):
 	CD_phase_2 = 1000
 	S2_ATK = False
 	angle = -60
-	skill_CD_S3 = 360
+	skill_CD_S3 = 100
 	Laser = pygame.sprite.Group()
 	def draw_health(self, Game):
 		image = pygame.image.load("boss.png")
@@ -94,7 +94,7 @@ class Boss(fish):
 		else: 
 			self.phase += 1
 			self.reborn()
-
+	old_name = ""
 	def Skill2(self, Game):
 		curr_time = pygame.time.get_ticks()
 		if not self.S2_ATK:
@@ -103,6 +103,11 @@ class Boss(fish):
 			self.S2_ATK = True
 			self.stay = True
 			pos = self.pos
+			K = True
+			for name in self.name:
+				if name == 'F': K = False
+			if K:
+				self.old_name = self.name
 			if self.direction == "LEFT":
 				pos = (self.pos[0], self.pos[1] + self.h/2)
 				self.name = "mob100\\ca100F2.png"
@@ -112,10 +117,15 @@ class Boss(fish):
 			self.laser = Laser(pos, self.angle, Game)
 			self.Laser.add(self.laser)
 
-		elif -self.old_time_S2 + curr_time < self.stay_time_s2:
+		elif -self.old_time_S2 + curr_time < self.stay_time_s2 * Game.RATIO/100:
 			self.angle += 3.5
 			pos = self.pos
 			angle = self.angle
+			K = True
+			for name in self.name:
+				if name == 'F': K = False
+			if K:
+				self.old_name = self.name
 			if self.direction == "LEFT":
 				pos = (self.pos[0], self.pos[1] + self.h/2)
 				self.name = "mob100\\ca100F2.png"
@@ -127,8 +137,10 @@ class Boss(fish):
 		else:
 			self.S2_ATK = False
 			self.stay = False
+			self.name = self.old_name
 			for laser in self.Laser:
 				laser.kill()
+
 
 
 	def Skill1(self, Game, bg, rot):
@@ -136,8 +148,6 @@ class Boss(fish):
 		# if self.atk == True:
 		# 	if (curr_time - self.old_time_S1 < self.CD_S1 * 100 and self.old_time_S1 != 0):
 		# 		return
-		if self.direction == "LEFT":self.name = "mob100\\ca100F1.png"
-		else: self.name = "mob100\\cas100F1.png"
 		self.old_time_S1 = curr_time
 		vx = 20
 		vy = 20
@@ -152,7 +162,9 @@ class Boss(fish):
 				vy2 = vy1 - O[1]
 				vx2/=2
 				vy2/=2
-				self.Bullet.add(bullet((vx1, vy1), Game, bg, "bosss1_animation\\bullet1.png",vx2, vy2))
+				Bullet = bullet((vx1, vy1), Game, bg, "bosss1_animation\\bullet1.png",vx2, vy2)
+				Bullet.type = "boss"
+				self.Bullet.add(Bullet)
 				angle += alpha
 	def spawn(self, mob, bg ,Game):
 		if mob == 1:
@@ -164,22 +176,39 @@ class Boss(fish):
 		if mob == 3:
 			fish = mob3((randint(0, bg.w), randint(0, bg.h)), "mob3\\ca31", Game, bg, MOB_MAX_HEALTH)
 			Game.mobs_3.add(fish)
+			Game.mobs.add(fish)
+			fish = mob3((randint(0, bg.w), randint(0, bg.h)), "mob3\\ca31", Game, bg, MOB_MAX_HEALTH)
+			Game.mobs_3.add(fish)
+			Game.mobs.add(fish)
 		if mob == 4:
 			fish = mob4((randint(0, bg.w), randint(0, bg.h)), "mob4\\ca41", Game, bg, MOB_MAX_HEALTH)
 			Game.mobs_4.add(fish)
+			Game.mobs.add(fish)
+			fish = mob4((randint(0, bg.w), randint(0, bg.h)), "mob4\\ca41", Game, bg, MOB_MAX_HEALTH)
+			Game.mobs_4.add(fish)
+			Game.mobs.add(fish)
 		if mob == 0:
 			fish = mob0((randint(0, bg.w), randint(0, bg.h)), "mob0\\ca01", Game, bg, MOB_MAX_HEALTH)
 			Game.mobs_0.add(fish)
+			Game.mobs.add(fish)
+			fish = mob0((randint(0, bg.w), randint(0, bg.h)), "mob0\\ca01", Game, bg, MOB_MAX_HEALTH)
+			Game.mobs_0.add(fish)
+			Game.mobs.add(fish)
+			fish = mob0((randint(0, bg.w), randint(0, bg.h)), "mob0\\ca01", Game, bg, MOB_MAX_HEALTH)
+			Game.mobs_0.add(fish)
+			Game.mobs.add(fish)
 
-		Game.mobs.add(fish)
+
+		
 		return Game
 	def Skill3(self, game, bg):
 		if self.skill_CD_S3:
 			self.skill_CD_S3 -= 1
+			print(self.skill_CD_S3)
 			return
 		else:
-			self.skill_CD_S3 = 1000
-		if len(game.mobs) > 16:
+			self.skill_CD_S3 = 100
+		if len(game.mobs) > 8:
 			return
 		mobs = [0, 0, 0, 1, 2, 3, 3, 4, 4]
 		mob1 = choice(mobs)
@@ -193,6 +222,7 @@ class Boss(fish):
 		if atkS <= 2 and not self.S2_ATK:
 			self.Skill1(Game, bg, 0)
 		else: self.Skill2(Game)
+		# self.Skill3(Game, bg)
 	def phase2(self, Game, bg):
 		atkS = randint(0, 3)
 		if atkS <= 2 and not self.S2_ATK or not self.done:
@@ -208,7 +238,6 @@ class Boss(fish):
 					self.wait += 1
 		else:
 			self.Skill2(Game)
-		self.Skill3(Game, bg)
 	def phase3(self, Game, bg):
 		atkS = randint(0, 3)
 		if atkS <= 2 and not self.S2_ATK or not self.done:	
@@ -225,10 +254,15 @@ class Boss(fish):
 					self.wait = 0
 				else:
 					self.wait += 1
-		else:
-			self.Skill3()
 	def attack(self, bg,Game):
 		curr_time = pygame.time.get_ticks()
+		if self.skill_CD_S3:
+			self.skill_CD_S3 -= 1
+		if self.skill_CD_S3 == 0:
+			if self.phase != 1:
+				self.Skill3(Game, bg)
+			self.skill_CD_S3 = 50
+	
 		if curr_time - self.old_time_CD_ATK < self.skill_CD and self.old_time_CD_ATK != 0 and self.done and not self.S2_ATK:
 			return
 		

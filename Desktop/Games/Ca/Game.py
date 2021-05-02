@@ -18,6 +18,7 @@ class game():
 	Pause = False
 	RATIO = 70
 	updated = False
+	Fire_delay = 0
 	def __init__(self):
 		pygame.sprite.Sprite.__init__(self)
 
@@ -27,15 +28,16 @@ class game():
 		self.font = pygame.font.SysFont(None, 72)
 		self.menu = setting_menu(self)
 		self.stop = 0
-		rate = 1.406
-		global MAIN_SPEED, MOB_SPEED, BULLET_SPEED, BIG_BULLET_SPEED, SPLASH_SPEED, DASH_SPEED
+		rate = 3
+		self.MAIN_SPEED, self.MOB_SPEED, self.BULLET_SPEED, self.BIG_BULLET_SPEED, self.SPLASH_SPEED, self.DASH_SPEED, self.MC_BULLET_SPEED = MAIN_SPEED, MOB_SPEED, BULLET_SPEED, BIG_BULLET_SPEED, SPLASH_SPEED, DASH_SPEED, MC_BULLET_SPEED
 		if not (self.width == 1366 and self.height == 768):
-			MAIN_SPEED *= rate
-			MOB_SPEED *= rate
-			BULLET_SPEED *= rate
-			BIG_BULLET_SPEED *= rate
-			SPLASH_SPEED *= rate
-			DASH_SPEED *= rate
+			self.MAIN_SPEED *= rate
+			self.MOB_SPEED *= rate
+			self.BULLET_SPEED *= rate
+			self.BIG_BULLET_SPEED *= rate
+			self.SPLASH_SPEED *= rate
+			self.DASH_SPEED *= rate
+			self.MC_BULLET_SPEED *= rate
 		# self.rect.lefttop = (0, 0)
 		# self.rect.rightbottom = (self.width, self.height)
 
@@ -133,10 +135,8 @@ class game():
 	def write(self, mc):
 		count1 = 0
 		for mob in self.mobs:
-			print(mob.pos)
 			mob.write(count1)
 			count1 += 1
-		print()
 		self.bg.write()
 		count2 = 0
 		for bullet in self.Bullet_Mobs:
