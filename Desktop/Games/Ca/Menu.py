@@ -64,7 +64,7 @@ class menu(button):
 		self.draw()
 		self.settingMenu.draw(self.game.screen)
 		if self.game.Pause == True:
-			self.setting_menu.update(self.game, mc, bg)
+			
 			# print(self.setting_menu.zoom_button.Show)
 			self.setting_menu.zoom_button.update(self.game)
 			
@@ -83,18 +83,6 @@ class menu(button):
 				rect = img.get_rect(center = (self.game.width * 3 /4 + img.get_width() / 2, self.game.height * 3 / 4 + img.get_height() / 2))
 				self.game.screen.blit(img, rect)
 				self.setting_menu.zoom_button.Bar.draw(self.game.screen)	
-			if self.setting_menu.Help > 0:
-				if self.setting_menu.Help > 7:
-					self.setting_menu.Help = 0
-					for button in self.setting_menu.Buttons:
-						if button.name == "skip":
-							button.kill()
-				else:
-					img = pygame.image.load("help\\help" + str(self.setting_menu.Help) + ".png")
-					img = pygame.transform.scale(img, (self.game.width, self.game.height))
-					self.setting_menu.game.screen.blit(img, (0, 0))
-					self.setting_menu.skip_button.draw(self.game.screen)
-					self.setting_menu.skip_button.Show = True
-			
+			self.setting_menu.update(self.game, mc, bg)
 		# pygame.display.update()
 		return True

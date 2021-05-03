@@ -23,15 +23,18 @@ class game():
 	save_success = 0
 	restart = False
 	Pause_delay = 0
+	Played = False
+	minimap = ""
 	def __init__(self):
 		pygame.sprite.Sprite.__init__(self)
 
 		pygame.init()
+		pygame.mixer.init()
 		self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 		self.width, self.height = pygame.display.get_surface().get_size()
 		self.font = pygame.font.SysFont(None, 72)
 		self.menu = setting_menu(self)
-		self.stop = 0
+		self.stop = False
 		rate = 3
 		self.MAIN_SPEED, self.MOB_SPEED, self.BULLET_SPEED, self.BIG_BULLET_SPEED, self.SPLASH_SPEED, self.DASH_SPEED, self.MC_BULLET_SPEED = MAIN_SPEED, MOB_SPEED, BULLET_SPEED, BIG_BULLET_SPEED, SPLASH_SPEED, DASH_SPEED, MC_BULLET_SPEED
 		if (self.width == 1920 and self.height == 1080):
@@ -57,9 +60,10 @@ class game():
 		return (x, y)
 
 	def setup(self, bg, mc):
+		self.Played = False
 		self.bg = bg
 		# self.RATIO = self.Min_ratio + 5
-		if not self.restart:
+		if self.minimap == "":
 			self.minimap = minimap((0, 0), self)
 			self.minimap = minimap((self.width - self.bg.w/self.minimap.ratio*self.RATIO/100 - 5, self.height - self.bg.h/self.minimap.ratio*self.RATIO/100 - 5), self)
 		#sprite group

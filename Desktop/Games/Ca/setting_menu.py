@@ -106,20 +106,22 @@ class setting_menu(pygame.sprite.Sprite):
 		self.load_button = load_button((self.pos[0] + self.w/2 - self.zoom_button.w/2, self.zoom_button.pos[1] + self.zoom_button.h + 30))
 		self.save_button = save_button((Game.width - tmp.get_width() - 30, Game.height * 2 / 10))
 		self.save_button = save_button((self.pos[0] + self.w/2 - self.zoom_button.w/2, Game.height * 2 / 10))
-
-		self.quit_button = quit_button()
-		self.quit_button = quit_button((self.pos[0] + self.w/2 - self.zoom_button.w/2, self.save_button.pos[1] + self.save_button.h + 30))
 		self.restart_button = restart_button()
-		self.restart_button = restart_button((self.pos[0] + self.w/2 - self.zoom_button.w/2, self.quit_button.pos[1] + self.quit_button.h + 30))
+		self.restart_button = restart_button((self.pos[0] + self.w/2 - self.zoom_button.w/2, self.save_button.pos[1] + self.save_button.h + 30))
 		self.tutorial_button = tutorial_button()
 		self.tutorial_button = tutorial_button(((self.pos[0] + self.w/2 - self.zoom_button.w/2, self.restart_button.pos[1] + self.restart_button.h + 30)))
-		self.skip_button = skip_button((Game.width * 5 / 6, Game.height * 5 /6))
+		self.quit_button = quit_button()
+		self.quit_button = quit_button((self.pos[0] + self.w/2 - self.zoom_button.w/2, self.tutorial_button.pos[1] + self.tutorial_button.h + 30))
+		
+		
+		self.skip_button = skip_button((Game.width * 1 / 10, Game.height * 5 /6))
+		self.skip_button = skip_button((self.skip_button.w/2, Game.height * 5 /6))
 		self.Buttons.add(self.save_button)
 		self.Buttons.add(self.exit_button)
 		self.Buttons.add(self.quit_button)
 		self.Buttons.add(self.restart_button)
 		self.Buttons.add(self.tutorial_button)
-		self.Buttons.add(self.skip_button)
+		# self.Buttons.add(self.skip_button)
 		self.rect.center = (self.pos[0] + self.w/2, self.pos[1] + self.h/2)
 	Help = 0
 	def update(self, game, mc, bg):
@@ -129,6 +131,10 @@ class setting_menu(pygame.sprite.Sprite):
 			if event.type == MOUSEBUTTONDOWN:
 				if self.Help:
 					self.Help += 1
+					if self.skip_button.get_clicked():
+						self.Help = 11
+					break
+			
 				for button in self.Buttons:
 					if button.get_clicked():
 						if button.name == "exit":
@@ -149,10 +155,20 @@ class setting_menu(pygame.sprite.Sprite):
 						if button.name == "tutorial":
 							self.Buttons.add(self.skip_button)
 							self.Help = 1
-						if button.name == "skip":
-							button.Show = False
-							self.Help = 8
-
+				
+		if self.Help > 0:
+			if self.Help > 10:
+				self.Help = 0
+				for button in self.Buttons:
+					if button.name == "skip":
+						button.kill()
+			else:
+				img = pygame.image.load("help\\help" + str(self.Help) + ".png")
+				img = pygame.transform.scale(img, (self.game.width, self.game.height))
+				self.game.screen.blit(img, (0, 0))
+				self.skip_button.draw(self.game.screen)
+				self.skip_button.Show = True
+			
 							
 
 				# self.game.screen.blit( self.Skip.image,self.Skip.rect)

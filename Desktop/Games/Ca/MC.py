@@ -110,7 +110,6 @@ class mc(pygame.sprite.Sprite):
 			self.vx *= SLOW
 			self.vy *= SLOW
 			self.Slow_Time -= 1
-			print(1)
 		elif self.Slow_Time <= 0:
 
 			self.Slow = False

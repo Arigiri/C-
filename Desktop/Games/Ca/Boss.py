@@ -57,7 +57,7 @@ class Boss(fish):
 	CD_phase_2 = 1000
 	S2_ATK = False
 	angle = -60
-	skill_CD_S3 = 100
+	skill_CD_S3 = 200
 	Laser = pygame.sprite.Group()
 	def draw_health(self, Game):
 		image = pygame.image.load("boss.png")
@@ -260,12 +260,12 @@ class Boss(fish):
 		if self.name == "":
 			return
 		curr_time = pygame.time.get_ticks()
-		if self.skill_CD_S3:
+		if self.skill_CD_S3 and self.phase != 1:
 			self.skill_CD_S3 -= 1
 		if self.skill_CD_S3 == 0:
 			if self.phase != 1:
 				self.Skill3(Game, bg)
-			self.skill_CD_S3 = 50
+			self.skill_CD_S3 = 200
 	
 		if curr_time - self.old_time_CD_ATK < self.skill_CD and self.old_time_CD_ATK != 0 and self.done and not self.S2_ATK:
 			return

@@ -1,6 +1,6 @@
-mc_animation\mc2.png
-960
-540
+mc_animation\mc1.png
+955
+511
 100
 100
 3

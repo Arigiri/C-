@@ -80,9 +80,12 @@ def end_stage():
 		
 		Main_Fish.add(Fish1)
 		return
+	
 	if len(Game.mobs)== 0:
 		Game.angle = 0
-		if Game.stage >= 7:
+
+		
+		if Game.stage > 7:
 			Image = pygame.image.load("end\\sc.png")
 
 			# Image = pygame.transform.scale(Image, (Game.width, Game.height))
@@ -92,6 +95,11 @@ def end_stage():
 					if event.type == QUIT:
 						pygame.quit()
 						exit()
+				if not Game.Played:
+					pygame.mixer.music.unload()
+					pygame.mixer.music.load("music\\Win_game.wav")
+					pygame.mixer.music.play()
+					Game.Played = True
 				tmp = rot_center(Image, Game.angle)
 				Rect = tmp.get_rect(center = (Game.width/2, Game.height/2))
 				img1 = pygame.image.load("end\\text" + str(Game.angle % 2 + 1) + ".png" )
@@ -101,19 +109,23 @@ def end_stage():
 				pygame.display.update()
 				Game.angle += 1
 			return
-		global img, rect
-		if Game.stop == 0:
+		else:
+			if not Game.Played:
+				pygame.mixer.music.unload()
+				pygame.mixer.music.load("music\\Level_Complete.wav")
+				pygame.mixer.music.play()
+				
+				Game.Played = True
 			img = pygame.image.load("setting\\clear_stage.png")
 			rect = img.get_rect(center = (Game.width/2, Game.height/2))
-			Game.stop += 1 
-		elif Game.stop < 50:
-			Game.stop += 1
 			Game.screen.blit(img, rect)
 			pygame.display.update()
-		else:
-			Game.stop = 0
-			Game.load(bg, Fish1)
-		
+
+	if Game.stop == True:
+		pygame.mixer.music.unload()
+		Game.stop = False
+		Game.load(bg, Fish1)
+	
 		
 		
 def get_mobs_on_screen(Game, bg):
@@ -129,9 +141,8 @@ def process():
 	#set fps
 	Time.tick(fps)
 	#stage
-	end_stage() 
 	#process events
-	
+	end_stage()
 	d = pygame.key.get_pressed()
 	if d[K_ESCAPE] and not Game.Pause_delay:
 		if Game.Pause == False:
@@ -141,41 +152,65 @@ def process():
 			Game.Pause = False
 			pygame.mouse.set_visible(False)
 		Game.Pause_delay = 5
+
 	if Game.Pause_delay:
 		Game.Pause_delay -= 1
 	if Game.Pause == True:
+		for fish in Main_Fish:
+			fish.move = 0
 		Game.menu.draw(Game.screen)
 		Game.Buttons.draw(Game.screen)
 		Game.menu.update(Game, Fish1, bg)
-		for fish in Main_Fish:
-			fish.move = 0
 		if Game.save_success:
 			img = pygame.image.load("setting\\save_success.png")
 			rect = img.get_rect(center = (Game.width/2, Game.height/2))
 			Game.screen.blit(img, rect)
 			Game.save_success -= 1
-		pygame.display.flip()
+		else:
+			bg.draw(Game.screen)
+			Game.mobs.draw(Game.screen)
+			Main_Fish.draw(Game.screen)
+			Game.menu.draw(Game.screen)
+			Game.Buttons.draw(Game.screen)
+			Game.menu.update(Game, Fish1, bg)
+
+		pygame.display.update()
 		return
 	else:
 		pygame.mouse.set_visible(False)
+	end_stage() 
 
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			exit()
+		
+		if event.type == KEYDOWN:
+			if len(Game.mobs) == 0:
+				Game.stop = True
+				# end_stage() 
+				return
+		if len(Game.mobs) == 0:
+			return
 		if event.type == MOUSEBUTTONDOWN:
-
 			if event.button == 1:
 				blade = Blade(Fish1)
 				if blade.blade != "":
+					pygame.mixer.music.unload()
+					pygame.mixer.music.load("music\\Splash.wav")
+					pygame.mixer.music.play()
 					Game.Blade_mc.add(blade) 
 		if event.type == KEYDOWN and event.key == K_SPACE and Game.Fire_delay == 0:
 			bullet = Fish1.Fire(bg)
 			if bullet.name != "":
+				pygame.mixer.music.unload()
+				pygame.mixer.music.load("music\\main_shoot.wav")
+				pygame.mixer.music.play()
 				Game.Bullet_Main.add(bullet)
 			Game.Fire_delay = 5
-	if len(Game.mobs) == 0:
-		return
+
 	if Game.Fire_delay:Game.Fire_delay -= 1
+	if len(Game.mobs) == 0:
+			return
 	#update11
 	bg.update(Fish1)
 
