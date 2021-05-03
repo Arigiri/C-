@@ -145,24 +145,23 @@ class Boss(fish):
 
 
 	def Skill1(self, Game, bg, rot):
-		self.old_time_S1 = curr_time
+	
 		vx = 20
 		vy = 20
 		alpha = 20
 		O = self.rect.center
-		if curr_time - self.stay_time >= self.stay_time:
-			angle = alpha
-			for i in range(11):
-				vx1 = vx * cos(angle + rot) - vy * sin(angle + rot) + O[0]
-				vy1 = vx * sin(angle + rot) + vx * cos(angle + rot) + O[1]
-				vx2 = vx1 - O[0]
-				vy2 = vy1 - O[1]
-				vx2/=2
-				vy2/=2
-				Bullet = bullet((vx1, vy1), Game, bg, "bosss1_animation\\bullet1.png",vx2, vy2)
-				Bullet.type = "boss"
-				self.Bullet.add(Bullet)
-				angle += alpha
+		angle = alpha
+		for i in range(11):
+			vx1 = vx * cos(angle + rot) - vy * sin(angle + rot) + O[0]
+			vy1 = vx * sin(angle + rot) + vx * cos(angle + rot) + O[1]
+			vx2 = vx1 - O[0]
+			vy2 = vy1 - O[1]
+			vx2/=2
+			vy2/=2
+			Bullet = bullet((vx1, vy1), Game, bg, "bosss1_animation\\bullet1.png",vx2, vy2)
+			Bullet.type = "boss"
+			self.Bullet.add(Bullet)
+			angle += alpha
 	def spawn(self, mob, bg ,Game):
 		if mob == 1:
 			fish = mob1((randint(0, bg.w), randint(0, bg.h)), "mob1\\ca11", Game, bg, MOB_MAX_HEALTH)
