@@ -54,35 +54,23 @@ class menu(button):
 					if self.get_clicked():
 						pygame.mouse.set_visible(False)
 						return False
-					
-
-
-		
 		image = pygame.image.load("bg2.png")
 		image = pygame.transform.scale(image, (self.game.width, self.game.height))
 		self.game.screen.blit(image, (0, 0))
 		self.draw()
 		self.settingMenu.draw(self.game.screen)
 		if self.game.Pause == True:
-			
-			# print(self.setting_menu.zoom_button.Show)
 			self.setting_menu.zoom_button.update(self.game)
-			
-				
 			self.setting_menu.draw(self.game.screen)
 			self.setting_menu.Buttons.draw(self.game.screen)
-
-			# self.settingload_button.draw(self.game.screen)	
 			if self.setting_menu.zoom_button.Show:
 				img = pygame.image.load("example.png")
 				w = img.get_width()
 				h = img.get_height()
 				img = pygame.transform.scale(img, (img.get_width() * self.game.RATIO //100, img.get_height() * self.game.RATIO//100))
 				pygame.draw.rect(self.game.screen, (249, 214, 210), (self.game.width * 3 / 4, self.game.height * 3 / 4, w, h))
-
 				rect = img.get_rect(center = (self.game.width * 3 /4 + img.get_width() / 2, self.game.height * 3 / 4 + img.get_height() / 2))
 				self.game.screen.blit(img, rect)
 				self.setting_menu.zoom_button.Bar.draw(self.game.screen)	
 			self.setting_menu.update(self.game, mc, bg)
-		# pygame.display.update()
 		return True

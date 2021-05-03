@@ -49,7 +49,40 @@ def health_bar(fish):
 			fish.lives -= 1
 			fish.health = fish.maxhealth
 		else:
-			exit()
+			#lose game
+			pygame.mixer.Channel(0).play(pygame.mixer.Sound("music\\lose.wav"))
+			pygame.mouse.set_visible(True)
+			Game.menu.restart_button = restart_button((Game.width * 9 / 10, Game.height * 9 / 10))
+			Game.menu.restart_button = restart_button((Game.width - Game.menu.restart_button.w - 30, Game.height - Game.menu.restart_button.h - 30))
+			Game.menu.quit_button = quit_button((Game.width * 1 / 10, Game.height * 9 / 10))
+			Game.menu.quit_button = quit_button((30, Game.height - Game.menu.restart_button.h - 30))
+			while 1:
+				pygame.mixer.Channel(1).pause()
+				img = pygame.image.load("lose\\t1.png")
+				img = pygame.transform.scale(img, (Game.width, Game.height))
+				rect = img.get_rect(center = (Game.width/2, Game.height/2))
+				img1 = pygame.image.load("lose\\t0.png")
+				rect1 = img1.get_rect(center = (Game.width/2, Game.height/2))
+				Game.screen.blit(img, rect)
+				Game.screen.blit(img1, rect1)
+				for event in pygame.event.get():
+					if event.type == QUIT:
+						pygame.quit()
+						exit()
+					if event.type == MUSIC_END:
+						pygame.mixer.Channel(1).rewind()
+					if event.type == MOUSEBUTTONDOWN:
+						if Game.menu.restart_button.get_clicked():
+							pygame.mouse.set_visible(False)
+							Game.restart = True
+							return
+						if Game.menu.quit_button.get_clicked():
+							pygame.quit()
+							exit()
+				Game.menu.restart_button.draw(Game.screen)
+				Game.menu.quit_button.draw(Game.screen)
+				pygame.display.update()
+			pygame.mixer.Channel(1).play()
 
 def draw_stamia(fish):
 	rx = fish.pos[0] + fish.w +fish.sw
@@ -86,34 +119,61 @@ def end_stage():
 
 		
 		if Game.stage > 7:
-			Image = pygame.image.load("end\\sc.png")
-
-			# Image = pygame.transform.scale(Image, (Game.width, Game.height))
-			Rect = Image.get_rect(center = (Game.width/2, Game.height/2))
-			while(1):
+			#win game
+			i = 1
+			while(i <= 4):
 				for event in pygame.event.get():
 					if event.type == QUIT:
 						pygame.quit()
 						exit()
+					if event.type == MUSIC_END:
+						pygame.mixer.Channel(1).rewind()
 				if not Game.Played:
-					# pygame.mixer.Channel(0).unload()
 					pygame.mixer.Channel(0).play(pygame.mixer.Sound("music\\Win_game.wav"))
-					# pygame.mixer.Channel(0).play()
 					Game.Played = True
-				tmp = rot_center(Image, Game.angle)
-				Rect = tmp.get_rect(center = (Game.width/2, Game.height/2))
-				img1 = pygame.image.load("end\\text" + str(Game.angle % 2 + 1) + ".png" )
-				RECT = img1.get_rect(center = (Game.width/2, Game.height/2))
-				Game.screen.blit(tmp, Rect)
-				Game.screen.blit(img1, RECT)
+				if Game.win_delay == 0:
+					Game.screen.fill(BLACK)
+					img = pygame.image.load("win\\t" + str(i) + ".png")
+					rect = img.get_rect(center = (Game.width/2, Game.height/2))
+					if i == 4:
+						img1 = pygame.image.load("win\\t5.png")
+						img1 = pygame.transform.scale(img1, (Game.width, Game.height))
+						rect1 = img1.get_rect(center = (Game.width/2, Game.height/2))
+						Game.screen.blit(img1, (0,0))
+					Game.screen.blit(img, rect)
+					i += 1
+					Game.win_delay += 300
+				else:
+					Game.win_delay -= 1
 				pygame.display.update()
-				Game.angle += 1
-			return
+			Game.menu.restart_button = restart_button((Game.width * 9 / 10, Game.height * 9 / 10))
+			Game.menu.restart_button = restart_button((Game.width - Game.menu.restart_button.w - 30, Game.height - Game.menu.restart_button.h - 30))
+			Game.menu.quit_button = quit_button((Game.width * 1 / 10, Game.height * 9 / 10))
+			Game.menu.quit_button = quit_button((30, Game.height - Game.menu.restart_button.h - 30))
+			while(1):
+				pygame.mouse.set_visible(True)
+				for event in pygame.event.get():
+					if event.type == QUIT:
+						pygame.quit()
+						exit()
+					if event.type == MUSIC_END:
+						pygame.mixer.Channel(1).rewind()
+					if event.type == MOUSEBUTTONDOWN:
+						if Game.menu.restart_button.get_clicked():
+							pygame.mouse.set_visible(False)
+							Game.restart = True
+							return
+						if Game.menu.quit_button.get_clicked():
+							pygame.quit()
+							exit()
+				Game.menu.restart_button.draw(Game.screen)
+				Game.menu.quit_button.draw(Game.screen)
+				pygame.display.update()
 		else:
 			if not Game.Played:
-				# pygame.mixer.Channel(0).unload()
+				
 				pygame.mixer.Channel(0).play(pygame.mixer.Sound("music\\Level_Complete.wav"))
-				# pygame.mixer.Channel(0).play()
+				
 				
 				Game.Played = True
 			img = pygame.image.load("setting\\clear_stage.png")
@@ -141,8 +201,9 @@ def process():
 	#set fps
 	Time.tick(fps)
 	#stage
-	#process events
+	# Game.stage = 8
 	end_stage()
+	#check pause
 	d = pygame.key.get_pressed()
 	if d[K_ESCAPE] and not Game.Pause_delay:
 		if Game.Pause == False:
@@ -152,9 +213,9 @@ def process():
 			Game.Pause = False
 			pygame.mouse.set_visible(False)
 		Game.Pause_delay = 5
-
 	if Game.Pause_delay:
 		Game.Pause_delay -= 1
+	#if pause
 	if Game.Pause == True:
 		for fish in Main_Fish:
 			fish.move = 0
@@ -184,7 +245,7 @@ def process():
 	else:
 		pygame.mouse.set_visible(False)
 	end_stage() 
-
+	#event
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			exit()
@@ -200,24 +261,22 @@ def process():
 			if event.button == 1 and len(Game.mobs) != 0:
 				blade = Blade(Fish1)
 				if blade.blade != "":
-					# pygame.mixer.Channel(0).unload()
+					
 					pygame.mixer.Channel(0).play(pygame.mixer.Sound("music\\Splash.wav"))
-					# pygame.mixer.Channel(0).play()
+					
 					Game.Blade_mc.add(blade) 
 		if event.type == KEYDOWN and event.key == K_SPACE and Game.Fire_delay == 0 and len(Game.mobs) != 0:
 			bullet = Fish1.Fire(bg)
 			if bullet.name != "":
-				# pygame.mixer.Channel(0).unload()
+				
 				pygame.mixer.Channel(0).play(pygame.mixer.Sound("music\\main_shoot.wav"))
-				# pygame.mixer.Channel(0).play()
+				
 				Game.Bullet_Main.add(bullet)
 			Game.Fire_delay = 5
 	if len(Game.mobs) == 0:
 		return
 	if Game.Fire_delay:Game.Fire_delay -= 1
-	if len(Game.mobs) == 0:
-			return
-	#update11
+	#update
 	bg.update(Fish1)
 
 	#check fish in current screen
@@ -343,10 +402,10 @@ if __name__ == '__main__':
 	Menu = menu(Game)
 	Time = pygame.time.Clock()
 	Fish1 = mc()
-	pygame.mixer.Channel(1).play(pygame.mixer.Sound("music\\bg.mp3"))
+	
 	Menu.update(Fish1, bg)
 	pygame.display.flip()
-	
+	pygame.mixer.Channel(1).play(pygame.mixer.Sound("music\\bg.mp3"))
 	while(Menu.update(Fish1, bg)):
 		if Game.load_success: 
 			img = pygame.image.load("setting\\load_success.png")
@@ -359,7 +418,7 @@ if __name__ == '__main__':
 	
 	if Fish1.name == "":
 		Fish1 = mc((Game.width/2, Game.height/2), "mc_animation\\mc0", Game, bg, MC_HEALTH)
-	Game.stage = 6
+	
 	if not Game.updated:
 		Game.load(bg, Fish1)
 		Game.setup(bg, Fish1)

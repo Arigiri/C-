@@ -41,7 +41,6 @@ class fish(pygame.sprite.Sprite):
 			return
 		if self.name[len(self.name) - 1] != 'g':
 			self.name += '.png'
-		# print(self.name)
 		self.image = pygame.image.load(self.name)
 		w = self.image.get_width()
 		h = self.image.get_height()
@@ -51,8 +50,7 @@ class fish(pygame.sprite.Sprite):
 		self.mob = mob
 		self.change = 0
 		self.mouth = 1
-		# if self.mob == 0:
-		# 	self.mouth = ""
+
 		self.yet = 1
 		self.w = self.image.get_width()
 		self.h = self.image.get_height()
@@ -84,20 +82,7 @@ class fish(pygame.sprite.Sprite):
 
 		pygame.draw.rect(self.Game.screen, BLACK, (x, y, mw, h))
 		pygame.draw.rect(self.Game.screen, GREEN, (x + 1, y + 1, nw, h))
-	# def draw_health(self, Game):
-	# 	max_len = Game.width * 2 / 3
-	# 	health_percent = self.health/self.maxhealth
-	# 	x = (Game.width - max_len)/2
-	# 	y = Game.height/6
-	# 	COLOR1 = (111, 116, 111)
-	# 	COLOR2 = (58, 58, 58)
-	# 	COLOR3 = (34,255,4)
-	# 	ls = x + max_len
-	# 	w = max_len * health_percent
 
-	# 	pygame.draw.rect(Game.screen, COLOR2, (x,y, max_len,25))
-	# 	pygame.draw.rect(Game.screen, RED, (ls -  w + 2.5, y + 2.5, w - 5,25 - 5))
-		
 	def reborn(self):
 
 		self.name = "ca" + str(self.mob) + ".png"

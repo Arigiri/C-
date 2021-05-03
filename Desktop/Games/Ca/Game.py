@@ -24,6 +24,7 @@ class game():
 	restart = False
 	Pause_delay = 0
 	Played = False
+	win_delay = 0
 	minimap = ""
 	def __init__(self):
 		pygame.sprite.Sprite.__init__(self)
@@ -45,12 +46,9 @@ class game():
 			self.SPLASH_SPEED *= rate
 			self.DASH_SPEED *= rate
 			self.MC_BULLET_SPEED *= rate
-		# self.rect.lefttop = (0, 0)
-		# self.rect.rightbottom = (self.width, self.height)
 
 		self.Buttons = pygame.sprite.Group()
 		self.Buttons = self.menu.Buttons
-		# self.Buttons.add(self.menu.button)
 	def spawn(self, bg, mc, fish):
 		x = randint(0, bg.w * 6 // 8)
 		y = randint(0, bg.h * 6 // 8)
@@ -62,7 +60,6 @@ class game():
 	def setup(self, bg, mc):
 		self.Played = False
 		self.bg = bg
-		# self.RATIO = self.Min_ratio + 5
 		if self.minimap == "":
 			self.minimap = minimap((0, 0), self)
 			self.minimap = minimap((self.width - self.bg.w/self.minimap.ratio*self.RATIO/100 - 5, self.height - self.bg.h/self.minimap.ratio*self.RATIO/100 - 5), self)
@@ -125,7 +122,6 @@ class game():
 		
 		f = open("stages\\stage" + str(self.stage) + ".txt", "r")
 		kt = f.readlines()
-		# kt = kt.split()
 		tme = 100
 
 		f.close()

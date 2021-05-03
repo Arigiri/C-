@@ -28,6 +28,8 @@ class button(pygame.sprite.Sprite):
 		for mouse_button in d:
 			if mouse_button == 1:
 				return True
+	def draw(self, surface):
+		surface.blit(self.image, self.pos)
 class load_button(button):
 	def __init__(self, pos = (0, 0)):
 		super(load_button, self).__init__(pos, "load")
@@ -89,7 +91,6 @@ class setting_menu(pygame.sprite.Sprite):
 		self.game = Game
 		self.image = pygame.image.load("setting\\menu.png")
 
-		# self.image = pygame.transform.scale(self.image, (self.game.width, self.game.height))
 		self.rect = self.image.get_rect()
 		self.w = self.image.get_width()
 		self.h = self.image.get_height()
@@ -121,7 +122,6 @@ class setting_menu(pygame.sprite.Sprite):
 		self.Buttons.add(self.quit_button)
 		self.Buttons.add(self.restart_button)
 		self.Buttons.add(self.tutorial_button)
-		# self.Buttons.add(self.skip_button)
 		self.rect.center = (self.pos[0] + self.w/2, self.pos[1] + self.h/2)
 	Help = 0
 	def update(self, game, mc, bg):
@@ -172,9 +172,6 @@ class setting_menu(pygame.sprite.Sprite):
 			
 							
 
-				# self.game.screen.blit( self.Skip.image,self.Skip.rect)
-			# pygame.display.flip()
-		# pygame.draw.rect(game.screen, RED, self.load_button.rect, 1)
 	def draw(self, surface):
 		surface.blit(self.image, self.pos)
 		image = pygame.image.load("setting\\tt.png")

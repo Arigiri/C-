@@ -18,7 +18,6 @@ class Freeze(pygame.sprite.Sprite):
 		self.rect.center = (self.pos[0] + self.w/2, self.pos[1] + self.h/2)
 		self.fish = fish
 	def draw(self,Surface):
-		# print(self.pos)
 		Surface.blit(self.image,self.rect)
 
 	def update(self, fish, Game):
@@ -78,7 +77,6 @@ class mob3(fish):
 		delta **= (1/2)
 		x1 = ((2 * x0 - 2 * a * (b - y0)) - delta)/(2 * (1 + a * a))
 		x2 = ((2 * x0 - 2 * a * (b - y0)) + delta)/(2 * (1 + a * a))
-		# x1 -= delta
 		y1 = x1 * a + b
 		y2 = x2 * a + b
 		A = self.distance((x1, y1), self.pos)
@@ -100,14 +98,13 @@ class mob3(fish):
 			tt = "ca31"
 			if self.direction == "LEFT":
 				x = self.pos[0]  - self.freeze.w
-				y = self.pos[1] - self.h/2 - self.h/4 #+ self.freeze.h/2
+				y = self.pos[1] - self.h/2 - self.h/4 
 				name += "1"
 			else:
 				x = self.pos[0] + self.w# + self.freeze.w
 				y = self.pos[1] - self.h/2 - self.h/4
 				name += "2"
 				tt = "cas31"
-			# self.freeze = Freeze((x,y), name + ".png", self, self.Game)
 			self.a,self.b = self.find_ab(mc, bg)
 			vx,vy = self.find_v(mc, bg)
 			vx = abs(vx - self.pos[0])

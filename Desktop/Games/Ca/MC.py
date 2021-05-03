@@ -80,7 +80,7 @@ class mc(pygame.sprite.Sprite):
 		
 
 		 
-	# blade = ""
+	
 	old_time = 0
 	image1 = ""
 	Slow_Time = SLOW_TIME
@@ -106,7 +106,6 @@ class mc(pygame.sprite.Sprite):
 		BG_SPEED = self.vx
 		BG_SPEED = self.vy
 		if self.Slow > 0 and self.Slow_Time > 0:
-			# SLOW = 0.01
 			self.vx *= SLOW
 			self.vy *= SLOW
 			self.Slow_Time -= 1
@@ -192,7 +191,6 @@ class mc(pygame.sprite.Sprite):
 		f = open("saves\\mc_save.txt", "r")
 		read = f.readlines()
 		self.name = read[0][0:len(read[0]) - 1]
-		# print(int(read[1]), int(read[2]))
 		self.pos = int(read[1]), int(read[2])
 		self.stamia = int(read[3])
 		self.health = int(read[4])

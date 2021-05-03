@@ -64,8 +64,8 @@ class Boss(fish):
 		phs = pygame.image.load("phase.png")
 		max_len = Game.width * 2 / 4
 		health_percent = self.health/self.maxhealth
-		x = image.get_width() + 30#(Game.width - max_len)/6
-		y = image.get_height()/2#Game.height/30
+		x = image.get_width() + 30
+		y = image.get_height()/2
 		COLOR1 = (111, 116, 111)
 		COLOR2 = (58, 58, 58)
 		COLOR3 = (34,255,4)
@@ -80,7 +80,6 @@ class Boss(fish):
 		pygame.draw.rect(Game.screen, COLOR2, (x,y, max_len,25))
 		pygame.draw.rect(Game.screen, color, (ls -  w + 2.5, y + 2.5, w - 5,25 - 5))
 		Game.screen.blit(image, (0, 0))
-		# Game.screen.blit(phs, (ls + 3, y - 15 + image.get_height()))
 	def reborn(self):
 		if self.phase == 2:
 			self.health = 1.15 * self.maxhealth
@@ -146,10 +145,6 @@ class Boss(fish):
 
 
 	def Skill1(self, Game, bg, rot):
-		curr_time = pygame.time.get_ticks()
-		# if self.atk == True:
-		# 	if (curr_time - self.old_time_S1 < self.CD_S1 * 100 and self.old_time_S1 != 0):
-		# 		return
 		self.old_time_S1 = curr_time
 		vx = 20
 		vy = 20
@@ -224,7 +219,6 @@ class Boss(fish):
 		if atkS <= 2 and not self.S2_ATK:
 			self.Skill1(Game, bg, 0)
 		else: self.Skill2(Game)
-		# self.Skill3(Game, bg)
 	def phase2(self, Game, bg):
 		atkS = randint(0, 3)
 		if atkS <= 2 and not self.S2_ATK or not self.done:
@@ -279,5 +273,4 @@ class Boss(fish):
 			self.phase2(Game, bg)
 		else:
 			self.phase3(Game, bg)
-		# self.phase3(Game, bg)
 
