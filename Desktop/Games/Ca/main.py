@@ -96,9 +96,9 @@ def end_stage():
 						pygame.quit()
 						exit()
 				if not Game.Played:
-					pygame.mixer.music.unload()
-					pygame.mixer.music.load("music\\Win_game.wav")
-					pygame.mixer.music.play()
+					# pygame.mixer.Channel(0).unload()
+					pygame.mixer.Channel(0).play(pygame.mixer.Sound("music\\Win_game.wav"))
+					# pygame.mixer.Channel(0).play()
 					Game.Played = True
 				tmp = rot_center(Image, Game.angle)
 				Rect = tmp.get_rect(center = (Game.width/2, Game.height/2))
@@ -111,9 +111,9 @@ def end_stage():
 			return
 		else:
 			if not Game.Played:
-				pygame.mixer.music.unload()
-				pygame.mixer.music.load("music\\Level_Complete.wav")
-				pygame.mixer.music.play()
+				# pygame.mixer.Channel(0).unload()
+				pygame.mixer.Channel(0).play(pygame.mixer.Sound("music\\Level_Complete.wav"))
+				# pygame.mixer.Channel(0).play()
 				
 				Game.Played = True
 			img = pygame.image.load("setting\\clear_stage.png")
@@ -122,7 +122,7 @@ def end_stage():
 			pygame.display.update()
 
 	if Game.stop == True:
-		pygame.mixer.music.unload()
+		pygame.mixer.Channel(0).stop()
 		Game.stop = False
 		Game.load(bg, Fish1)
 	
@@ -168,11 +168,16 @@ def process():
 			Game.save_success -= 1
 		else:
 			bg.draw(Game.screen)
+			for fish in Game.mobs:
+				fish.draw_health()
+			health_bar(Fish1)
+			draw_stamia(Fish1)
 			Game.mobs.draw(Game.screen)
 			Main_Fish.draw(Game.screen)
 			Game.menu.draw(Game.screen)
 			Game.Buttons.draw(Game.screen)
 			Game.menu.update(Game, Fish1, bg)
+
 
 		pygame.display.update()
 		return
@@ -195,16 +200,16 @@ def process():
 			if event.button == 1:
 				blade = Blade(Fish1)
 				if blade.blade != "":
-					pygame.mixer.music.unload()
-					pygame.mixer.music.load("music\\Splash.wav")
-					pygame.mixer.music.play()
+					# pygame.mixer.Channel(0).unload()
+					pygame.mixer.Channel(0).play(pygame.mixer.Sound("music\\Splash.wav"))
+					# pygame.mixer.Channel(0).play()
 					Game.Blade_mc.add(blade) 
 		if event.type == KEYDOWN and event.key == K_SPACE and Game.Fire_delay == 0:
 			bullet = Fish1.Fire(bg)
 			if bullet.name != "":
-				pygame.mixer.music.unload()
-				pygame.mixer.music.load("music\\main_shoot.wav")
-				pygame.mixer.music.play()
+				# pygame.mixer.Channel(0).unload()
+				pygame.mixer.Channel(0).play(pygame.mixer.Sound("music\\main_shoot.wav"))
+				# pygame.mixer.Channel(0).play()
 				Game.Bullet_Main.add(bullet)
 			Game.Fire_delay = 5
 
@@ -338,12 +343,12 @@ if __name__ == '__main__':
 	Game = game()
 
 	bg = bg(0, 0, Game)
-	
+	pygame.mixer.Channel(1).play(pygame.mixer.Sound("music\\bg.mp3"))
 	Menu = menu(Game)
 	Time = pygame.time.Clock()
 	Fish1 = mc()
 	while(Menu.update(Fish1, bg)):
-		if Game.load_success:
+		if Game.load_success: 
 			img = pygame.image.load("setting\\load_success.png")
 			rect = img.get_rect(center = (Game.width/2, Game.height/2))
 			Game.screen.blit(img, rect)
@@ -364,7 +369,7 @@ if __name__ == '__main__':
 	bg.h = bg.image.get_height()
 	global MAIN_SPEED
 	MAIN_SPEED = MAIN_SPEED * Game.RATIO/100
-	# print
+	# print  
 	Main_Fish = pygame.sprite.GroupSingle()
 	
 	Main_Fish.add(Fish1)
