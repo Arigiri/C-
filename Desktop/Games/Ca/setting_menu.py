@@ -134,7 +134,8 @@ class setting_menu(pygame.sprite.Sprite):
 					if self.skip_button.get_clicked():
 						self.Help = 11
 					break
-			
+				if event.type == MUSIC_END:
+					pygame.mixer.Channel(1).rewind()
 				for button in self.Buttons:
 					if button.get_clicked():
 						if button.name == "exit":

@@ -194,17 +194,17 @@ def process():
 				Game.stop = True
 				# end_stage() 
 				return
-		if len(Game.mobs) == 0:
-			return
+		if event.type == MUSIC_END:
+			pygame.mixer.Channel(1).rewind()
 		if event.type == MOUSEBUTTONDOWN:
-			if event.button == 1:
+			if event.button == 1 and len(Game.mobs) != 0:
 				blade = Blade(Fish1)
 				if blade.blade != "":
 					# pygame.mixer.Channel(0).unload()
 					pygame.mixer.Channel(0).play(pygame.mixer.Sound("music\\Splash.wav"))
 					# pygame.mixer.Channel(0).play()
 					Game.Blade_mc.add(blade) 
-		if event.type == KEYDOWN and event.key == K_SPACE and Game.Fire_delay == 0:
+		if event.type == KEYDOWN and event.key == K_SPACE and Game.Fire_delay == 0 and len(Game.mobs) != 0:
 			bullet = Fish1.Fire(bg)
 			if bullet.name != "":
 				# pygame.mixer.Channel(0).unload()
@@ -212,7 +212,8 @@ def process():
 				# pygame.mixer.Channel(0).play()
 				Game.Bullet_Main.add(bullet)
 			Game.Fire_delay = 5
-
+	if len(Game.mobs) == 0:
+		return
 	if Game.Fire_delay:Game.Fire_delay -= 1
 	if len(Game.mobs) == 0:
 			return
@@ -222,16 +223,14 @@ def process():
 	#check fish in current screen
 	mobs = pygame.sprite.Group()
 	mobs = get_mobs_on_screen(Game, bg)
-	# mobs = Game.mobs
-	#bullet hit fish
-
+	
+	#enermy bullet hit main_fish
 	hits = pygame.sprite.groupcollide(mobs, Game.Bullet_Main, False, True, pygame.sprite.collide_mask)
 	
 	for hit in hits:	
 		if not hit.shield:
 			hit.health -= MAIN_DAMAGE
 			if hit.health <= 0:
-				# hit.name = ""
 				if hit.mob == 100:hit.destroy()
 				else:hit.kill()
 	hits = pygame.sprite.groupcollide(Game.Bullet_Mobs, Main_Fish, False, False, pygame.sprite.collide_rect)
@@ -241,15 +240,14 @@ def process():
 				fish.Slow = True
 	hits = pygame.sprite.groupcollide(Main_Fish, Game.Bullet_Mobs, False, True, pygame.sprite.collide_rect)
 	for hit in hits:
-		if hit.immune:
-			continue
 		hit.health -= BULLET_DAMAGE	
-
+	#enermy fish crash main fish
 	hits = pygame.sprite.groupcollide(mobs, Main_Fish, False, False, pygame.sprite.collide_rect)
 	for hit in hits:
 		if hit.mob == 4 or hit.mob == 1:
 			for fish in Main_Fish:
 				fish.health -= SPLASH_DAMAGE
+	#Boss attack main fish
 	for fish in Game.Boss:
 		hits = pygame.sprite.groupcollide(Main_Fish, fish.Bullet, False, True, pygame.sprite.collide_rect)
 		for hit in hits:
@@ -257,6 +255,7 @@ def process():
 		hits = pygame.sprite.groupcollide(Main_Fish, fish.Laser, False, False, pygame.sprite.collide_mask)
 		for hit in hits:
 			hit.health -= LASER_DAMAGE
+	#Blade process
 	if len(Game.Blade_mc) >= 1:
 		hits = pygame.sprite.groupcollide(mobs, Game.Blade_mc, False, False, pygame.sprite.collide_rect)
 		for hit in hits:  
@@ -267,17 +266,11 @@ def process():
 			if hit.health <= 0:
 					hit.kill()
 
-	#update mobs_0
-	sp = pygame.sprite.Group()
+	#update mobs_3
 	for fish in mobs:
 		if fish.mob == 3:
 			fish.LIGHT(Fish1, bg, Game)
-				# sp.add(fish.freeze)
-	hits = pygame.sprite.groupcollide(Main_Fish, sp,False, False, pygame.sprite.collide_rect)
-	for hit in hits:
-		hit.Slow = 1
-		hit.Slow_Time = SLOW_TIME
-
+	#update all mobs
 	Game.mobs.update(bg, Fish1, Game) 
 
 	#mobs attack
@@ -286,23 +279,29 @@ def process():
 			bullet = fish.Fire(Fish1, bg, Game)
 			if bullet.name != "":
 				Game.Bullet_Mobs.add(bullet)
+	#boss attack
 	for boss in Game.Boss:
 		boss.attack(bg, Game)
+	#mob4 attack
 	for fish in Game.mobs_4:
 		fish.Slash(Fish1, Game)
+	#mob1 attack
 	for fish in Game.mobs_1:
 		fish.Roar()
-
+	#update main blade
 	for blade in Game.Blade_mc:
 		if blade.update(Fish1, Game):
 			blade.kill()
+	#update enermy's bullet
 	Game.Bullet_Mobs.update(bg, Fish1, Game)
+	#updatee boss's bullet
 	for boss in Game.Boss:
 		boss.Bullet.update(bg,  Fish1, Game)
-		# boss.Laser.update()
+	
 
 	#mc update
 	Main_Fish.update(bg, Game)
+	#update main bullet
 	Game.Bullet_Main.update(bg, Fish1, Game)
 	#minimap update
 	Game.minimap.update(Game,bg, Fish1)
@@ -311,10 +310,7 @@ def process():
 	Game.mobs.draw(Game.screen)
 	Game.Bullet_Main.draw(Game.screen)
 	Game.Bullet_Mobs.draw(Game.screen)
-	# Game.Buttons.draw(Game.screen)
 	Main_Fish.draw(Game.screen)
-	for light in sp:
-		light.draw(Game.screen)
 
 	for blade in Game.Blade_mc:
 		if blade.image != "":
@@ -343,10 +339,14 @@ if __name__ == '__main__':
 	Game = game()
 
 	bg = bg(0, 0, Game)
-	pygame.mixer.Channel(1).play(pygame.mixer.Sound("music\\bg.mp3"))
+	
 	Menu = menu(Game)
 	Time = pygame.time.Clock()
 	Fish1 = mc()
+	pygame.mixer.Channel(1).play(pygame.mixer.Sound("music\\bg.mp3"))
+	Menu.update(Fish1, bg)
+	pygame.display.flip()
+	
 	while(Menu.update(Fish1, bg)):
 		if Game.load_success: 
 			img = pygame.image.load("setting\\load_success.png")
@@ -355,12 +355,11 @@ if __name__ == '__main__':
 			Game.load_success -= 1
 		pygame.display.update()		
 		Time.tick(fps)
+
 	
 	if Fish1.name == "":
-		# print(1)
 		Fish1 = mc((Game.width/2, Game.height/2), "mc_animation\\mc0", Game, bg, MC_HEALTH)
-		# print(Fish1.name)
-	# Game.stage = 7
+	Game.stage = 6
 	if not Game.updated:
 		Game.load(bg, Fish1)
 		Game.setup(bg, Fish1)
@@ -369,7 +368,6 @@ if __name__ == '__main__':
 	bg.h = bg.image.get_height()
 	global MAIN_SPEED
 	MAIN_SPEED = MAIN_SPEED * Game.RATIO/100
-	# print  
 	Main_Fish = pygame.sprite.GroupSingle()
 	
 	Main_Fish.add(Fish1)

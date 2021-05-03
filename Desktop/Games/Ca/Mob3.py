@@ -97,7 +97,7 @@ class mob3(fish):
 			self.old_time = curr_time
 			self.freeze = Freeze((0,0), "mob3\\freeze1.png", self, self.Game)
 			name = "mob3\\freeze"
-			tt = "ca3"
+			tt = "ca31"
 			if self.direction == "LEFT":
 				x = self.pos[0]  - self.freeze.w
 				y = self.pos[1] - self.h/2 - self.h/4 #+ self.freeze.h/2
@@ -106,7 +106,7 @@ class mob3(fish):
 				x = self.pos[0] + self.w# + self.freeze.w
 				y = self.pos[1] - self.h/2 - self.h/4
 				name += "2"
-				tt = "cas3"
+				tt = "cas31"
 			# self.freeze = Freeze((x,y), name + ".png", self, self.Game)
 			self.a,self.b = self.find_ab(mc, bg)
 			vx,vy = self.find_v(mc, bg)
@@ -120,19 +120,8 @@ class mob3(fish):
 			angle = -1
 			Bullet = bullet((x,y), game, bg, name, vx, vy)
 			Bullet.type = "mobs_3"
-
+			self.name = "mob3\\" + tt + ".png"
 			game.Bullet_Mobs.add(Bullet)
-			# vx1 = vx * cos(angle) - vy * sin(angle)
-			# vy1 = vx * sin(angle) + vx * cos(angle)
-			# Bullet = bullet((x,y), game, bg, name, vx1, vy1)
-			# Bullet.type = "mobs_3"
-			# game.Bullet_Mobs.add(Bullet)
-			# vx1 = vx * cos(-angle) - vy * sin(-angle)
-			# vy1 = vx * sin(-angle) + vx * cos(-angle)
-			# Bullet = bullet((x,y), game, bg, name, vx1, vy1)
-			# Bullet.type = "mobs_3"
-			# game.Bullet_Mobs.add(Bullet)
-			# self.name = "mob3\\" + tt + "F.png"
 			self.fire = True
 		elif curr_time - self.old_time > FREEZE_TIME * 100 and self.freeze_delay != 0:
 			self.freeze.kill()

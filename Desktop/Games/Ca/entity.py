@@ -168,7 +168,6 @@ class fish(pygame.sprite.Sprite):
 			else:
 				self.direction = "LEFT"
 		self.name_detect()
-
 		self.image = pygame.image.load(self.name).convert_alpha()
 
 		w = self.image.get_width()

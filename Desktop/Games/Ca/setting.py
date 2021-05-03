@@ -41,7 +41,7 @@ SPLASH_TIME = 50 #0.x second
 SPLASH_SPEED = 12
 #mob 3 statistic
 FREEZE_TIME = 75
-FREEZE_DELAY = 75
+FREEZE_DELAY = 50
 #dash statistic
 DASH_SPEED = 75
 DASH_DISTANT = 60
@@ -64,3 +64,4 @@ image3 = pygame.image.load("tmp\\HP3.png")
 image4 = pygame.image.load("tmp\\HP4.png")
 image6 = pygame.image.load("tmp\\HP4s.png")
 
+MUSIC_END = pygame.USEREVENT+1
