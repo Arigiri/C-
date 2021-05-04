@@ -73,8 +73,6 @@ def health_bar(fish):
 					if event.type == QUIT:
 						pygame.quit()
 						exit()
-					if event.type == MUSIC_END:
-						pygame.mixer.Channel(1).rewind()
 					if event.type == MOUSEBUTTONDOWN:
 						if Game.menu.restart_button.get_clicked():
 							pygame.mouse.set_visible(False)
@@ -130,8 +128,6 @@ def end_stage():
 					if event.type == QUIT:
 						pygame.quit()
 						exit()
-					if event.type == MUSIC_END:
-						pygame.mixer.Channel(1).rewind()
 				if not Game.Played:
 					pygame.mixer.Channel(0).play(pygame.mixer.Sound("music\\Win_game.wav"))
 					Game.Played = True
@@ -160,8 +156,6 @@ def end_stage():
 					if event.type == QUIT:
 						pygame.quit()
 						exit()
-					if event.type == MUSIC_END:
-						pygame.mixer.Channel(1).rewind()
 					if event.type == MOUSEBUTTONDOWN:
 						if Game.menu.restart_button.get_clicked():
 							pygame.mouse.set_visible(False)
