@@ -19,7 +19,7 @@ FULL_STAMIA = 100
 SLOW = 0.1
 SLOW_TIME = 60
 #Blade statistic
-BLADE_DAMAGE = 8.5
+BLADE_DAMAGE = 10
 MAIN_BLADE = 1
 #MOBS statistic
 MOB_SPEED = 15
@@ -58,10 +58,3 @@ BLADE_STAMIA = FULL_STAMIA // 3
 #boss
 number_of_boss_1 = 1
 LASER_DAMAGE = 3.5
-image1 = pygame.image.load("tmp\\HP1.png")
-image2 = pygame.image.load("tmp\\HP2.png")
-image3 = pygame.image.load("tmp\\HP3.png")
-image4 = pygame.image.load("tmp\\HP4.png")
-image6 = pygame.image.load("tmp\\HP4s.png")
-
-MUSIC_END = pygame.USEREVENT+1

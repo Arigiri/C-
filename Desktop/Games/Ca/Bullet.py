@@ -74,10 +74,7 @@ class bullet(pygame.sprite.Sprite):
 				self.angle = atan2(-mcy,mcx)
 				self.angle %= 2*pi
 				self.angle = degrees(self.angle)
-				if self.type == "mobs_0":
-					self.image = pygame.transform.rotate(self.image, self.angle)
-				if self.type == "mobs_3":
-					self.image = pygame.transform.rotate(self.image, self.angle + 180)
+				self.image = pygame.transform.rotate(self.image, self.angle)
 			if self.type == "boss":
 				self.name = "bosss1_animation" + "\\" + "\\" + "bullet" + str(self.delay % 4 + 1) + ".png"
 				self.image = pygame.image.load(self.name)

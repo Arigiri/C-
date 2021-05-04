@@ -22,7 +22,7 @@ class mob1(fish):
 			self.shield = False
 		self.count_down -= 1
 		if self.count_down == 0:
-			self.count_down = 250
+			self.count_down = 100
 		else:
 			return
 		self.mouth = 1

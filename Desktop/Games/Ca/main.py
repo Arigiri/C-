@@ -21,6 +21,9 @@ def health_bar(fish):
 	COLOR1 = (111, 116, 111)
 	COLOR2 = (58, 58, 58)
 	COLOR3 = (34,255,4)
+	image2 = pygame.image.load("HP\\HP2.png")
+	image4 = pygame.image.load("HP\\HP4.png")
+	image6 = pygame.image.load("HP\\HP4s.png")
 	w2 = image2.get_width()	
 	w4 = image6.get_width()
 	fish.health = max(fish.health, 0)
@@ -57,6 +60,7 @@ def health_bar(fish):
 			Game.menu.quit_button = quit_button((Game.width * 1 / 10, Game.height * 9 / 10))
 			Game.menu.quit_button = quit_button((30, Game.height - Game.menu.restart_button.h - 30))
 			while 1:
+				Game.screen.fill(BLACK)
 				pygame.mixer.Channel(1).pause()
 				img = pygame.image.load("lose\\t1.png")
 				img = pygame.transform.scale(img, (Game.width, Game.height))
@@ -230,9 +234,14 @@ def process():
 		else:
 			bg.draw(Game.screen)
 			for fish in Game.mobs:
-				fish.draw_health()
+				if fish.mob != 100:
+					fish.draw_health()
+				else:
+					fish.draw_health(Game)
+
 			health_bar(Fish1)
 			draw_stamia(Fish1)
+			Game.minimap.draw(Game)
 			Game.mobs.draw(Game.screen)
 			Main_Fish.draw(Game.screen)
 			Game.menu.draw(Game.screen)
@@ -255,8 +264,6 @@ def process():
 				Game.stop = True
 				# end_stage() 
 				return
-		if event.type == MUSIC_END:
-			pygame.mixer.Channel(1).rewind()
 		if event.type == MOUSEBUTTONDOWN:
 			if event.button == 1 and len(Game.mobs) != 0:
 				blade = Blade(Fish1)
@@ -407,6 +414,8 @@ if __name__ == '__main__':
 	pygame.display.flip()
 	pygame.mixer.Channel(1).play(pygame.mixer.Sound("music\\bg.mp3"))
 	while(Menu.update(Fish1, bg)):
+		if pygame.mixer.Channel(1).get_busy() == False:
+			pygame.mixer.Channel(1).play(pygame.mixer.Sound("music\\bg.mp3"))
 		if Game.load_success: 
 			img = pygame.image.load("setting\\load_success.png")
 			rect = img.get_rect(center = (Game.width/2, Game.height/2))
@@ -417,8 +426,8 @@ if __name__ == '__main__':
 
 	
 	if Fish1.name == "":
-		Fish1 = mc((Game.width/2, Game.height/2), "mc_animation\\mc0", Game, bg, MC_HEALTH)
-	
+		Fish1 = mc((Game.width/2, Game.height/2), "mc_animation\\mc0", Game, bg, MC_HEALTH)	
+	Game.stage = 7
 	if not Game.updated:
 		Game.load(bg, Fish1)
 		Game.setup(bg, Fish1)
@@ -433,8 +442,6 @@ if __name__ == '__main__':
 
 	curr_time = pygame.time.get_ticks()
 	while(1):
-		tme = pygame.time.get_ticks()
-		if tme - curr_time >= MC_IMMUNE_TIME * 100:
-			for fish in Main_Fish:
-				fish.immune = False
+		if pygame.mixer.Channel(1).get_busy() == False:
+			pygame.mixer.Channel(1).play(pygame.mixer.Sound("music\\bg.mp3"))
 		process()
