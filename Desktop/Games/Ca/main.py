@@ -427,7 +427,6 @@ if __name__ == '__main__':
 	
 	if Fish1.name == "":
 		Fish1 = mc((Game.width/2, Game.height/2), "mc_animation\\mc0", Game, bg, MC_HEALTH)	
-	Game.stage = 7
 	if not Game.updated:
 		Game.load(bg, Fish1)
 		Game.setup(bg, Fish1)
